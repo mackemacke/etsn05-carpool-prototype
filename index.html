@@ -37,24 +37,25 @@ a{color:var(--accent)}
 /* ============ prototype chrome (outside the frames) ============ */
 
 .note{background:var(--route-soft);border-bottom:1px solid var(--line);padding:8px 24px;font-size:.84rem;color:var(--muted)}
-.shell{display:grid;grid-template-columns:206px minmax(0,1fr)}
+.shell{display:grid;grid-template-columns:178px minmax(0,1fr)}
 .top{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line)}
 .brand{font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--ink)}
 .brand span{color:var(--faint);font-weight:400}
 .top .meta{font-size:.86rem;color:var(--muted)}
 
-nav.rail{background:var(--card);border-right:1px solid var(--line);padding:20px 12px 40px}
+nav.rail{background:var(--card);border-right:1px solid var(--line);padding:16px 10px 40px}
 .rail-group+.rail-group{margin-top:22px}
 .rail-label{display:block;padding:0 10px 8px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .rail a{display:block;padding:7px 10px;border-radius:5px;color:var(--muted);text-decoration:none;font-size:.9rem}
 .rail a:hover{background:var(--ground);color:var(--ink)}
 .rail a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
 
-main{padding:26px 24px 60px;min-width:0}
-.wrap{max-width:1020px;display:flex;flex-direction:column;gap:16px}
-.caption h1{font-size:1.35rem}
-.caption p{color:var(--muted);margin-top:4px;max-width:70ch}
+main{padding:16px 20px 34px;min-width:0}
+.wrap{max-width:1280px;display:flex;flex-direction:column;gap:11px}
+.caption{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.caption h1{font-size:1rem}
+.caption p{color:var(--muted);font-size:.85rem;max-width:90ch}
 
 /* ============ the browser frame ============ */
 
@@ -72,12 +73,18 @@ main{padding:26px 24px 60px;min-width:0}
 .screen .menu{display:flex;gap:26px;margin-left:14px}
 .screen .menu a{color:var(--muted);text-decoration:none;font-size:15px;padding:4px 0;border-bottom:2px solid transparent}
 .screen .menu a.here{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.screen .sub{display:flex;gap:24px;padding:0 32px;height:46px;align-items:center;
+  background:#fff;border-bottom:1px solid var(--line);flex:none}
+.screen .sub a{color:var(--muted);text-decoration:none;font-size:14px;padding:3px 0;border-bottom:2px solid transparent}
+.screen .sub a.here{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
 .screen .barleft{display:flex;align-items:center}
 .screen .me{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted)}
 
 .screen .body{flex:1;overflow:hidden;padding:32px}
 .screen .col{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 .screen .col.wide{max-width:1040px}
+.screen .col.tight{gap:12px}
+.screen .col.tight .box{padding:15px 20px;gap:11px}
 
 .screen .ph{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
 .screen .ph h2{font-size:26px}
@@ -205,19 +212,31 @@ main{padding:26px 24px 60px;min-width:0}
   }
 
   /* the product's own chrome, drawn inside the frame */
-  function app(active, role, content) {
-    var items = role === 'driver'
-      ? [['My trips', 'trips', '#/driver'], ['Publish a ride', 'publish', '#/publish'],
-         ['Requests', 'requests', '#/requests']]
-      : [['Find a ride', 'find', '#/find'], ['My bookings', 'bookings', '#/bookings'],
-         ['Notifications', 'notif', '#/notifications']];
+  /* Three tabs and no more: book as a passenger, offer as a driver, and everything
+     that is yours — bookings, trips, notifications — under Profile. */
+  function app(active, content, sub) {
+    var items = [
+      ['Find a ride', 'pass', '#/find'],
+      ['Offer a ride', 'drive', '#/publish'],
+      ['Profile', 'profile', '#/bookings']
+    ];
     return '<header class="bar"><div class="barleft"><span class="logo">Samåk</span>' +
       '<nav class="menu">' + items.map(function (i) {
         return '<a href="' + i[2] + '" class="' + (i[1] === active ? 'here' : '') + '">' +
           esc(i[0]) + '</a>';
       }).join('') + '</nav></div>' +
       '<span class="me"><span class="av sm">AE</span>Alice Ek</span></header>' +
-      '<div class="body">' + content + '</div>';
+      (sub || '') + '<div class="body">' + content + '</div>';
+  }
+
+  function profileTabs(active) {
+    return '<nav class="sub">' + [
+      ['My bookings', 'bookings', '#/bookings'], ['My trips', 'trips', '#/driver'],
+      ['Notifications', 'notif', '#/notifications'], ['Account', 'account', '#/bookings']
+    ].map(function (i) {
+      return '<a href="' + i[2] + '" class="' + (i[1] === active ? 'here' : '') + '">' +
+        esc(i[0]) + '</a>';
+    }).join('') + '</nav>';
   }
 
   function ph(title, sub, right) {
@@ -251,7 +270,7 @@ main{padding:26px 24px 60px;min-width:0}
   });
 
   screen({
-    path: '#/signin', group: 'Passenger', label: 'Sign in', url: 'samak.se/sign-in',
+    path: '#/signin', group: 'Account', label: 'Sign in', url: 'samak.se/sign-in',
     title: 'Sign in', lede: 'One sign-in for both roles. Where you land after depends on the role on your account.',
     auth: true,
     render: function () {
@@ -268,7 +287,7 @@ main{padding:26px 24px 60px;min-width:0}
   });
 
   screen({
-    path: '#/signup', group: 'Passenger', label: 'Create account', url: 'samak.se/create-account',
+    path: '#/signup', group: 'Account', label: 'Create account', url: 'samak.se/create-account',
     title: 'Create account', lede: 'Registration asks how you intend to use it — driver, passenger or both. The role lives on the account, not on two separate logins.',
     auth: true,
     render: function () {
@@ -299,7 +318,7 @@ main{padding:26px 24px 60px;min-width:0}
     path: '#/find', group: 'Passenger', label: 'Find a ride', url: 'samak.se/find',
     title: 'Find a ride', lede: 'The search. Locations come from a maintained list rather than free text, because matching depends on knowing where each one sits along a route.',
     render: function () {
-      return app('find', 'passenger',
+      return app('pass',
         '<div class="col">' +
           ph('Where are you going?', 'Saturday 13 September') +
           '<div class="box">' +
@@ -315,12 +334,16 @@ main{padding:26px 24px 60px;min-width:0}
             '<div class="ph"><span class="hint">Rides that cover part of the way are included.</span>' +
             '<a class="b pri" href="#/results">Search</a></div>' +
           '</div>' +
-          '<div class="box"><div class="tt">Recent</div>' +
+          '<div class="box">' +
+            '<div class="ph"><div class="tt">Your upcoming rides</div>' +
+            '<a class="b sec sm" href="#/bookings">All bookings</a></div>' +
             '<ul class="l">' +
+              '<li><div class="tx"><span class="tt">Malmö C → Helsingborg</span>' +
+              '<span class="ss">Sat 13 Sep 07:40 · Erik Hovander · 1 seat</span></div>' +
+              '<span class="chip warn">Awaiting driver</span></li>' +
               '<li><div class="tx"><span class="tt">Lund C → Höör</span>' +
-              '<span class="ss">Sun 14 Sep · 1 seat</span></div><a class="b sec sm" href="#/results">Search again</a></li>' +
-              '<li><div class="tx"><span class="tt">Malmö C → Lund C</span>' +
-              '<span class="ss">Fri 5 Sep · 1 seat</span></div><a class="b sec sm" href="#/results">Search again</a></li>' +
+              '<span class="ss">Sun 14 Sep 08:28 · Nina Aronsson · 1 seat</span></div>' +
+              '<span class="chip ok">Confirmed</span></li>' +
             '</ul>' +
           '</div>' +
         '</div>');
@@ -331,8 +354,8 @@ main{padding:26px 24px 60px;min-width:0}
     path: '#/results', group: 'Passenger', label: 'Matching rides', url: 'samak.se/find/results',
     title: 'Matching rides', lede: 'Full matches and rides that only cover part of the journey, in one list. The amber section of each line is the part you would be in the car.',
     render: function () {
-      return app('find', 'passenger',
-        '<div class="col wide">' +
+      return app('pass',
+        '<div class="col wide tight">' +
           ph('Malmö C to Helsingborg', 'Sat 13 Sep, from 07:00, 1 seat · 3 rides',
             '<a class="b sec sm" href="#/find">Change search</a>') +
           ride('Erik Hovander', 'EH', 'Volvo V60', '07:40–08:41', 'Sat 13 Sep',
@@ -349,7 +372,7 @@ main{padding:26px 24px 60px;min-width:0}
     path: '#/ride', group: 'Passenger', label: 'Ride detail', url: 'samak.se/ride/R-104',
     title: 'Ride detail and booking', lede: 'The whole route with times, who is already in the car, and the seat request. Boarding and alighting stop are chosen here, which is what creates a partial booking.',
     render: function () {
-      return app('find', 'passenger',
+      return app('pass',
         '<div class="col wide">' +
           ph('Malmö C to Helsingborg', 'Saturday 13 September, departs 07:40',
             '<a class="b sec sm" href="#/results">Back to results</a>') +
@@ -382,7 +405,7 @@ main{padding:26px 24px 60px;min-width:0}
   });
 
   screen({
-    path: '#/bookings', group: 'Passenger', label: 'My bookings', url: 'samak.se/bookings',
+    path: '#/bookings', group: 'Profile', label: 'My bookings', url: 'samak.se/bookings',
     title: 'My bookings', lede: 'Upcoming trips and the history behind them. History is what makes the usage figures in the final report possible, so it is not optional.',
     render: function () {
       function rows(list) {
@@ -392,7 +415,7 @@ main{padding:26px 24px 60px;min-width:0}
             '<td style="text-align:right">' + (b[4] ? '<a class="b sec sm" href="#/bookings">Cancel</a>' : '') + '</td></tr>';
         }).join('');
       }
-      return app('bookings', 'passenger',
+      return app('profile',
         '<div class="col wide">' +
           ph('My bookings', null, '<a class="b pri sm" href="#/find">Find a ride</a>') +
           '<div class="box"><div class="tt">Upcoming</div><table>' +
@@ -407,12 +430,12 @@ main{padding:26px 24px 60px;min-width:0}
               ['Malmö C → Lund C', 'Fri 5 Sep 17:05', 'Nina Aronsson', '<span class="chip">Completed</span>', 0],
               ['Landskrona → Helsingborg', 'Tue 2 Sep 07:15', 'Erik Hovander', '<span class="chip">Cancelled</span>', 0]
             ]) + '</tbody></table></div>' +
-        '</div>');
+        '</div>', profileTabs('bookings'));
     }
   });
 
   screen({
-    path: '#/notifications', group: 'Passenger', label: 'Notifications', url: 'samak.se/notifications',
+    path: '#/notifications', group: 'Profile', label: 'Notifications', url: 'samak.se/notifications',
     title: 'Notifications', lede: 'Every entry opens the ride, booking or trip it refers to. That only works if each notification type has a destination, so the type list and the route list have to be written together.',
     render: function () {
       var items = [
@@ -427,19 +450,19 @@ main{padding:26px 24px 60px;min-width:0}
           '<span class="ss">' + esc(n[2]) + '</span></a>' +
           '<span class="ss" style="white-space:nowrap">' + esc(n[3]) + '</span></li>';
       }).join('');
-      return app('notif', 'passenger',
+      return app('profile',
         '<div class="col">' +
           ph('Notifications', '3 unread', '<a class="b sec sm" href="#/notifications">Mark all as read</a>') +
           '<div class="box"><ul class="l">' + items + '</ul></div>' +
-        '</div>');
+        '</div>', profileTabs('notif'));
     }
   });
 
   screen({
-    path: '#/driver', group: 'Driver', label: 'My trips', url: 'samak.se/driver',
+    path: '#/driver', group: 'Profile', label: 'My trips', url: 'samak.se/driver',
     title: 'Driver home', lede: 'What a driver sees first: today at the top, with anything waiting for an answer surfaced before the detail.',
     render: function () {
-      return app('trips', 'driver',
+      return app('profile',
         '<div class="col wide">' +
           ph('Your trips', 'Driving as Alice Ek', '<a class="b pri sm" href="#/publish">Publish a ride</a>') +
           '<div class="box">' +
@@ -461,7 +484,7 @@ main{padding:26px 24px 60px;min-width:0}
               '<a class="b sec sm" href="#/trip">Open</a></li>' +
             '</ul>' +
           '</div>' +
-        '</div>');
+        '</div>', profileTabs('trips'));
     }
   });
 
@@ -469,7 +492,7 @@ main{padding:26px 24px 60px;min-width:0}
     path: '#/publish', group: 'Driver', label: 'Publish a ride', url: 'samak.se/driver/publish',
     title: 'Publish a ride', lede: 'The stops between origin and destination are the point of this screen. Without them nobody can ever join halfway.',
     render: function () {
-      return app('publish', 'driver',
+      return app('drive',
         '<div class="col wide">' +
           ph('Publish a ride') +
           '<div class="split">' +
@@ -519,7 +542,7 @@ main{padding:26px 24px 60px;min-width:0}
           '<a class="b pri sm" href="#/trip">Accept</a></span></div>' +
           '</div>';
       }
-      return app('requests', 'driver',
+      return app('drive',
         '<div class="col wide">' +
           ph('Requests for Saturday', 'Malmö C → Helsingborg, departs 07:40',
             '<a class="b sec sm" href="#/driver">Back to trips</a>') +
@@ -544,7 +567,7 @@ main{padding:26px 24px 60px;min-width:0}
           '<td>' + (m[2] ? esc(m[2]) : '<span style="color:var(--faint)">—</span>') + '</td>' +
           '<td>' + (m[3] ? esc(m[3]) : '<span style="color:var(--faint)">—</span>') + '</td></tr>';
       }).join('');
-      return app('trips', 'driver',
+      return app('drive',
         '<div class="col wide">' +
           ph('Saturday 13 September', 'Malmö C → Helsingborg · three passengers',
             '<a class="b sec sm" href="#/driver">Cancel ride</a>') +
@@ -614,7 +637,8 @@ main{padding:26px 24px 60px;min-width:0}
     var stage = document.getElementById('stage');
     var screen = document.getElementById('screen');
     if (!stage || !screen) { return; }
-    var k = stage.clientWidth / 1280;
+    /* never upscale past 1:1 — beyond that the 1280px design just gets blurry */
+    var k = Math.min(stage.clientWidth / 1280, 1);
     screen.style.transform = 'scale(' + k + ')';
     stage.style.height = Math.round(820 * k) + 'px';
   }
