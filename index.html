@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Samåk Prototype</title>
+<title>Samåk Screens</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
 :root{
-  --ground:#F6F8F8;
+  --ground:#EFF2F2;
   --card:#FFFFFF;
   --ink:#1E2B30;
   --muted:#5F7178;
@@ -18,183 +18,132 @@
   --accent:#14657A;
   --accent-soft:#E8F1F3;
   --route:#C08219;
+  --route-soft:#FAF0DD;
   --ok:#2E6F4F;
   --ok-soft:#E5F0EA;
-  --warn-soft:#FAF0DD;
   --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   color-scheme:light;
 }
-
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:var(--ground);
-  color:var(--ink);
-  font:400 16px/1.55 var(--body);
-  -webkit-font-smoothing:antialiased;
-}
-
-h1,h2,h3{margin:0;font-weight:700;text-wrap:balance;letter-spacing:-.01em}
-h1{font-size:1.5rem}
-h2{font-size:1.05rem}
-h3{font-size:.95rem}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
 a{color:var(--accent)}
-
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-
-.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.92em}
-
 .skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;padding:10px 16px}
-.skip:focus{left:0;z-index:50}
+.skip:focus{left:0;z-index:60}
 
-.note{
-  background:var(--warn-soft);
-  border-bottom:1px solid var(--line);
-  padding:8px 24px;
-  font-size:.84rem;
-  color:var(--muted);
-}
+/* ============ prototype chrome (outside the frames) ============ */
 
-.shell{display:grid;grid-template-columns:210px minmax(0,1fr)}
-
-.top{
-  grid-column:1/-1;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  padding:14px 24px;
-  background:var(--card);
-  border-bottom:1px solid var(--line);
-}
+.note{background:var(--route-soft);border-bottom:1px solid var(--line);padding:8px 24px;font-size:.84rem;color:var(--muted)}
+.shell{display:grid;grid-template-columns:206px minmax(0,1fr)}
+.top{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line)}
 .brand{font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--ink)}
 .brand span{color:var(--faint);font-weight:400}
-.who{font-size:.88rem;color:var(--muted)}
+.top .meta{font-size:.86rem;color:var(--muted)}
 
-nav.rail{
-  background:var(--card);
-  border-right:1px solid var(--line);
-  padding:20px 12px 40px;
-}
+nav.rail{background:var(--card);border-right:1px solid var(--line);padding:20px 12px 40px}
 .rail-group+.rail-group{margin-top:22px}
-.rail-label{
-  display:block;padding:0 10px 8px;
-  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;
-}
-.rail a{
-  display:block;padding:7px 10px;border-radius:5px;
-  color:var(--muted);text-decoration:none;font-size:.9rem;
-}
+.rail-label{display:block;padding:0 10px 8px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.rail a{display:block;padding:7px 10px;border-radius:5px;color:var(--muted);text-decoration:none;font-size:.9rem}
 .rail a:hover{background:var(--ground);color:var(--ink)}
 .rail a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
 
-main{padding:28px 24px 64px;min-width:0}
-.page{max-width:840px;display:flex;flex-direction:column;gap:18px}
-.head{display:flex;flex-direction:column;gap:5px}
-.head .sub{color:var(--muted)}
-.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+main{padding:26px 24px 60px;min-width:0}
+.wrap{max-width:1020px;display:flex;flex-direction:column;gap:16px}
+.caption h1{font-size:1.35rem}
+.caption p{color:var(--muted);margin-top:4px;max-width:70ch}
 
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:8px;
-  padding:20px;display:flex;flex-direction:column;gap:14px;
-}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.row.end{justify-content:flex-end}
+/* ============ the browser frame ============ */
 
-.btn{
-  font:600 .9rem/1 var(--body);border-radius:5px;padding:10px 15px;cursor:pointer;
-  text-decoration:none;display:inline-flex;align-items:center;border:1px solid transparent;
-}
-.btn.primary{background:var(--accent);color:#fff}
-.btn.plain{background:var(--card);color:var(--ink);border-color:var(--line)}
-.btn.plain:hover{border-color:var(--faint)}
-.btn.sm{padding:7px 11px;font-size:.82rem}
+.frame{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card);
+  box-shadow:0 1px 2px rgba(30,43,48,.05),0 14px 32px -22px rgba(30,43,48,.5)}
+.stage{position:relative;overflow:hidden;background:var(--ground)}
+.screen{width:1280px;height:820px;transform-origin:top left;overflow:hidden;background:#F6F8F8;
+  font-size:16px;color:var(--ink);display:flex;flex-direction:column}
 
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:.8rem;font-weight:600;color:var(--muted)}
-.input{
-  font:400 .95rem/1.4 var(--body);color:var(--ink);
-  background:var(--card);border:1px solid var(--line);border-radius:5px;
-  padding:10px 12px;width:100%;
-}
-.hint{font-size:.8rem;color:var(--faint)}
+/* ============ inside the frame: the product itself ============ */
 
-.pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.pick button{
-  border:1px solid var(--line);border-radius:5px;padding:11px 13px;background:var(--card);
-  cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;font:inherit;
-}
-.pick button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
-.pick strong{font-size:.92rem}
-.pick span{font-size:.79rem;color:var(--muted)}
+.screen .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:0 32px;height:62px;background:#fff;border-bottom:1px solid var(--line);flex:none}
+.screen .logo{font-weight:700;font-size:19px;letter-spacing:-.02em}
+.screen .menu{display:flex;gap:26px;margin-left:14px}
+.screen .menu a{color:var(--muted);text-decoration:none;font-size:15px;padding:4px 0;border-bottom:2px solid transparent}
+.screen .menu a.here{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.screen .barleft{display:flex;align-items:center}
+.screen .me{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted)}
 
-.tag{
-  display:inline-flex;align-items:center;
-  font:600 .72rem/1 var(--body);padding:5px 9px;border-radius:999px;
-  background:var(--ground);color:var(--muted);
-}
-.tag.ok{background:var(--ok-soft);color:var(--ok)}
-.tag.seat{background:var(--warn-soft);color:#8A5C12;font-family:var(--mono)}
+.screen .body{flex:1;overflow:hidden;padding:32px}
+.screen .col{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.screen .col.wide{max-width:1040px}
 
-/* route line */
-.route-wrap{overflow-x:auto}
-.route{
-  list-style:none;margin:0;padding:6px 0 0;
-  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(88px,1fr);min-width:100%;
-}
-.stop{display:grid;grid-template-rows:auto 14px auto;justify-items:center;position:relative;padding:0 4px;text-align:center}
-.stop .t{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
-.stop .d{width:9px;height:9px;border-radius:50%;background:var(--card);border:2px solid var(--line);align-self:center;z-index:1}
-.stop .n{font-size:.79rem;color:var(--muted);margin-top:3px}
-.stop::after{content:"";position:absolute;top:calc(50% - 1px);left:50%;right:-50%;height:2px;background:var(--line)}
-.stop:last-child::after{display:none}
-.stop.on .d{background:var(--route);border-color:var(--route)}
-.stop.on .n{color:var(--ink);font-weight:600}
-.stop.link::after{background:var(--route)}
-.route-key{font-size:.78rem;color:var(--faint);margin-top:8px}
+.screen .ph{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.screen .ph h2{font-size:26px}
+.screen .ph .s{color:var(--muted);font-size:15px;margin-top:3px}
 
-.ride{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:16px 18px;display:flex;flex-direction:column;gap:11px}
-.ride-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
-.driver{display:flex;align-items:center;gap:10px}
-.av{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:.82rem;flex:none}
-.meta{font-size:.82rem;color:var(--muted)}
-.when{text-align:right}
-.when .t{font-family:var(--mono);font-size:1.05rem}
-.when .d{font-size:.78rem;color:var(--faint)}
-.ride-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.screen .box{background:#fff;border:1px solid var(--line);border-radius:9px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.screen .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.screen .r{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.screen .r.end{justify-content:flex-end}
 
-.tbl-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:.9rem}
-th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:left;padding:0 12px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:11px 12px;border-bottom:1px solid var(--line)}
-tr:last-child td{border-bottom:0}
-td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.screen .f{display:flex;flex-direction:column;gap:6px}
+.screen .f label{font-size:13px;font-weight:600;color:var(--muted)}
+.screen .in{border:1px solid var(--line);border-radius:6px;padding:11px 13px;font-size:15px;background:#fff;color:var(--ink)}
+.screen .in.soft{color:var(--faint)}
+.screen .hint{font-size:13px;color:var(--faint)}
+.screen .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.screen .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-ul.list{list-style:none;margin:0;padding:0}
-ul.list li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-ul.list li:last-child{border-bottom:0}
-.body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.title{font-weight:600}
-.sub{font-size:.84rem;color:var(--muted)}
+.screen a{text-decoration:none}
+.screen .b{display:inline-flex;cursor:pointer;align-items:center;border-radius:6px;padding:11px 18px;font-size:15px;font-weight:600}
+.screen .b.pri{background:var(--accent);color:#fff}
+.screen .b.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.screen .b.sm{padding:8px 13px;font-size:13.5px}
 
-a.notif{display:flex;gap:12px;flex:1;text-decoration:none;color:inherit;align-items:flex-start}
-a.notif:hover .title{color:var(--accent)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--route);margin-top:8px;flex:none}
-.dot.read{background:var(--line)}
+.screen .chip{display:inline-flex;align-items:center;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;background:var(--ground);color:var(--muted)}
+.screen .chip.ok{background:var(--ok-soft);color:var(--ok)}
+.screen .chip.warn{background:var(--route-soft);color:#8A5C12}
 
-dl.kv{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:8px 18px;font-size:.9rem;margin:0}
-dl.kv dt{color:var(--faint);font-size:.8rem;font-weight:600;padding-top:2px}
-dl.kv dd{margin:0}
+.screen .av{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-weight:600;font-size:14px;flex:none}
+.screen .av.sm{width:30px;height:30px;font-size:12px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
-a.tile{
-  display:flex;flex-direction:column;gap:3px;text-decoration:none;color:inherit;
-  border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px 16px;
-}
-a.tile:hover{border-color:var(--accent)}
-a.tile strong{font-size:.95rem}
-a.tile span{font-size:.82rem;color:var(--muted)}
+.screen .rt{list-style:none;margin:0;padding:4px 0 0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr}
+.screen .rt li{display:grid;grid-template-rows:auto 14px auto;justify-items:center;position:relative;text-align:center}
+.screen .rt .t{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.screen .rt .d{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--line);align-self:center;z-index:1}
+.screen .rt .n{font-size:13.5px;color:var(--muted);margin-top:4px}
+.screen .rt li::after{content:"";position:absolute;top:calc(50% - 1px);left:50%;right:-50%;height:2px;background:var(--line)}
+.screen .rt li:last-child::after{display:none}
+.screen .rt li.on .d{background:var(--route);border-color:var(--route)}
+.screen .rt li.on .n{color:var(--ink);font-weight:600}
+.screen .rt li.lk::after{background:var(--route)}
+
+.screen table{border-collapse:collapse;width:100%;font-size:14.5px}
+.screen th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+  text-align:left;padding:0 12px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+.screen td{padding:12px;border-bottom:1px solid var(--line)}
+.screen tr:last-child td{border-bottom:0}
+.screen td.m,.screen th.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.screen ul.l{list-style:none;margin:0;padding:0}
+.screen ul.l li{display:flex;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.screen ul.l li:last-child{border-bottom:0}
+.screen .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;color:inherit}
+.screen a.tx:hover .tt{color:var(--accent)}
+.screen .tt{font-weight:600;font-size:15px}
+.screen .ss{font-size:13.5px;color:var(--muted)}
+.screen .dot{width:7px;height:7px;border-radius:50%;background:var(--route);flex:none}
+.screen .dot.off{background:var(--line)}
+
+/* auth screens: full-bleed, centred */
+.screen.auth{background:#F1F5F5;align-items:center;justify-content:center;padding:0}
+.screen.auth .pane{width:440px;display:flex;flex-direction:column;gap:18px}
+.screen.auth .pane.wide{width:720px}
+.screen.auth .mark{text-align:center;font-weight:700;font-size:24px;letter-spacing:-.02em}
+.screen.auth .mark span{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
 
 @media (max-width:820px){
   .shell{grid-template-columns:minmax(0,1fr)}
@@ -203,7 +152,7 @@ a.tile span{font-size:.82rem;color:var(--muted)}
   .rail-group{display:flex;align-items:center;gap:6px}
   .rail-label{padding:0 4px 0 0;white-space:nowrap}
   .rail a{white-space:nowrap}
-  main{padding:22px 16px 48px}
+  main{padding:20px 16px 44px}
   .note{padding:8px 16px}
 }
 </style>
@@ -211,13 +160,12 @@ a.tile span{font-size:.82rem;color:var(--muted)}
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
-
-<div class="note">Prototype — navigation and layout only. Nothing is saved and no data is real.</div>
+<div class="note">Prototype — each tab shows one screen as it would look full size. Nothing is saved and no data is real.</div>
 
 <div class="shell">
   <header class="top">
-    <a class="brand" href="#/">Samåk <span>prototype</span></a>
-    <span class="who">Signed in as Amelia Ek</span>
+    <a class="brand" href="#/">Samåk <span>screens</span></a>
+    <span class="meta">ETSN05 Team 2 · phase 1</span>
   </header>
   <nav class="rail" id="rail" aria-label="Screens"></nav>
   <main id="main" tabindex="-1"></main>
@@ -227,81 +175,68 @@ a.tile span{font-size:.82rem;color:var(--muted)}
 (function () {
 
   var esc = function (s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   };
 
-  /* ---------- data ---------- */
+  var STOPS = [
+    { n: 'Malmö C', t: '07:40' }, { n: 'Lomma', t: '07:56' }, { n: 'Bjärred', t: '08:04' },
+    { n: 'Landskrona', t: '08:19' }, { n: 'Helsingborg', t: '08:41' }
+  ];
+  var STOPS_B = [
+    { n: 'Malmö C', t: '08:10' }, { n: 'Lund C', t: '08:28' }, { n: 'Eslöv', t: '08:47' },
+    { n: 'Höör', t: '09:02' }, { n: 'Hässleholm', t: '09:24' }
+  ];
+  var STOPS_C = [
+    { n: 'Malmö C', t: '07:15' }, { n: 'Lomma', t: '07:31' },
+    { n: 'Bjärred', t: '07:39' }, { n: 'Landskrona', t: '07:58' }
+  ];
 
-  var RIDES = {
-    'R-104': {
-      id: 'R-104', name: 'Erik Hovander', initials: 'EH', car: 'Volvo V60',
-      date: 'Sat 13 Sep', seatsFree: 2, seatsTotal: 3,
-      stops: [
-        { n: 'Malmö C', t: '07:40' }, { n: 'Lomma', t: '07:56' }, { n: 'Bjärred', t: '08:04' },
-        { n: 'Landskrona', t: '08:19' }, { n: 'Helsingborg', t: '08:41' }
-      ]
-    },
-    'R-118': {
-      id: 'R-118', name: 'Nina Aronsson', initials: 'NA', car: 'VW ID.4',
-      date: 'Sat 13 Sep', seatsFree: 2, seatsTotal: 4,
-      stops: [
-        { n: 'Malmö C', t: '08:10' }, { n: 'Lund C', t: '08:28' }, { n: 'Eslöv', t: '08:47' },
-        { n: 'Höör', t: '09:02' }, { n: 'Hässleholm', t: '09:24' }
-      ]
-    },
-    'R-131': {
-      id: 'R-131', name: 'Sanna Tell', initials: 'ST', car: 'Kia Ceed',
-      date: 'Sat 13 Sep', seatsFree: 1, seatsTotal: 4,
-      stops: [
-        { n: 'Malmö C', t: '07:15' }, { n: 'Lomma', t: '07:31' },
-        { n: 'Bjärred', t: '07:39' }, { n: 'Landskrona', t: '07:58' }
-      ]
-    }
-  };
-
-  /* ---------- pieces ---------- */
-
-  function head(title, sub, actions) {
-    return '<div class="head"><div class="head-row"><div class="head">' +
-      '<h1>' + title + '</h1>' + (sub ? '<p class="sub">' + sub + '</p>' : '') +
-      '</div>' + (actions ? '<div class="row">' + actions + '</div>' : '') + '</div></div>';
-  }
-
-  function route(stops, from, to) {
+  function rt(stops, from, to) {
     var a = -1, b = -1;
     stops.forEach(function (s, i) { if (s.n === from) a = i; if (s.n === to) b = i; });
-    var items = stops.map(function (s, i) {
-      var c = 'stop';
-      if (a > -1 && i >= a && i <= b) c += ' on';
-      if (a > -1 && i >= a && i < b) c += ' link';
-      return '<li class="' + c + '"><span class="t">' + esc(s.t) + '</span>' +
+    return '<ol class="rt">' + stops.map(function (s, i) {
+      var c = [];
+      if (a > -1 && i >= a && i <= b) c.push('on');
+      if (a > -1 && i >= a && i < b) c.push('lk');
+      return '<li class="' + c.join(' ') + '"><span class="t">' + esc(s.t) + '</span>' +
         '<span class="d"></span><span class="n">' + esc(s.n) + '</span></li>';
-    }).join('');
-    var key = (a > -1 && !(a === 0 && b === stops.length - 1))
-      ? '<p class="route-key">Highlighted: your part of the trip, ' + esc(from) + ' to ' + esc(to) + '.</p>' : '';
-    return '<div class="route-wrap"><ol class="route">' + items + '</ol></div>' + key;
+    }).join('') + '</ol>';
   }
 
-  function seats(free, total) {
-    return '<span class="tag ' + (free ? 'ok' : '') + '">' + free + ' of ' + total + ' seats free</span>';
+  /* the product's own chrome, drawn inside the frame */
+  function app(active, role, content) {
+    var items = role === 'driver'
+      ? [['My trips', 'trips', '#/driver'], ['Publish a ride', 'publish', '#/publish'],
+         ['Requests', 'requests', '#/requests']]
+      : [['Find a ride', 'find', '#/find'], ['My bookings', 'bookings', '#/bookings'],
+         ['Notifications', 'notif', '#/notifications']];
+    return '<header class="bar"><div class="barleft"><span class="logo">Samåk</span>' +
+      '<nav class="menu">' + items.map(function (i) {
+        return '<a href="' + i[2] + '" class="' + (i[1] === active ? 'here' : '') + '">' +
+          esc(i[0]) + '</a>';
+      }).join('') + '</nav></div>' +
+      '<span class="me"><span class="av sm">AE</span>Amelia Ek</span></header>' +
+      '<div class="body">' + content + '</div>';
   }
 
-  function rideCard(r, from, to, href) {
-    var last = r.stops[r.stops.length - 1];
-    return '<article class="ride">' +
-      '<div class="ride-top"><div class="driver"><span class="av">' + esc(r.initials) + '</span>' +
-      '<div><div class="title">' + esc(r.name) + '</div>' +
-      '<div class="meta">' + esc(r.car) + '</div></div></div>' +
-      '<div class="when"><div class="t">' + esc(r.stops[0].t) + '–' + esc(last.t) + '</div>' +
-      '<div class="d">' + esc(r.date) + '</div></div></div>' +
-      route(r.stops, from, to) +
-      '<div class="ride-foot">' + seats(r.seatsFree, r.seatsTotal) +
-      (href ? '<a class="btn plain sm" href="' + href + '">View ride</a>' : '') + '</div>' +
-      '</article>';
+  function ph(title, sub, right) {
+    return '<div class="ph"><div><h2>' + title + '</h2>' +
+      (sub ? '<div class="s">' + sub + '</div>' : '') + '</div>' +
+      (right ? '<div class="r">' + right + '</div>' : '') + '</div>';
   }
 
-  function page(parts) { return '<div class="page">' + parts.join('') + '</div>'; }
+  function ride(name, initials, car, times, date, seats, stops, from, to) {
+    return '<div class="box">' +
+      '<div class="ph"><div class="r"><span class="av">' + esc(initials) + '</span>' +
+      '<div><div class="tt">' + esc(name) + '</div><div class="ss">' + esc(car) + '</div></div></div>' +
+      '<div style="text-align:right"><div style="font-family:var(--mono);font-size:17px">' + esc(times) + '</div>' +
+      '<div class="ss">' + esc(date) + '</div></div></div>' +
+      rt(stops, from, to) +
+      '<div class="ph"><span class="chip ok">' + esc(seats) + '</span>' +
+      '<a class="b sec sm" href="#/ride">View ride</a></div>' +
+      '</div>';
+  }
 
   /* ---------- screens ---------- */
 
@@ -309,281 +244,295 @@ a.tile span{font-size:.82rem;color:var(--muted)}
   function screen(s) { SCREENS.push(s); }
 
   screen({
-    path: '#/', group: 'Prototype', label: 'Start', render: function () {
-      var tiles = SCREENS.filter(function (s) { return s.path !== '#/'; }).map(function (s) {
-        return '<a class="tile" href="' + s.path + '"><strong>' + esc(s.label) + '</strong>' +
-          '<span>' + esc(s.blurb || '') + '</span></a>';
-      }).join('');
-      return page([
-        head('Carpooling prototype',
-          'Twelve screens covering the main passenger and driver flows. Links navigate; nothing else works.'),
-        '<div class="grid">' + tiles + '</div>'
-      ]);
+    path: '#/', group: 'Prototype', label: 'All screens',
+    title: 'Screen designs',
+    lede: 'Eleven screens, each shown as it would look on a full display. Pick one from the list to see it.',
+    index: true
+  });
+
+  screen({
+    path: '#/signin', group: 'Passenger', label: 'Sign in', url: 'samak.se/sign-in',
+    title: 'Sign in', lede: 'One sign-in for both roles. Where you land after depends on the role on your account.',
+    auth: true,
+    render: function () {
+      return '<div class="pane">' +
+        '<div class="mark">Samåk<span>Share the ride, split the drive</span></div>' +
+        '<div class="box">' +
+          '<div class="f"><label>E-mail</label><div class="in">amelia.ek@example.se</div></div>' +
+          '<div class="f"><label>Password</label><div class="in">••••••••••</div></div>' +
+          '<a class="b pri" href="#/find" style="justify-content:center">Sign in</a>' +
+          '<div class="ss" style="text-align:center">New here? <a href="#/signup" style="color:var(--accent);font-weight:600">Create an account</a></div>' +
+        '</div>' +
+      '</div>';
     }
   });
 
   screen({
-    path: '#/signin', group: 'Passenger', label: 'Sign in', blurb: 'One sign-in for both roles.',
+    path: '#/signup', group: 'Passenger', label: 'Create account', url: 'samak.se/create-account',
+    title: 'Create account', lede: 'Registration asks how you intend to use it — driver, passenger or both. The role lives on the account, not on two separate logins.',
+    auth: true,
     render: function () {
-      return page([
-        head('Sign in'),
-        '<div class="card" style="max-width:420px">' +
-          '<div class="field"><label for="e">E-mail</label>' +
-          '<input class="input" id="e" type="email" value="amelia.ek@example.se"></div>' +
-          '<div class="field"><label for="p">Password</label>' +
-          '<input class="input" id="p" type="password" value="password"></div>' +
-          '<div class="row end"><a class="btn plain" href="#/signup">Create account</a>' +
-          '<a class="btn primary" href="#/search">Sign in</a></div>' +
-        '</div>'
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/signup', group: 'Passenger', label: 'Create account', blurb: 'Name, e-mail and how you will use it.',
-    render: function () {
-      return page([
-        head('Create account'),
-        '<div class="two">' +
-          '<div class="card">' +
-            '<div class="field"><label for="n">Full name</label>' +
-            '<input class="input" id="n" type="text" value="Amelia Ek"></div>' +
-            '<div class="field"><label for="m">E-mail</label>' +
-            '<input class="input" id="m" type="email" value="amelia.ek@example.se"></div>' +
-            '<div class="field"><label for="w">Password</label>' +
-            '<input class="input" id="w" type="password" value="password"></div>' +
-            '<div class="field"><label for="h">Home location</label>' +
-            '<select class="input" id="h"><option>Malmö C</option><option selected>Lund C</option>' +
-            '<option>Landskrona</option><option>Helsingborg</option></select>' +
-            '<span class="hint">Picked from a list, not typed.</span></div>' +
+      return '<div class="pane wide">' +
+        '<div class="mark">Create your account</div>' +
+        '<div class="box">' +
+          '<div class="grid2">' +
+            '<div class="f"><label>Full name</label><div class="in">Amelia Ek</div></div>' +
+            '<div class="f"><label>E-mail</label><div class="in">amelia.ek@example.se</div></div>' +
+            '<div class="f"><label>Password</label><div class="in">••••••••••</div></div>' +
+            '<div class="f"><label>Home location</label><div class="in">Lund C</div>' +
+            '<span class="hint">Chosen from the list of locations.</span></div>' +
           '</div>' +
-          '<div class="card">' +
-            '<h2>How will you use it?</h2>' +
-            '<div class="pick">' +
-              '<button type="button" aria-pressed="false"><strong>Passenger</strong><span>Book seats.</span></button>' +
-              '<button type="button" aria-pressed="false"><strong>Driver</strong><span>Offer seats.</span></button>' +
-              '<button type="button" aria-pressed="true"><strong>Both</strong><span>Switch any time.</span></button>' +
+          '<div class="f"><label>How will you use Samåk?</label>' +
+            '<div class="grid3">' +
+              '<div class="in" style="text-align:center">Passenger</div>' +
+              '<div class="in" style="text-align:center">Driver</div>' +
+              '<div class="in" style="text-align:center;border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600">Both</div>' +
             '</div>' +
-            '<div class="row end"><a class="btn primary" href="#/search">Create account</a></div>' +
           '</div>' +
-        '</div>'
-      ]);
+          '<div class="r end"><a class="b sec" href="#/signin">Cancel</a><a class="b pri" href="#/find">Create account</a></div>' +
+        '</div>' +
+      '</div>';
     }
   });
 
   screen({
-    path: '#/search', group: 'Passenger', label: 'Find a ride', blurb: 'From, to, date and seats.',
+    path: '#/find', group: 'Passenger', label: 'Find a ride', url: 'samak.se/find',
+    title: 'Find a ride', lede: 'The search. Locations come from a maintained list rather than free text, because matching depends on knowing where each one sits along a route.',
     render: function () {
-      return page([
-        head('Find a ride'),
-        '<div class="card">' +
-          '<div class="two">' +
-            '<div class="field"><label for="f">From</label><select class="input" id="f">' +
-            '<option selected>Malmö C</option><option>Lund C</option><option>Lomma</option></select></div>' +
-            '<div class="field"><label for="t">To</label><select class="input" id="t">' +
-            '<option selected>Helsingborg</option><option>Landskrona</option><option>Hässleholm</option></select></div>' +
-            '<div class="field"><label for="d">Date</label><input class="input" id="d" type="date" value="2026-09-13"></div>' +
-            '<div class="field"><label for="ti">Earliest departure</label><input class="input" id="ti" type="time" value="07:00"></div>' +
-            '<div class="field"><label for="s">Seats</label><select class="input" id="s">' +
-            '<option selected>1</option><option>2</option></select></div>' +
-            '<div class="field"><label for="pp">Partial trips</label><select class="input" id="pp">' +
-            '<option selected>Include rides going part of the way</option>' +
-            '<option>Only rides all the way</option></select></div>' +
+      return app('find', 'passenger',
+        '<div class="col">' +
+          ph('Where are you going?', 'Saturday 13 September') +
+          '<div class="box">' +
+            '<div class="grid2">' +
+              '<div class="f"><label>From</label><div class="in">Malmö C</div></div>' +
+              '<div class="f"><label>To</label><div class="in">Helsingborg</div></div>' +
+            '</div>' +
+            '<div class="grid3">' +
+              '<div class="f"><label>Date</label><div class="in">13 Sep 2026</div></div>' +
+              '<div class="f"><label>Earliest departure</label><div class="in">07:00</div></div>' +
+              '<div class="f"><label>Seats</label><div class="in">1</div></div>' +
+            '</div>' +
+            '<div class="ph"><span class="hint">Rides that cover part of the way are included.</span>' +
+            '<a class="b pri" href="#/results">Search</a></div>' +
           '</div>' +
-          '<div class="row end"><a class="btn primary" href="#/results">Search</a></div>' +
-        '</div>'
-      ]);
+          '<div class="box"><div class="tt">Recent</div>' +
+            '<ul class="l">' +
+              '<li><div class="tx"><span class="tt">Lund C → Höör</span>' +
+              '<span class="ss">Sun 14 Sep · 1 seat</span></div><a class="b sec sm" href="#/results">Search again</a></li>' +
+              '<li><div class="tx"><span class="tt">Malmö C → Lund C</span>' +
+              '<span class="ss">Fri 5 Sep · 1 seat</span></div><a class="b sec sm" href="#/results">Search again</a></li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/results', group: 'Passenger', label: 'Matching rides', blurb: 'Full and partial matches.',
+    path: '#/results', group: 'Passenger', label: 'Matching rides', url: 'samak.se/find/results',
+    title: 'Matching rides', lede: 'Full matches and rides that only cover part of the journey, in one list. The amber section of each line is the part you would be in the car.',
     render: function () {
-      return page([
-        head('Malmö C to Helsingborg', 'Sat 13 Sep, from 07:00, 1 seat. Three rides match.',
-          '<a class="btn plain sm" href="#/search">Change search</a>'),
-        rideCard(RIDES['R-104'], 'Malmö C', 'Helsingborg', '#/ride'),
-        rideCard(RIDES['R-131'], 'Malmö C', 'Landskrona', '#/ride'),
-        rideCard(RIDES['R-118'], 'Malmö C', 'Lund C', '#/ride')
-      ]);
+      return app('find', 'passenger',
+        '<div class="col wide">' +
+          ph('Malmö C to Helsingborg', 'Sat 13 Sep, from 07:00, 1 seat · 3 rides',
+            '<a class="b sec sm" href="#/find">Change search</a>') +
+          ride('Erik Hovander', 'EH', 'Volvo V60', '07:40–08:41', 'Sat 13 Sep',
+            '2 of 3 seats free', STOPS, 'Malmö C', 'Helsingborg') +
+          ride('Sanna Tell', 'ST', 'Kia Ceed', '07:15–07:58', 'Sat 13 Sep',
+            '1 of 4 seats free', STOPS_C, 'Malmö C', 'Landskrona') +
+          ride('Nina Aronsson', 'NA', 'VW ID.4', '08:10–09:24', 'Sat 13 Sep',
+            '2 of 4 seats free', STOPS_B, 'Malmö C', 'Lund C') +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/ride', group: 'Passenger', label: 'Ride detail', blurb: 'Route, driver and the seat request.',
+    path: '#/ride', group: 'Passenger', label: 'Ride detail', url: 'samak.se/ride/R-104',
+    title: 'Ride detail and booking', lede: 'The whole route with times, who is already in the car, and the seat request. Boarding and alighting stop are chosen here, which is what creates a partial booking.',
     render: function () {
-      var r = RIDES['R-104'];
-      return page([
-        head('Malmö C to Helsingborg', 'Sat 13 Sep, departs 07:40.',
-          '<a class="btn plain sm" href="#/results">Back to results</a>'),
-        '<div class="card">' +
-          '<div class="ride-top"><div class="driver"><span class="av">EH</span>' +
-          '<div><div class="title">Erik Hovander</div><div class="meta">Volvo V60</div></div></div>' +
-          seats(r.seatsFree, r.seatsTotal) + '</div>' +
-          route(r.stops, 'Malmö C', 'Helsingborg') +
-        '</div>',
-        '<div class="two">' +
-          '<div class="card"><h2>Book a seat</h2>' +
-            '<div class="field"><label for="on">Get on at</label><select class="input" id="on">' +
-            r.stops.map(function (s, i) {
-              return '<option' + (i === 0 ? ' selected' : '') + '>' + esc(s.n) + '</option>';
-            }).join('') + '</select></div>' +
-            '<div class="field"><label for="off">Get off at</label><select class="input" id="off">' +
-            r.stops.map(function (s, i) {
-              return '<option' + (i === r.stops.length - 1 ? ' selected' : '') + '>' + esc(s.n) + '</option>';
-            }).join('') + '</select></div>' +
-            '<div class="row end"><a class="btn primary" href="#/bookings">Request seat</a></div>' +
-            '<p class="hint">The driver accepts or declines. You get a notification.</p>' +
+      return app('find', 'passenger',
+        '<div class="col wide">' +
+          ph('Malmö C to Helsingborg', 'Saturday 13 September, departs 07:40',
+            '<a class="b sec sm" href="#/results">Back to results</a>') +
+          '<div class="box">' +
+            '<div class="ph"><div class="r"><span class="av">EH</span>' +
+            '<div><div class="tt">Erik Hovander</div><div class="ss">Volvo V60 · 37 trips</div></div></div>' +
+            '<span class="chip ok">2 of 3 seats free</span></div>' +
+            rt(STOPS, 'Malmö C', 'Helsingborg') +
           '</div>' +
-          '<div class="card"><h2>Who else is coming</h2>' +
-            '<ul class="list"><li><span class="av">TÅ</span><div class="body">' +
-            '<span class="title">Tove Åkesson</span>' +
-            '<span class="sub">Malmö C to Landskrona</span></div>' +
-            '<span class="tag ok">Confirmed</span></li></ul>' +
+          '<div class="split">' +
+            '<div class="box"><div class="tt">Book a seat</div>' +
+              '<div class="grid2">' +
+                '<div class="f"><label>Get on at</label><div class="in">Malmö C · 07:40</div></div>' +
+                '<div class="f"><label>Get off at</label><div class="in">Helsingborg · 08:41</div></div>' +
+              '</div>' +
+              '<div class="f"><label>Seats</label><div class="in">1</div></div>' +
+              '<div class="r end"><a class="b pri" href="#/bookings">Request seat</a></div>' +
+              '<span class="hint">The driver accepts or declines. You get a notification either way.</span>' +
+            '</div>' +
+            '<div class="box"><div class="tt">Who else is coming</div>' +
+              '<ul class="l">' +
+                '<li><span class="av">TÅ</span><div class="tx"><span class="tt">Tove Åkesson</span>' +
+                '<span class="ss">Malmö C → Landskrona</span></div><span class="chip ok">Confirmed</span></li>' +
+              '</ul>' +
+              '<div class="ss">Non-smoking. Small bags only — the boot has a bike rack.</div>' +
+            '</div>' +
           '</div>' +
-        '</div>'
-      ]);
+        '</div>');
     }
   });
 
   screen({
-    path: '#/bookings', group: 'Passenger', label: 'My bookings', blurb: 'Upcoming trips and history.',
+    path: '#/bookings', group: 'Passenger', label: 'My bookings', url: 'samak.se/bookings',
+    title: 'My bookings', lede: 'Upcoming trips and the history behind them. History is what makes the usage figures in the final report possible, so it is not optional.',
     render: function () {
-      function row(b) {
-        return '<tr><td>' + esc(b[0]) + '</td><td class="num">' + esc(b[1]) + '</td><td>' + esc(b[2]) +
-          '</td><td>' + b[3] + '</td><td>' + (b[4] ? '<a class="btn plain sm" href="#/bookings">Cancel</a>' : '') + '</td></tr>';
+      function rows(list) {
+        return list.map(function (b) {
+          return '<tr><td>' + esc(b[0]) + '</td><td class="m">' + esc(b[1]) + '</td>' +
+            '<td>' + esc(b[2]) + '</td><td>' + b[3] + '</td>' +
+            '<td style="text-align:right">' + (b[4] ? '<a class="b sec sm" href="#/bookings">Cancel</a>' : '') + '</td></tr>';
+        }).join('');
       }
-      var up = [
-        ['Malmö C to Helsingborg', 'Sat 13 Sep 07:40', 'Erik Hovander', '<span class="tag">Awaiting driver</span>', 1],
-        ['Lund C to Höör', 'Sun 14 Sep 08:28', 'Nina Aronsson', '<span class="tag ok">Confirmed</span>', 1]
-      ];
-      var past = [
-        ['Malmö C to Lund C', 'Fri 5 Sep 17:05', 'Nina Aronsson', '<span class="tag">Completed</span>', 0],
-        ['Landskrona to Helsingborg', 'Tue 2 Sep 07:15', 'Erik Hovander', '<span class="tag">Cancelled</span>', 0]
-      ];
-      function table(rows) {
-        return '<div class="tbl-wrap"><table><thead><tr><th>Trip</th><th class="num">Departs</th>' +
-          '<th>Driver</th><th>State</th><th></th></tr></thead><tbody>' +
-          rows.map(row).join('') + '</tbody></table></div>';
-      }
-      return page([
-        head('My bookings', null, '<a class="btn primary sm" href="#/search">Find a ride</a>'),
-        '<div class="card"><h2>Upcoming</h2>' + table(up) + '</div>',
-        '<div class="card"><h2>Past</h2>' + table(past) + '</div>'
-      ]);
+      return app('bookings', 'passenger',
+        '<div class="col wide">' +
+          ph('My bookings', null, '<a class="b pri sm" href="#/find">Find a ride</a>') +
+          '<div class="box"><div class="tt">Upcoming</div><table>' +
+            '<thead><tr><th>Trip</th><th class="m">Departs</th><th>Driver</th><th>State</th><th></th></tr></thead>' +
+            '<tbody>' + rows([
+              ['Malmö C → Helsingborg', 'Sat 13 Sep 07:40', 'Erik Hovander', '<span class="chip warn">Awaiting driver</span>', 1],
+              ['Lund C → Höör', 'Sun 14 Sep 08:28', 'Nina Aronsson', '<span class="chip ok">Confirmed</span>', 1]
+            ]) + '</tbody></table></div>' +
+          '<div class="box"><div class="tt">Past</div><table>' +
+            '<thead><tr><th>Trip</th><th class="m">Departed</th><th>Driver</th><th>State</th><th></th></tr></thead>' +
+            '<tbody>' + rows([
+              ['Malmö C → Lund C', 'Fri 5 Sep 17:05', 'Nina Aronsson', '<span class="chip">Completed</span>', 0],
+              ['Landskrona → Helsingborg', 'Tue 2 Sep 07:15', 'Erik Hovander', '<span class="chip">Cancelled</span>', 0]
+            ]) + '</tbody></table></div>' +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/notifications', group: 'Passenger', label: 'Notifications', blurb: 'Each one opens what it is about.',
+    path: '#/notifications', group: 'Passenger', label: 'Notifications', url: 'samak.se/notifications',
+    title: 'Notifications', lede: 'Every entry opens the ride, booking or trip it refers to. That only works if each notification type has a destination, so the type list and the route list have to be written together.',
     render: function () {
       var items = [
-        [1, 'Erik Hovander accepted your seat request', 'Malmö C to Helsingborg, Sat 13 Sep 07:40.', '12 min ago', '#/ride'],
-        [1, 'A passenger joined your trip', 'Oskar Lejon booked Lomma to Landskrona.', '40 min ago', '#/driver/trip'],
-        [1, 'Departure time changed', 'R-118 now leaves Malmö C at 08:10.', '3 h ago', '#/ride'],
-        [0, 'Trip completed', 'Rate your ride with Nina Aronsson.', 'Fri 5 Sep', '#/bookings'],
-        [0, 'Booking cancelled by driver', 'Landskrona to Helsingborg, Tue 2 Sep.', 'Mon 1 Sep', '#/bookings']
+        [1, 'Erik Hovander accepted your seat request', 'Malmö C → Helsingborg, Sat 13 Sep 07:40. Pickup outside the north entrance.', '12 min ago', '#/ride'],
+        [1, 'A passenger joined your trip', 'Oskar Lejon booked Lomma → Landskrona.', '40 min ago', '#/trip'],
+        [1, 'Departure time changed', 'Your ride to Hässleholm now leaves Malmö C at 08:10.', '3 h ago', '#/ride'],
+        [0, 'Trip completed', 'Rate your ride with Nina Aronsson, Malmö C → Lund C.', 'Fri 5 Sep', '#/bookings'],
+        [0, 'Booking cancelled by driver', 'Landskrona → Helsingborg on Tue 2 Sep was cancelled.', 'Mon 1 Sep', '#/bookings']
       ].map(function (n) {
-        return '<li><a class="notif" href="' + n[4] + '">' +
-          '<span class="dot' + (n[0] ? '' : ' read') + '"></span>' +
-          '<span class="body"><span class="title">' + esc(n[1]) + '</span>' +
-          '<span class="sub">' + esc(n[2]) + '</span></span>' +
-          '<span class="meta">' + esc(n[3]) + '</span></a></li>';
+        return '<li><span class="dot' + (n[0] ? '' : ' off') + '"></span>' +
+          '<a class="tx" href="' + n[4] + '"><span class="tt">' + esc(n[1]) + '</span>' +
+          '<span class="ss">' + esc(n[2]) + '</span></a>' +
+          '<span class="ss" style="white-space:nowrap">' + esc(n[3]) + '</span></li>';
       }).join('');
-      return page([
-        head('Notifications'),
-        '<div class="card"><ul class="list">' + items + '</ul></div>'
-      ]);
+      return app('notif', 'passenger',
+        '<div class="col">' +
+          ph('Notifications', '3 unread', '<a class="b sec sm" href="#/notifications">Mark all as read</a>') +
+          '<div class="box"><ul class="l">' + items + '</ul></div>' +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/driver', group: 'Driver', label: 'My trips', blurb: 'What a driver sees first.',
+    path: '#/driver', group: 'Driver', label: 'My trips', url: 'samak.se/driver',
+    title: 'Driver home', lede: 'What a driver sees first: today at the top, with anything waiting for an answer surfaced before the detail.',
     render: function () {
-      var r = RIDES['R-104'];
-      return page([
-        head('My trips', null, '<a class="btn primary sm" href="#/driver/publish">Publish a ride</a>'),
-        '<div class="card"><div class="ride-top"><h2>Saturday 13 September</h2>' +
-          '<span class="tag">2 requests waiting</span></div>' +
-          route(r.stops) +
-          '<div class="ride-foot">' + seats(r.seatsFree, r.seatsTotal) +
-          '<div class="row"><a class="btn plain sm" href="#/driver/trip">Trip detail</a>' +
-          '<a class="btn primary sm" href="#/driver/requests">Answer requests</a></div></div>' +
-        '</div>',
-        '<div class="card"><h2>Later this week</h2><ul class="list">' +
-          '<li><div class="body"><span class="title">Lund C to Ystad</span>' +
-          '<span class="sub">Sun 14 Sep 16:20 · 3 seats free</span></div>' +
-          '<a class="btn plain sm" href="#/driver/trip">Open</a></li>' +
-          '<li><div class="body"><span class="title">Malmö C to Lund C</span>' +
-          '<span class="sub">Mon 15 Sep 07:50 · 2 seats free</span></div>' +
-          '<a class="btn plain sm" href="#/driver/trip">Open</a></li>' +
-        '</ul></div>'
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/driver/publish', group: 'Driver', label: 'Publish a ride', blurb: 'Route, stops, time and seats.',
-    render: function () {
-      return page([
-        head('Publish a ride'),
-        '<div class="two">' +
-          '<div class="card">' +
-            '<div class="field"><label for="pf">From</label><select class="input" id="pf">' +
-            '<option selected>Malmö C</option></select></div>' +
-            '<div class="field"><label for="pt">To</label><select class="input" id="pt">' +
-            '<option selected>Helsingborg</option></select></div>' +
-            '<div class="field"><label>Stops along the way</label><div class="pick">' +
-              '<button type="button" aria-pressed="true"><strong>Lomma</strong><span>+16 min</span></button>' +
-              '<button type="button" aria-pressed="true"><strong>Bjärred</strong><span>+8 min</span></button>' +
-              '<button type="button" aria-pressed="true"><strong>Landskrona</strong><span>+15 min</span></button>' +
-            '</div><span class="hint">Stops are what let people join partway.</span></div>' +
-            '<div class="two">' +
-              '<div class="field"><label for="pd">Date</label><input class="input" id="pd" type="date" value="2026-09-13"></div>' +
-              '<div class="field"><label for="pti">Departure</label><input class="input" id="pti" type="time" value="07:40"></div>' +
-              '<div class="field"><label for="ps">Free seats</label><select class="input" id="ps">' +
-              '<option>1</option><option>2</option><option selected>3</option></select></div>' +
-            '</div>' +
-            '<div class="row end"><a class="btn primary" href="#/driver/trip">Publish</a></div>' +
+      return app('trips', 'driver',
+        '<div class="col wide">' +
+          ph('Your trips', 'Driving as Amelia Ek', '<a class="b pri sm" href="#/publish">Publish a ride</a>') +
+          '<div class="box">' +
+            '<div class="ph"><div><div class="tt">Saturday 13 September</div>' +
+            '<div class="ss">Malmö C → Helsingborg, departs 07:40</div></div>' +
+            '<span class="chip warn">2 requests waiting</span></div>' +
+            rt(STOPS) +
+            '<div class="ph"><span class="chip ok">1 of 3 seats free</span>' +
+            '<span class="r"><a class="b sec sm" href="#/trip">Trip detail</a>' +
+            '<a class="b pri sm" href="#/requests">Answer requests</a></span></div>' +
           '</div>' +
-          '<div class="card"><h2>Preview</h2>' + route(RIDES['R-104'].stops) + '</div>' +
-        '</div>'
-      ]);
+          '<div class="box"><div class="tt">Later this week</div>' +
+            '<ul class="l">' +
+              '<li><div class="tx"><span class="tt">Lund C → Ystad</span>' +
+              '<span class="ss">Sun 14 Sep 16:20 · 3 seats free · no requests</span></div>' +
+              '<a class="b sec sm" href="#/trip">Open</a></li>' +
+              '<li><div class="tx"><span class="tt">Malmö C → Lund C</span>' +
+              '<span class="ss">Mon 15 Sep 07:50 · 2 seats free · 1 passenger</span></div>' +
+              '<a class="b sec sm" href="#/trip">Open</a></li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/driver/requests', group: 'Driver', label: 'Booking requests', blurb: 'Accept or decline a seat.',
+    path: '#/publish', group: 'Driver', label: 'Publish a ride', url: 'samak.se/driver/publish',
+    title: 'Publish a ride', lede: 'The stops between origin and destination are the point of this screen. Without them nobody can ever join halfway.',
     render: function () {
-      var r = RIDES['R-104'];
-      var reqs = [
-        { name: 'Amelia Ek', i: 'AE', from: 'Malmö C', to: 'Helsingborg', when: '2 h ago' },
-        { name: 'Oskar Lejon', i: 'OL', from: 'Lomma', to: 'Landskrona', when: '40 min ago' }
-      ].map(function (q) {
-        return '<article class="ride">' +
-          '<div class="ride-top"><div class="driver"><span class="av">' + esc(q.i) + '</span>' +
-          '<div><div class="title">' + esc(q.name) + '</div>' +
-          '<div class="meta">Asked ' + esc(q.when) + '</div></div></div>' +
-          '<span class="tag seat">1 seat</span></div>' +
-          route(r.stops, q.from, q.to) +
-          '<div class="ride-foot"><span class="meta">Takes a seat only between ' + esc(q.from) +
-          ' and ' + esc(q.to) + '.</span>' +
-          '<div class="row"><a class="btn plain sm" href="#/driver/requests">Decline</a>' +
-          '<a class="btn primary sm" href="#/driver/trip">Accept</a></div></div>' +
-          '</article>';
-      }).join('');
-      return page([
-        head('Requests for Saturday', 'Malmö C to Helsingborg, departs 07:40.',
-          '<a class="btn plain sm" href="#/driver">Back to trips</a>'),
-        reqs
-      ]);
+      return app('publish', 'driver',
+        '<div class="col wide">' +
+          ph('Publish a ride') +
+          '<div class="split">' +
+            '<div class="box">' +
+              '<div class="grid2">' +
+                '<div class="f"><label>From</label><div class="in">Malmö C</div></div>' +
+                '<div class="f"><label>To</label><div class="in">Helsingborg</div></div>' +
+              '</div>' +
+              '<div class="f"><label>Stops along the way</label>' +
+                '<div class="grid3">' +
+                  '<div class="in" style="text-align:center;border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600">Lomma</div>' +
+                  '<div class="in" style="text-align:center;border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600">Bjärred</div>' +
+                  '<div class="in" style="text-align:center;border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600">Landskrona</div>' +
+                '</div>' +
+                '<span class="hint">Offered from the route Malmö C and Helsingborg both sit on.</span>' +
+              '</div>' +
+              '<div class="grid3">' +
+                '<div class="f"><label>Date</label><div class="in">13 Sep 2026</div></div>' +
+                '<div class="f"><label>Departure</label><div class="in">07:40</div></div>' +
+                '<div class="f"><label>Free seats</label><div class="in">3</div></div>' +
+              '</div>' +
+              '<div class="f"><label>Note for passengers</label>' +
+              '<div class="in soft">Non-smoking. Small bags only.</div></div>' +
+              '<div class="r end"><a class="b sec" href="#/driver">Save draft</a><a class="b pri" href="#/trip">Publish</a></div>' +
+            '</div>' +
+            '<div class="box"><div class="tt">Preview</div>' + rt(STOPS) +
+              '<span class="hint">Stop times are estimated from the route. The customer does not require a map.</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>');
     }
   });
 
   screen({
-    path: '#/driver/trip', group: 'Driver', label: 'Trip & passengers', blurb: 'Who gets on where.',
+    path: '#/requests', group: 'Driver', label: 'Booking requests', url: 'samak.se/driver/requests',
+    title: 'Booking requests', lede: 'Two requests on different parts of the same route. With three seats both fit — which is why a seat has to be counted per section, not per ride.',
     render: function () {
-      var r = RIDES['R-104'];
+      function req(name, initials, when, from, to) {
+        return '<div class="box">' +
+          '<div class="ph"><div class="r"><span class="av">' + esc(initials) + '</span>' +
+          '<div><div class="tt">' + esc(name) + '</div>' +
+          '<div class="ss">Requested ' + esc(when) + '</div></div></div>' +
+          '<span class="chip warn">1 seat</span></div>' +
+          rt(STOPS, from, to) +
+          '<div class="ph"><span class="ss">Takes a seat only between ' + esc(from) + ' and ' + esc(to) + '.</span>' +
+          '<span class="r"><a class="b sec sm" href="#/requests">Decline</a>' +
+          '<a class="b pri sm" href="#/trip">Accept</a></span></div>' +
+          '</div>';
+      }
+      return app('requests', 'driver',
+        '<div class="col wide">' +
+          ph('Requests for Saturday', 'Malmö C → Helsingborg, departs 07:40',
+            '<a class="b sec sm" href="#/driver">Back to trips</a>') +
+          req('Amelia Ek', 'AE', '2 hours ago', 'Malmö C', 'Helsingborg') +
+          req('Oskar Lejon', 'OL', '40 minutes ago', 'Lomma', 'Landskrona') +
+        '</div>');
+    }
+  });
+
+  screen({
+    path: '#/trip', group: 'Driver', label: 'Trip & passengers', url: 'samak.se/driver/trip/R-104',
+    title: 'Trip and passengers', lede: 'The driver-side answer to "who am I travelling with": a pickup list in stop order, not an alphabetical list of names.',
+    render: function () {
       var rows = [
         ['07:40', 'Malmö C', 'Amelia Ek', ''],
         ['07:56', 'Lomma', 'Oskar Lejon', ''],
@@ -591,22 +540,27 @@ a.tile span{font-size:.82rem;color:var(--muted)}
         ['08:19', 'Landskrona', '', 'Tove Åkesson, Oskar Lejon'],
         ['08:41', 'Helsingborg', '', 'Amelia Ek']
       ].map(function (m) {
-        return '<tr><td class="num">' + esc(m[0]) + '</td><td>' + esc(m[1]) + '</td>' +
-          '<td>' + (m[2] ? esc(m[2]) : '—') + '</td><td>' + (m[3] ? esc(m[3]) : '—') + '</td></tr>';
+        return '<tr><td class="m">' + esc(m[0]) + '</td><td>' + esc(m[1]) + '</td>' +
+          '<td>' + (m[2] ? esc(m[2]) : '<span style="color:var(--faint)">—</span>') + '</td>' +
+          '<td>' + (m[3] ? esc(m[3]) : '<span style="color:var(--faint)">—</span>') + '</td></tr>';
       }).join('');
-      return page([
-        head('Saturday 13 September', 'Malmö C to Helsingborg. Three passengers.',
-          '<a class="btn plain sm" href="#/driver">Back to trips</a>'),
-        '<div class="card">' + route(r.stops) + '<div class="row">' + seats(1, 3) + '</div></div>',
-        '<div class="card"><h2>Pickup order</h2>' +
-          '<div class="tbl-wrap"><table><thead><tr><th class="num">Time</th><th>Stop</th>' +
-          '<th>Picks up</th><th>Drops off</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-        '</div>'
-      ]);
+      return app('trips', 'driver',
+        '<div class="col wide">' +
+          ph('Saturday 13 September', 'Malmö C → Helsingborg · three passengers',
+            '<a class="b sec sm" href="#/driver">Cancel ride</a>') +
+          '<div class="box">' + rt(STOPS) +
+            '<div class="r"><span class="chip ok">1 of 3 seats free</span>' +
+            '<span class="chip warn">Full between Lomma and Landskrona</span></div>' +
+          '</div>' +
+          '<div class="box"><div class="tt">Pickup order</div><table>' +
+            '<thead><tr><th class="m">Time</th><th>Stop</th><th>Picks up</th><th>Drops off</th></tr></thead>' +
+            '<tbody>' + rows + '</tbody></table>' +
+          '</div>' +
+        '</div>');
     }
   });
 
-  /* ---------- shell ---------- */
+  /* ---------- prototype shell ---------- */
 
   var ROUTES = {};
   SCREENS.forEach(function (s) { ROUTES[s.path] = s; });
@@ -616,33 +570,71 @@ a.tile span{font-size:.82rem;color:var(--muted)}
   var path = '#/';
 
   (function buildRail() {
-    var groups = [], byName = {};
+    var groups = [], by = {};
     SCREENS.forEach(function (s) {
-      if (!byName[s.group]) { byName[s.group] = []; groups.push(s.group); }
-      byName[s.group].push(s);
+      if (!by[s.group]) { by[s.group] = []; groups.push(s.group); }
+      by[s.group].push(s);
     });
     rail.innerHTML = groups.map(function (g) {
       return '<div class="rail-group"><span class="rail-label">' + esc(g) + '</span>' +
-        byName[g].map(function (s) {
+        by[g].map(function (s) {
           return '<a href="' + s.path + '" data-path="' + s.path + '">' + esc(s.label) + '</a>';
         }).join('') + '</div>';
     }).join('');
   })();
 
+  function indexView() {
+    var tiles = SCREENS.filter(function (s) { return !s.index; }).map(function (s) {
+      return '<a class="tile" href="' + s.path + '" style="display:flex;flex-direction:column;gap:3px;' +
+        'text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:8px;' +
+        'background:var(--card);padding:14px 16px">' +
+        '<strong style="font-size:.95rem">' + esc(s.label) + '</strong>' +
+        '<span style="font-size:.82rem;color:var(--muted)">' + esc(s.url || '') + '</span></a>';
+    }).join('');
+    return '<div class="wrap"><div class="caption"><h1>Screen designs</h1>' +
+      '<p>Eleven screens, each drawn as it would look on a full display. Pick one from the list.</p></div>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px">' +
+      tiles + '</div></div>';
+  }
+
+  function frameView(s) {
+    return '<div class="wrap">' +
+      '<div class="caption"><h1>' + esc(s.title) + '</h1><p>' + esc(s.lede) + '</p></div>' +
+      '<div class="frame">' +
+        '<div class="stage" id="stage">' +
+          '<div class="screen' + (s.auth ? ' auth' : '') + '" id="screen">' + s.render() + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* The screen is drawn at 1280x820 and scaled down to whatever width there is,
+     so what you see is the real layout rather than a squeezed one. */
+  function fit() {
+    var stage = document.getElementById('stage');
+    var screen = document.getElementById('screen');
+    if (!stage || !screen) { return; }
+    var k = stage.clientWidth / 1280;
+    screen.style.transform = 'scale(' + k + ')';
+    stage.style.height = Math.round(820 * k) + 'px';
+  }
+
   function render() {
     var s = ROUTES[path];
-    main.innerHTML = s ? s.render() : page([head('Not part of this prototype',
-      'Nothing here answers to that link. <a href="#/">Back to the start</a>.')]);
+    main.innerHTML = s ? (s.index ? indexView() : frameView(s))
+      : '<div class="wrap"><div class="caption"><h1>Not in this prototype</h1>' +
+        '<p>Nothing here answers to that link. <a href="#/">Back to the list</a>.</p></div></div>';
+    if (s && !s.index) { fit(); }
     Array.prototype.forEach.call(rail.querySelectorAll('a'), function (a) {
       if (a.getAttribute('data-path') === path) { a.setAttribute('aria-current', 'page'); }
       else { a.removeAttribute('aria-current'); }
     });
-    document.title = (s && s.path !== '#/' ? s.label + ' — ' : '') + 'Samåk Prototype';
+    document.title = (s && !s.index ? s.label + ' — ' : '') + 'Samåk Screens';
     main.focus();
     window.scrollTo(0, 0);
   }
 
-  /* Capture phase, and the path is held here rather than read from location.hash:
+  /* Capture phase, and the path is kept here rather than read from location.hash:
      embedded in a sandboxed frame neither the hash nor bubbled clicks are reliable. */
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a[href^="#/"]') : null;
@@ -656,14 +648,7 @@ a.tile span{font-size:.82rem;color:var(--muted)}
     try { if (location.hash !== next) { location.hash = next; } } catch (err) {}
   }, true);
 
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.pick button') : null;
-    if (!b) { return; }
-    Array.prototype.forEach.call(b.parentNode.querySelectorAll('button'), function (x) {
-      x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
-    });
-  });
-
+  window.addEventListener('resize', fit);
   window.addEventListener('hashchange', function () {
     var h = location.hash;
     if (h && h !== path && ROUTES[h]) { path = h; render(); }
