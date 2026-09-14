@@ -216,7 +216,7 @@ main{padding:26px 24px 60px;min-width:0}
         return '<a href="' + i[2] + '" class="' + (i[1] === active ? 'here' : '') + '">' +
           esc(i[0]) + '</a>';
       }).join('') + '</nav></div>' +
-      '<span class="me"><span class="av sm">AE</span>Amelia Ek</span></header>' +
+      '<span class="me"><span class="av sm">AE</span>Alice Ek</span></header>' +
       '<div class="body">' + content + '</div>';
   }
 
@@ -258,7 +258,7 @@ main{padding:26px 24px 60px;min-width:0}
       return '<div class="pane">' +
         '<div class="mark">Samåk<span>Share the ride, split the drive</span></div>' +
         '<div class="box">' +
-          '<div class="f"><label>E-mail</label><div class="in">amelia.ek@example.se</div></div>' +
+          '<div class="f"><label>E-mail</label><div class="in">alice.ek@example.se</div></div>' +
           '<div class="f"><label>Password</label><div class="in">••••••••••</div></div>' +
           '<a class="b pri" href="#/find" style="justify-content:center">Sign in</a>' +
           '<div class="ss" style="text-align:center">New here? <a href="#/signup" style="color:var(--accent);font-weight:600">Create an account</a></div>' +
@@ -276,8 +276,8 @@ main{padding:26px 24px 60px;min-width:0}
         '<div class="mark">Create your account</div>' +
         '<div class="box">' +
           '<div class="grid2">' +
-            '<div class="f"><label>Full name</label><div class="in">Amelia Ek</div></div>' +
-            '<div class="f"><label>E-mail</label><div class="in">amelia.ek@example.se</div></div>' +
+            '<div class="f"><label>Full name</label><div class="in">Alice Ek</div></div>' +
+            '<div class="f"><label>E-mail</label><div class="in">alice.ek@example.se</div></div>' +
             '<div class="f"><label>Password</label><div class="in">••••••••••</div></div>' +
             '<div class="f"><label>Home location</label><div class="in">Lund C</div>' +
             '<span class="hint">Chosen from the list of locations.</span></div>' +
@@ -441,7 +441,7 @@ main{padding:26px 24px 60px;min-width:0}
     render: function () {
       return app('trips', 'driver',
         '<div class="col wide">' +
-          ph('Your trips', 'Driving as Amelia Ek', '<a class="b pri sm" href="#/publish">Publish a ride</a>') +
+          ph('Your trips', 'Driving as Alice Ek', '<a class="b pri sm" href="#/publish">Publish a ride</a>') +
           '<div class="box">' +
             '<div class="ph"><div><div class="tt">Saturday 13 September</div>' +
             '<div class="ss">Malmö C → Helsingborg, departs 07:40</div></div>' +
@@ -523,7 +523,7 @@ main{padding:26px 24px 60px;min-width:0}
         '<div class="col wide">' +
           ph('Requests for Saturday', 'Malmö C → Helsingborg, departs 07:40',
             '<a class="b sec sm" href="#/driver">Back to trips</a>') +
-          req('Amelia Ek', 'AE', '2 hours ago', 'Malmö C', 'Helsingborg') +
+          req('Alice Ek', 'AE', '2 hours ago', 'Malmö C', 'Helsingborg') +
           req('Oskar Lejon', 'OL', '40 minutes ago', 'Lomma', 'Landskrona') +
         '</div>');
     }
@@ -534,11 +534,11 @@ main{padding:26px 24px 60px;min-width:0}
     title: 'Trip and passengers', lede: 'The driver-side answer to "who am I travelling with": a pickup list in stop order, not an alphabetical list of names.',
     render: function () {
       var rows = [
-        ['07:40', 'Malmö C', 'Amelia Ek', ''],
+        ['07:40', 'Malmö C', 'Alice Ek', ''],
         ['07:56', 'Lomma', 'Oskar Lejon', ''],
         ['08:04', 'Bjärred', '', ''],
         ['08:19', 'Landskrona', '', 'Tove Åkesson, Oskar Lejon'],
-        ['08:41', 'Helsingborg', '', 'Amelia Ek']
+        ['08:41', 'Helsingborg', '', 'Alice Ek']
       ].map(function (m) {
         return '<tr><td class="m">' + esc(m[0]) + '</td><td>' + esc(m[1]) + '</td>' +
           '<td>' + (m[2] ? esc(m[2]) : '<span style="color:var(--faint)">—</span>') + '</td>' +
