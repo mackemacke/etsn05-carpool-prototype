@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samåk Route Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="proto-banner" role="note">
+  <strong>Prototype</strong>
+  <span>Navigation and layout only &mdash; nothing is stored and no data is real. ETSN05 Team 2, phase 1.</span>
+</div>
+
+<div class="shell">
+
+  <header class="topbar">
+    <a class="brand" href="#/">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">Sam&aring;k<span class="brand-dim">/prototype</span></span>
+    </a>
+
+    <div class="topbar-actions">
+      <div class="actor-switch" role="group" aria-label="View as">
+        <span class="actor-label">View as</span>
+        <button type="button" class="actor-btn" data-actor="passenger" id="actor-passenger">Passenger</button>
+        <button type="button" class="actor-btn" data-actor="driver" id="actor-driver">Driver</button>
+        <button type="button" class="actor-btn" data-actor="admin" id="actor-admin">Admin</button>
+      </div>
+
+      <a class="icon-btn" href="#/notifications" aria-label="Notifications" id="bell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 0 0-5 5v3.6L5.4 15.2A1 1 0 0 0 6.3 16.6h11.4a1 1 0 0 0 .9-1.4L17 11.6V8a5 5 0 0 0-5-5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="bell-count" id="bell-count">3</span>
+      </a>
+
+      <button type="button" class="ghost-btn" id="req-toggle" aria-pressed="false">Requirements</button>
+      <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="railnav" id="railnav" aria-label="Screens"></nav>
+
+  <main id="main" class="main" tabindex="-1"></main>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/components.js"></script>
+<script src="js/views-meta.js"></script>
+<script src="js/views-public.js"></script>
+<script src="js/views-passenger.js"></script>
+<script src="js/views-driver.js"></script>
+<script src="js/views-admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
