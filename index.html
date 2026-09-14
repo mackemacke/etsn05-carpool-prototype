@@ -3,2262 +3,675 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Samåk Route Prototype</title>
+<title>Samåk Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
-/* ETSN05 Team 2 — carpooling prototype
-   Standalone stylesheet. No framework, no build step, no network needed.
-   Tokens first; every component colour comes from a token so both themes resolve. */
-
-:root {
-  --ground:        #F1F5F5;
-  --surface:       #FFFFFF;
-  --surface-2:     #E6EDED;
-  --surface-sunk:  #DCE6E7;
-  --ink:           #12232B;
-  --ink-2:         #4B626A;
-  --ink-3:         #728890;
-  --line:          #C9D7D9;
-  --line-strong:   #A9BCBF;
-  --primary:       #0E5A6B;
-  --primary-soft:  #D6E7EA;
-  --on-primary:    #FFFFFF;
-  --accent:        #C57F14;
-  --accent-soft:   #F6E6C8;
-  --ok:            #2C6F4E;
-  --ok-soft:       #D8EADF;
-  --warn:          #94500F;
-  --warn-soft:     #F7E4CE;
-  --crit:          #9E2420;
-  --crit-soft:     #F6DCDA;
-  --focus:         #0E5A6B;
-
-  --radius:        6px;
-  --radius-lg:     10px;
-  --shadow:        0 1px 2px rgba(18,35,43,.07), 0 8px 22px -14px rgba(18,35,43,.35);
-
-  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --body:    "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
-
-  color-scheme: light;
+:root{
+  --ground:#F6F8F8;
+  --card:#FFFFFF;
+  --ink:#1E2B30;
+  --muted:#5F7178;
+  --faint:#8A9AA0;
+  --line:#E1E8E9;
+  --accent:#14657A;
+  --accent-soft:#E8F1F3;
+  --route:#C08219;
+  --ok:#2E6F4F;
+  --ok-soft:#E5F0EA;
+  --warn-soft:#FAF0DD;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ground:       #0B161B;
-    --surface:      #122229;
-    --surface-2:    #1A313A;
-    --surface-sunk: #0F1E24;
-    --ink:          #E1EDF0;
-    --ink-2:        #9BB2B9;
-    --ink-3:        #7A929A;
-    --line:         #26424B;
-    --line-strong:  #355A65;
-    --primary:      #4FADC2;
-    --primary-soft: #14343E;
-    --on-primary:   #06191F;
-    --accent:       #E0A53F;
-    --accent-soft:  #33270F;
-    --ok:           #5EB98A;
-    --ok-soft:      #12301F;
-    --warn:         #D79A55;
-    --warn-soft:    #33230F;
-    --crit:         #E08A83;
-    --crit-soft:    #3A1715;
-    --focus:        #4FADC2;
-    --shadow:       0 1px 2px rgba(0,0,0,.4), 0 10px 26px -16px rgba(0,0,0,.8);
-    color-scheme: dark;
-  }
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font:400 16px/1.55 var(--body);
+  -webkit-font-smoothing:antialiased;
 }
 
-:root[data-theme="dark"] {
-  --ground:       #0B161B;
-  --surface:      #122229;
-  --surface-2:    #1A313A;
-  --surface-sunk: #0F1E24;
-  --ink:          #E1EDF0;
-  --ink-2:        #9BB2B9;
-  --ink-3:        #7A929A;
-  --line:         #26424B;
-  --line-strong:  #355A65;
-  --primary:      #4FADC2;
-  --primary-soft: #14343E;
-  --on-primary:   #06191F;
-  --accent:       #E0A53F;
-  --accent-soft:  #33270F;
-  --ok:           #5EB98A;
-  --ok-soft:      #12301F;
-  --warn:         #D79A55;
-  --warn-soft:    #33230F;
-  --crit:         #E08A83;
-  --crit-soft:    #3A1715;
-  --focus:        #4FADC2;
-  --shadow:       0 1px 2px rgba(0,0,0,.4), 0 10px 26px -16px rgba(0,0,0,.8);
-  color-scheme: dark;
+h1,h2,h3{margin:0;font-weight:700;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:1.5rem}
+h2{font-size:1.05rem}
+h3{font-size:.95rem}
+p{margin:0}
+a{color:var(--accent)}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.92em}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;padding:10px 16px}
+.skip:focus{left:0;z-index:50}
+
+.note{
+  background:var(--warn-soft);
+  border-bottom:1px solid var(--line);
+  padding:8px 24px;
+  font-size:.84rem;
+  color:var(--muted);
 }
 
-* { box-sizing: border-box; }
+.shell{display:grid;grid-template-columns:210px minmax(0,1fr)}
 
-body {
-  margin: 0;
-  background: var(--ground);
-  color: var(--ink);
-  font: 400 16px/1.55 var(--body);
-  -webkit-font-smoothing: antialiased;
+.top{
+  grid-column:1/-1;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:14px 24px;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
 }
+.brand{font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--ink)}
+.brand span{color:var(--faint);font-weight:400}
+.who{font-size:.88rem;color:var(--muted)}
 
-h1, h2, h3, h4 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
-h1 { font-size: 1.65rem; font-weight: 700; }
-h2 { font-size: 1.2rem;  font-weight: 600; }
-h3 { font-size: 1rem;    font-weight: 600; }
-p  { margin: 0; }
-a  { color: var(--primary); }
-
-:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
-
-.skip-link {
-  position: absolute; left: -9999px; top: 0; z-index: 50;
-  background: var(--primary); color: var(--on-primary);
-  padding: 10px 16px; border-radius: 0 0 var(--radius) 0;
+nav.rail{
+  background:var(--card);
+  border-right:1px solid var(--line);
+  padding:20px 12px 40px;
 }
-.skip-link:focus { left: 0; }
-
-.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.num  { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .92em; }
-
-.eyebrow {
-  font-family: var(--display); font-size: .7rem; font-weight: 600;
-  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3);
+.rail-group+.rail-group{margin-top:22px}
+.rail-label{
+  display:block;padding:0 10px 8px;
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;
 }
-
-/* ---------- prototype banner ---------- */
-
-.proto-banner {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
-  background: var(--accent-soft); color: var(--ink);
-  border-bottom: 1px solid var(--line);
-  padding: 7px 20px; font-size: .82rem;
+.rail a{
+  display:block;padding:7px 10px;border-radius:5px;
+  color:var(--muted);text-decoration:none;font-size:.9rem;
 }
-.proto-banner strong {
-  font-family: var(--display); text-transform: uppercase;
-  letter-spacing: .12em; font-size: .68rem; color: var(--warn);
+.rail a:hover{background:var(--ground);color:var(--ink)}
+.rail a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+main{padding:28px 24px 64px;min-width:0}
+.page{max-width:840px;display:flex;flex-direction:column;gap:18px}
+.head{display:flex;flex-direction:column;gap:5px}
+.head .sub{color:var(--muted)}
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:20px;display:flex;flex-direction:column;gap:14px;
 }
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.end{justify-content:flex-end}
 
-/* ---------- shell ---------- */
-
-.shell { display: grid; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: auto 1fr; }
-
-.topbar {
-  grid-column: 1 / -1;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap;
-  padding: 10px 20px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  position: sticky; top: 0; z-index: 20;
+.btn{
+  font:600 .9rem/1 var(--body);border-radius:5px;padding:10px 15px;cursor:pointer;
+  text-decoration:none;display:inline-flex;align-items:center;border:1px solid transparent;
 }
+.btn.primary{background:var(--accent);color:#fff}
+.btn.plain{background:var(--card);color:var(--ink);border-color:var(--line)}
+.btn.plain:hover{border-color:var(--faint)}
+.btn.sm{padding:7px 11px;font-size:.82rem}
 
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-.brand-mark {
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 3px solid var(--primary);
-  background: linear-gradient(to right, transparent 45%, var(--accent) 45%, var(--accent) 55%, transparent 55%);
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.input{
+  font:400 .95rem/1.4 var(--body);color:var(--ink);
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:10px 12px;width:100%;
 }
-.brand-text { font-family: var(--display); font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; }
-.brand-dim  { color: var(--ink-3); font-weight: 500; }
+.hint{font-size:.8rem;color:var(--faint)}
 
-.topbar-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-
-.actor-switch {
-  display: flex; align-items: center; gap: 2px;
-  background: var(--surface-2); border-radius: var(--radius); padding: 3px;
+.pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.pick button{
+  border:1px solid var(--line);border-radius:5px;padding:11px 13px;background:var(--card);
+  cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;font:inherit;
 }
-.actor-label {
-  font-family: var(--display); font-size: .64rem; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ink-3); padding: 0 8px 0 6px;
+.pick button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pick strong{font-size:.92rem}
+.pick span{font-size:.79rem;color:var(--muted)}
+
+.tag{
+  display:inline-flex;align-items:center;
+  font:600 .72rem/1 var(--body);padding:5px 9px;border-radius:999px;
+  background:var(--ground);color:var(--muted);
 }
-.actor-btn {
-  font: 600 .82rem/1 var(--body); color: var(--ink-2);
-  background: none; border: 0; border-radius: 4px; padding: 7px 11px; cursor: pointer;
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.seat{background:var(--warn-soft);color:#8A5C12;font-family:var(--mono)}
+
+/* route line */
+.route-wrap{overflow-x:auto}
+.route{
+  list-style:none;margin:0;padding:6px 0 0;
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(88px,1fr);min-width:100%;
 }
-.actor-btn:hover { color: var(--ink); }
-.actor-btn[aria-pressed="true"] { background: var(--surface); color: var(--primary); box-shadow: var(--shadow); }
+.stop{display:grid;grid-template-rows:auto 14px auto;justify-items:center;position:relative;padding:0 4px;text-align:center}
+.stop .t{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.stop .d{width:9px;height:9px;border-radius:50%;background:var(--card);border:2px solid var(--line);align-self:center;z-index:1}
+.stop .n{font-size:.79rem;color:var(--muted);margin-top:3px}
+.stop::after{content:"";position:absolute;top:calc(50% - 1px);left:50%;right:-50%;height:2px;background:var(--line)}
+.stop:last-child::after{display:none}
+.stop.on .d{background:var(--route);border-color:var(--route)}
+.stop.on .n{color:var(--ink);font-weight:600}
+.stop.link::after{background:var(--route)}
+.route-key{font-size:.78rem;color:var(--faint);margin-top:8px}
 
-.icon-btn {
-  position: relative; display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: var(--radius);
-  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer;
-  text-decoration: none;
+.ride{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:16px 18px;display:flex;flex-direction:column;gap:11px}
+.ride-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.driver{display:flex;align-items:center;gap:10px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:.82rem;flex:none}
+.meta{font-size:.82rem;color:var(--muted)}
+.when{text-align:right}
+.when .t{font-family:var(--mono);font-size:1.05rem}
+.when .d{font-size:.78rem;color:var(--faint)}
+.ride-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:left;padding:0 12px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+ul.list{list-style:none;margin:0;padding:0}
+ul.list li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+ul.list li:last-child{border-bottom:0}
+.body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.title{font-weight:600}
+.sub{font-size:.84rem;color:var(--muted)}
+
+a.notif{display:flex;gap:12px;flex:1;text-decoration:none;color:inherit;align-items:flex-start}
+a.notif:hover .title{color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--route);margin-top:8px;flex:none}
+.dot.read{background:var(--line)}
+
+dl.kv{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:8px 18px;font-size:.9rem;margin:0}
+dl.kv dt{color:var(--faint);font-size:.8rem;font-weight:600;padding-top:2px}
+dl.kv dd{margin:0}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+a.tile{
+  display:flex;flex-direction:column;gap:3px;text-decoration:none;color:inherit;
+  border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px 16px;
 }
-.icon-btn:hover { color: var(--ink); border-color: var(--line-strong); }
-.icon-btn svg { width: 20px; height: 20px; }
-.bell-count {
-  position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px;
-  border-radius: 9px; background: var(--crit); color: #fff;
-  font: 600 .68rem/18px var(--body); text-align: center; padding: 0 4px;
+a.tile:hover{border-color:var(--accent)}
+a.tile strong{font-size:.95rem}
+a.tile span{font-size:.82rem;color:var(--muted)}
+
+@media (max-width:820px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  nav.rail{border-right:0;border-bottom:1px solid var(--line);display:flex;gap:16px;overflow-x:auto;padding:10px 16px}
+  .rail-group+.rail-group{margin-top:0}
+  .rail-group{display:flex;align-items:center;gap:6px}
+  .rail-label{padding:0 4px 0 0;white-space:nowrap}
+  .rail a{white-space:nowrap}
+  main{padding:22px 16px 48px}
+  .note{padding:8px 16px}
 }
-
-.ghost-btn {
-  font: 600 .82rem/1 var(--body); color: var(--ink-2);
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 9px 12px; cursor: pointer;
-}
-.ghost-btn:hover { color: var(--ink); border-color: var(--line-strong); }
-.ghost-btn[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
-
-/* ---------- rail nav ---------- */
-
-.railnav {
-  background: var(--surface);
-  border-right: 1px solid var(--line);
-  padding: 18px 12px 40px;
-  overflow-y: auto;
-  max-height: calc(100vh - 58px);
-  position: sticky; top: 58px;
-}
-.rail-group { margin-bottom: 20px; }
-.rail-group > .eyebrow { display: block; padding: 0 10px 7px; }
-.rail-link {
-  display: flex; align-items: baseline; gap: 8px;
-  padding: 7px 10px; border-radius: var(--radius);
-  color: var(--ink-2); text-decoration: none; font-size: .88rem;
-}
-.rail-link:hover { background: var(--surface-2); color: var(--ink); }
-.rail-link[aria-current="page"] { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
-.rail-id { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); min-width: 22px; }
-.rail-link[aria-current="page"] .rail-id { color: var(--primary); }
-
-/* ---------- main ---------- */
-
-.main { padding-block: 26px 64px; padding-left: 28px; padding-right: 28px; min-width: 0; }
-.page { max-width: 1040px; display: flex; flex-direction: column; gap: 20px; }
-
-.page-head { display: flex; flex-direction: column; gap: 6px; }
-.page-head .lede { color: var(--ink-2); max-width: 62ch; }
-.page-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-
-/* ---------- surfaces ---------- */
-
-.panel {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius-lg); padding: 20px;
-  display: flex; flex-direction: column; gap: 16px;
-}
-.panel-flat { background: none; border: 0; padding: 0; }
-.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-
-.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-.row    { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.row-end{ justify-content: flex-end; }
-.stack  { display: flex; flex-direction: column; gap: 12px; }
-.stack-s{ display: flex; flex-direction: column; gap: 5px; }
-
-.divided > * + * { border-top: 1px solid var(--line); padding-top: 16px; }
-
-/* ---------- buttons ---------- */
-
-.btn {
-  font: 600 .92rem/1 var(--body); border-radius: var(--radius);
-  padding: 11px 16px; cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 8px; border: 1px solid transparent;
-}
-.btn-primary { background: var(--primary); color: var(--on-primary); }
-.btn-primary:hover { filter: brightness(1.08); }
-.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
-.btn-secondary:hover { border-color: var(--ink-3); }
-.btn-danger { background: var(--crit-soft); color: var(--crit); border-color: var(--crit); }
-.btn-quiet { background: none; color: var(--ink-2); padding: 11px 8px; }
-.btn-quiet:hover { color: var(--ink); }
-.btn-sm { padding: 7px 11px; font-size: .82rem; }
-
-/* ---------- forms ---------- */
-
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field label { font-family: var(--display); font-size: .78rem; font-weight: 600; color: var(--ink-2); }
-.field .hint { font-size: .78rem; color: var(--ink-3); }
-.input, select.input, textarea.input {
-  font: 400 .95rem/1.4 var(--body); color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line-strong);
-  border-radius: var(--radius); padding: 10px 12px; width: 100%;
-}
-.input::placeholder { color: var(--ink-3); }
-.field-error .input { border-color: var(--crit); background: var(--crit-soft); }
-.error-text { font-size: .8rem; color: var(--crit); display: flex; gap: 6px; }
-
-.choice-set { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
-.choice {
-  border: 1px solid var(--line-strong); border-radius: var(--radius);
-  padding: 12px 14px; background: var(--surface); cursor: pointer;
-  display: flex; flex-direction: column; gap: 3px; text-align: left;
-}
-.choice[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-soft); }
-.choice strong { font-family: var(--display); font-size: .95rem; }
-.choice span { font-size: .8rem; color: var(--ink-2); }
-
-/* ---------- chips / badges ---------- */
-
-.chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  font: 600 .72rem/1 var(--body); letter-spacing: .02em;
-  padding: 5px 9px; border-radius: 999px;
-  background: var(--surface-2); color: var(--ink-2);
-}
-.chip-ok   { background: var(--ok-soft);   color: var(--ok); }
-.chip-warn { background: var(--warn-soft); color: var(--warn); }
-.chip-crit { background: var(--crit-soft); color: var(--crit); }
-.chip-info { background: var(--primary-soft); color: var(--primary); }
-.chip-seat { background: var(--accent-soft); color: var(--warn); font-family: var(--mono); }
-
-/* ---------- corridor diagram (the route motif) ---------- */
-
-.corridor-scroll { overflow-x: auto; padding-bottom: 4px; }
-.corridor {
-  list-style: none; margin: 0; padding: 8px 0 0;
-  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(96px, 1fr);
-  min-width: 100%;
-}
-.stop {
-  display: grid; grid-template-rows: auto 14px auto; justify-items: center;
-  position: relative; padding: 0 4px; text-align: center;
-}
-.stop-time { font-family: var(--mono); font-size: .76rem; color: var(--ink-2); }
-.stop-dot {
-  width: 11px; height: 11px; border-radius: 50%;
-  background: var(--surface); border: 2px solid var(--line-strong);
-  align-self: center; z-index: 1;
-}
-.stop-name { font-size: .8rem; color: var(--ink-2); margin-top: 3px; }
-.stop::after {
-  content: ""; position: absolute; top: calc(50% - 1px); left: 50%; right: -50%;
-  height: 2px; background: var(--line-strong);
-}
-.stop:last-child::after { display: none; }
-
-.stop.on-leg .stop-dot { border-color: var(--accent); background: var(--accent); }
-.stop.on-leg .stop-name { color: var(--ink); font-weight: 600; }
-.stop.leg-line::after { background: var(--accent); height: 3px; top: calc(50% - 1.5px); }
-.stop.endpoint .stop-dot { width: 13px; height: 13px; border-color: var(--primary); background: var(--primary); }
-
-.corridor-key { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--ink-3); }
-.corridor-key span { display: inline-flex; align-items: center; gap: 6px; }
-.key-swatch { width: 14px; height: 3px; border-radius: 2px; background: var(--line-strong); }
-.key-swatch.leg { background: var(--accent); }
-
-/* ---------- ride cards ---------- */
-
-.ride {
-  border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background: var(--surface); padding: 16px 18px;
-  display: flex; flex-direction: column; gap: 12px;
-}
-.ride-top { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
-.ride-who { display: flex; align-items: center; gap: 11px; }
-.avatar {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--primary-soft); color: var(--primary);
-  display: grid; place-items: center;
-  font: 600 .85rem/1 var(--display); flex: none;
-}
-.ride-meta { font-size: .82rem; color: var(--ink-2); }
-.ride-when { text-align: right; }
-.ride-when .t { font-family: var(--mono); font-size: 1.15rem; font-weight: 500; }
-.ride-when .d { font-size: .78rem; color: var(--ink-3); }
-.ride-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-
-/* ---------- lists & tables ---------- */
-
-.table-scroll { overflow-x: auto; }
-table.data { border-collapse: collapse; width: 100%; font-size: .9rem; }
-table.data th {
-  font-family: var(--display); font-size: .7rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--ink-3); text-align: left;
-  padding: 0 12px 8px; border-bottom: 1px solid var(--line); white-space: nowrap;
-}
-table.data td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-table.data tr:last-child td { border-bottom: 0; }
-table.data td.num, table.data th.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-
-.itemlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.itemlist li { display: flex; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
-.itemlist li:last-child { border-bottom: 0; }
-.item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.item-title { font-weight: 600; }
-.item-sub { font-size: .84rem; color: var(--ink-2); }
-
-.notif { align-items: flex-start; text-decoration: none; color: inherit; }
-.notif:hover .item-title { color: var(--primary); }
-.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 8px; flex: none; }
-.notif-dot.read { background: var(--line-strong); }
-
-.kv { display: grid; grid-template-columns: minmax(120px, auto) 1fr; gap: 8px 18px; font-size: .9rem; }
-.kv dt { color: var(--ink-3); font-family: var(--display); font-size: .78rem; font-weight: 600; padding-top: 2px; }
-.kv dd { margin: 0; }
-
-/* ---------- callouts ---------- */
-
-.callout {
-  border-left: 3px solid var(--line-strong); background: var(--surface-2);
-  border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px;
-  display: flex; flex-direction: column; gap: 5px; font-size: .9rem;
-}
-.callout strong { font-family: var(--display); }
-.callout-crit { border-left-color: var(--crit); background: var(--crit-soft); color: var(--crit); }
-.callout-crit strong { color: var(--crit); }
-.callout-warn { border-left-color: var(--warn); background: var(--warn-soft); }
-.callout-info { border-left-color: var(--primary); background: var(--primary-soft); }
-
-.empty {
-  display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
-  padding: 34px 20px; border: 1px dashed var(--line-strong);
-  border-radius: var(--radius-lg); background: var(--surface-sunk);
-}
-
-/* ---------- requirements overlay ---------- */
-
-.reqpanel { display: none; }
-body.show-req .reqpanel {
-  display: flex; flex-direction: column; gap: 10px;
-  border: 1px solid var(--accent); border-radius: var(--radius-lg);
-  background: var(--accent-soft); padding: 15px 18px;
-}
-.reqpanel h3 { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); }
-.reqpanel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.reqpanel li { display: flex; gap: 10px; font-size: .86rem; align-items: baseline; }
-.req-id { font-family: var(--mono); font-size: .78rem; color: var(--warn); min-width: 46px; flex: none; }
-.wi-list { display: flex; flex-wrap: wrap; gap: 6px; }
-.wi {
-  font-family: var(--mono); font-size: .74rem; padding: 3px 7px; border-radius: 4px;
-  background: var(--surface); color: var(--ink-2); border: 1px solid var(--line);
-  text-decoration: none;
-}
-.wi:hover { color: var(--primary); border-color: var(--primary); }
-
-/* ---------- screen index ---------- */
-
-.index-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-.index-card {
-  display: flex; flex-direction: column; gap: 5px; text-decoration: none; color: inherit;
-  border: 1px solid var(--line); border-radius: var(--radius-lg);
-  background: var(--surface); padding: 14px 16px;
-}
-.index-card:hover { border-color: var(--primary); }
-.index-card .idx { font-family: var(--mono); font-size: .74rem; color: var(--ink-3); }
-.index-card strong { font-family: var(--display); font-size: .97rem; }
-.index-card span { font-size: .82rem; color: var(--ink-2); }
-
-/* ---------- responsive ---------- */
-
-@media (max-width: 860px) {
-  .shell { grid-template-columns: minmax(0, 1fr); }
-  .railnav {
-    position: static; max-height: none; border-right: 0;
-    border-bottom: 1px solid var(--line);
-    display: flex; gap: 14px; overflow-x: auto; padding: 10px 16px;
-  }
-  .rail-group { margin-bottom: 0; display: flex; align-items: center; gap: 6px; }
-  .rail-group > .eyebrow { padding: 0 4px 0 0; white-space: nowrap; }
-  .rail-link { white-space: nowrap; }
-  .main { padding-left: 16px; padding-right: 16px; }
-  .actor-label { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-}
-
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
 
-<div class="proto-banner" role="note">
-  <strong>Prototype</strong>
-  <span>Navigation and layout only &mdash; nothing is stored and no data is real. ETSN05 Team 2, phase 1.</span>
-</div>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="note">Prototype — navigation and layout only. Nothing is saved and no data is real.</div>
 
 <div class="shell">
-
-  <header class="topbar">
-    <a class="brand" href="#/">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-text">Sam&aring;k<span class="brand-dim">/prototype</span></span>
-    </a>
-
-    <div class="topbar-actions">
-      <div class="actor-switch" role="group" aria-label="View as">
-        <span class="actor-label">View as</span>
-        <button type="button" class="actor-btn" data-actor="passenger" id="actor-passenger">Passenger</button>
-        <button type="button" class="actor-btn" data-actor="driver" id="actor-driver">Driver</button>
-        <button type="button" class="actor-btn" data-actor="admin" id="actor-admin">Admin</button>
-      </div>
-
-      <a class="icon-btn" href="#/notifications" aria-label="Notifications" id="bell">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 0 0-5 5v3.6L5.4 15.2A1 1 0 0 0 6.3 16.6h11.4a1 1 0 0 0 .9-1.4L17 11.6V8a5 5 0 0 0-5-5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        <span class="bell-count" id="bell-count">3</span>
-      </a>
-
-      <button type="button" class="ghost-btn" id="req-toggle" aria-pressed="false">Requirements</button>
-      <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-    </div>
+  <header class="top">
+    <a class="brand" href="#/">Samåk <span>prototype</span></a>
+    <span class="who">Signed in as Amelia Ek</span>
   </header>
-
-  <nav class="railnav" id="railnav" aria-label="Screens"></nav>
-
-  <main id="main" class="main" tabindex="-1"></main>
-
+  <nav class="rail" id="rail" aria-label="Screens"></nav>
+  <main id="main" tabindex="-1"></main>
 </div>
 
 <script>
-/* ===== js/data.js ===== */
-/* Mock data for the ETSN05 Team 2 carpooling prototype.
-   None of this is persisted. It exists so every screen shows a realistic
-   working state instead of an empty shell. */
+(function () {
 
-window.DATA = (function () {
-
-  /* Ordered corridors. This is how the prototype answers the customer's open
-     question "which locations lie between which" — a location belongs to one or
-     more corridors and carries an index inside each. Whether the real system
-     models it this way is exactly what the team needs to decide. */
-  const corridors = {
-    'coast': {
-      name: 'West coast',
-      stops: ['Malmö C', 'Lomma', 'Bjärred', 'Landskrona', 'Helsingborg']
-    },
-    'inland': {
-      name: 'Inland north',
-      stops: ['Malmö C', 'Lund C', 'Eslöv', 'Höör', 'Hässleholm']
-    },
-    'southeast': {
-      name: 'South east',
-      stops: ['Lund C', 'Dalby', 'Sjöbo', 'Tomelilla', 'Ystad']
-    }
+  var esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   };
 
-  const rides = [
-    {
-      id: 'R-104',
-      driver: { name: 'Erik Hovander', initials: 'EH', rating: '4.8', trips: 37 },
-      car: 'Volvo V60 · RKL 284',
-      corridor: 'coast',
-      date: 'Sat 13 Sep',
+  /* ---------- data ---------- */
+
+  var RIDES = {
+    'R-104': {
+      id: 'R-104', name: 'Erik Hovander', initials: 'EH', car: 'Volvo V60',
+      date: 'Sat 13 Sep', seatsFree: 2, seatsTotal: 3,
       stops: [
-        { name: 'Malmö C',     time: '07:40' },
-        { name: 'Lomma',       time: '07:56' },
-        { name: 'Bjärred',     time: '08:04' },
-        { name: 'Landskrona',  time: '08:19' },
-        { name: 'Helsingborg', time: '08:41' }
-      ],
-      seatsTotal: 3,
-      seatsFree: 2,
-      note: 'Non-smoking. Small bags only — boot has a bike rack.',
-      passengers: [
-        { name: 'Tove Åkesson', initials: 'TÅ', from: 'Malmö C', to: 'Landskrona', status: 'confirmed' }
-      ],
-      requests: [
-        { id: 'B-2291', name: 'Amelia Ek',  initials: 'AE', from: 'Malmö C', to: 'Helsingborg', seats: 1, asked: '2 h ago' },
-        { id: 'B-2294', name: 'Oskar Lejon', initials: 'OL', from: 'Lomma',  to: 'Landskrona',  seats: 1, asked: '40 min ago' }
+        { n: 'Malmö C', t: '07:40' }, { n: 'Lomma', t: '07:56' }, { n: 'Bjärred', t: '08:04' },
+        { n: 'Landskrona', t: '08:19' }, { n: 'Helsingborg', t: '08:41' }
       ]
     },
-    {
-      id: 'R-118',
-      driver: { name: 'Nina Aronsson', initials: 'NA', rating: '4.9', trips: 112 },
-      car: 'VW ID.4 · MHS 771',
-      corridor: 'inland',
-      date: 'Sat 13 Sep',
+    'R-118': {
+      id: 'R-118', name: 'Nina Aronsson', initials: 'NA', car: 'VW ID.4',
+      date: 'Sat 13 Sep', seatsFree: 2, seatsTotal: 4,
       stops: [
-        { name: 'Malmö C',     time: '08:10' },
-        { name: 'Lund C',      time: '08:28' },
-        { name: 'Eslöv',       time: '08:47' },
-        { name: 'Höör',        time: '09:02' },
-        { name: 'Hässleholm',  time: '09:24' }
-      ],
-      seatsTotal: 4,
-      seatsFree: 2,
-      note: 'Charging stop in Eslöv if needed, about 10 minutes.',
-      passengers: [
-        { name: 'Hanna Bark',  initials: 'HB', from: 'Malmö C', to: 'Eslöv',      status: 'confirmed' },
-        { name: 'Jonas Wide',  initials: 'JW', from: 'Lund C',  to: 'Hässleholm', status: 'confirmed' }
-      ],
-      requests: []
+        { n: 'Malmö C', t: '08:10' }, { n: 'Lund C', t: '08:28' }, { n: 'Eslöv', t: '08:47' },
+        { n: 'Höör', t: '09:02' }, { n: 'Hässleholm', t: '09:24' }
+      ]
     },
-    {
-      id: 'R-122',
-      driver: { name: 'Petra Lindh', initials: 'PL', rating: '4.6', trips: 8 },
-      car: 'Ford Focus · CWD 019',
-      corridor: 'southeast',
-      date: 'Sat 13 Sep',
+    'R-131': {
+      id: 'R-131', name: 'Sanna Tell', initials: 'ST', car: 'Kia Ceed',
+      date: 'Sat 13 Sep', seatsFree: 1, seatsTotal: 4,
       stops: [
-        { name: 'Lund C',    time: '16:20' },
-        { name: 'Dalby',     time: '16:33' },
-        { name: 'Sjöbo',     time: '16:55' },
-        { name: 'Tomelilla', time: '17:14' },
-        { name: 'Ystad',     time: '17:36' }
-      ],
-      seatsTotal: 3,
-      seatsFree: 3,
-      note: '',
-      passengers: [],
-      requests: []
+        { n: 'Malmö C', t: '07:15' }, { n: 'Lomma', t: '07:31' },
+        { n: 'Bjärred', t: '07:39' }, { n: 'Landskrona', t: '07:58' }
+      ]
     }
-  ];
-
-  const bookings = [
-    {
-      id: 'B-2291', rideId: 'R-104', state: 'pending',
-      from: 'Malmö C', to: 'Helsingborg', date: 'Sat 13 Sep', depart: '07:40',
-      driver: 'Erik Hovander', seats: 1
-    },
-    {
-      id: 'B-2277', rideId: 'R-118', state: 'confirmed',
-      from: 'Lund C', to: 'Höör', date: 'Sun 14 Sep', depart: '08:28',
-      driver: 'Nina Aronsson', seats: 1
-    },
-    {
-      id: 'B-2140', rideId: 'R-099', state: 'completed',
-      from: 'Malmö C', to: 'Lund C', date: 'Fri 5 Sep', depart: '17:05',
-      driver: 'Nina Aronsson', seats: 1
-    },
-    {
-      id: 'B-2088', rideId: 'R-081', state: 'cancelled',
-      from: 'Landskrona', to: 'Helsingborg', date: 'Tue 2 Sep', depart: '07:15',
-      driver: 'Erik Hovander', seats: 2
-    }
-  ];
-
-  const notifications = [
-    { id: 'N-9', unread: true,  title: 'Erik Hovander accepted your seat request',
-      body: 'Malmö C → Helsingborg, Sat 13 Sep 07:40. Pickup outside the north entrance.',
-      time: '12 min ago', href: '#/ride/R-104' },
-    { id: 'N-8', unread: true,  title: 'A passenger joined your trip',
-      body: 'Oskar Lejon booked Lomma → Landskrona on R-104.',
-      time: '40 min ago', href: '#/driver/trip/R-104' },
-    { id: 'N-7', unread: true,  title: 'Departure time changed',
-      body: 'R-118 now leaves Malmö C at 08:10 instead of 08:00.',
-      time: '3 h ago', href: '#/ride/R-118' },
-    { id: 'N-6', unread: false, title: 'Trip completed',
-      body: 'Rate your ride with Nina Aronsson, Malmö C → Lund C.',
-      time: 'Fri 5 Sep', href: '#/bookings' },
-    { id: 'N-5', unread: false, title: 'Booking cancelled by driver',
-      body: 'Landskrona → Helsingborg on Tue 2 Sep was cancelled.',
-      time: 'Mon 1 Sep', href: '#/bookings' }
-  ];
-
-  const users = [
-    { id: 'U-1002', name: 'Amelia Ek',     email: 'amelia.ek@example.se',     role: 'Passenger + driver', state: 'Active',    joined: '2026-08-14', trips: 19 },
-    { id: 'U-1003', name: 'Erik Hovander', email: 'erik.hovander@example.se', role: 'Driver',             state: 'Active',    joined: '2026-06-02', trips: 37 },
-    { id: 'U-1004', name: 'Nina Aronsson', email: 'nina.aronsson@example.se', role: 'Driver',             state: 'Active',    joined: '2025-11-27', trips: 112 },
-    { id: 'U-1005', name: 'Tove Åkesson',  email: 'tove.akesson@example.se',  role: 'Passenger',          state: 'Active',    joined: '2026-09-01', trips: 3 },
-    { id: 'U-1006', name: 'Oskar Lejon',   email: 'oskar.lejon@example.se',   role: 'Passenger',          state: 'Suspended', joined: '2026-07-19', trips: 6 },
-    { id: 'U-1007', name: 'Petra Lindh',   email: 'petra.lindh@example.se',   role: 'Passenger + driver', state: 'Active',    joined: '2026-09-03', trips: 8 },
-    { id: 'U-1008', name: 'Jonas Wide',    email: 'jonas.wide@example.se',    role: 'Passenger',          state: 'Active',    joined: '2026-05-11', trips: 24 }
-  ];
-
-  /* Draft requirement numbering follows the PRD rule from the project guide:
-     requirements are numbered after the chapter they sit in and are never
-     renumbered once the document is in baseline. These are DRAFT ids — the
-     point of the prototype is to argue about them before Review 1. */
-  const requirements = [
-    { id: '4.1.1', kind: 'F',  text: 'A visitor can register an account with name, e-mail and password.' },
-    { id: '4.1.2', kind: 'F',  text: 'At registration the user states whether they act as driver, passenger or both.' },
-    { id: '4.1.3', kind: 'F',  text: 'A registered user can sign in and is taken to the interface for their role.' },
-    { id: '4.1.4', kind: 'F',  text: 'A signed-in user can view and change their own profile and role.' },
-
-    { id: '4.2.1', kind: 'F',  text: 'A driver can publish a ride with origin, destination, departure time and number of free seats.' },
-    { id: '4.2.2', kind: 'F',  text: 'A published ride carries the ordered intermediate stops on its corridor with an estimated time per stop.' },
-    { id: '4.2.3', kind: 'F',  text: 'A driver can see all pending seat requests for a ride.' },
-    { id: '4.2.4', kind: 'F',  text: 'A driver can accept or decline a seat request; the passenger is notified of the outcome.' },
-    { id: '4.2.5', kind: 'F',  text: 'A driver can see the confirmed passenger list for a ride in pickup order, with each passenger’s boarding and alighting stop.' },
-    { id: '4.2.6', kind: 'F',  text: 'A driver can cancel a published ride; every affected passenger is notified.' },
-
-    { id: '4.3.1', kind: 'F',  text: 'A passenger can search for rides by origin, destination, date and number of seats.' },
-    { id: '4.3.2', kind: 'F',  text: 'The result list includes rides where the passenger travels only part of the driver’s route.' },
-    { id: '4.3.3', kind: 'F',  text: 'A passenger can open a ride and see route, times, driver, vehicle and free seats.' },
-    { id: '4.3.4', kind: 'F',  text: 'A passenger can request one or more seats on a ride for a given leg.' },
-    { id: '4.3.5', kind: 'F',  text: 'A passenger can cancel a booking; the driver is notified and the seat is released.' },
-    { id: '4.3.6', kind: 'F',  text: 'A passenger can see upcoming bookings and the history of past ones.' },
-
-    { id: '4.4.1', kind: 'F',  text: 'A ride matches a search when the driver’s route contains the passenger’s origin and destination in that order.' },
-    { id: '4.4.2', kind: 'F',  text: 'Locations are ordered along a named corridor, which is what makes partial-leg matching decidable.' },
-    { id: '4.4.3', kind: 'F',  text: 'A seat is counted as occupied only for the stops between a passenger’s boarding and alighting stop.' },
-
-    { id: '4.5.1', kind: 'F',  text: 'A user can see their notifications, newest first, with unread ones marked.' },
-    { id: '4.5.2', kind: 'F',  text: 'Selecting a notification opens the ride, booking or trip it refers to.' },
-    { id: '4.5.3', kind: 'F',  text: 'The unread notification count is visible from every screen.' },
-
-    { id: '4.6.1', kind: 'F',  text: 'An administrator can list all registered users with role and account state.' },
-    { id: '4.6.2', kind: 'F',  text: 'An administrator can create a user account.' },
-    { id: '4.6.3', kind: 'F',  text: 'An administrator can remove a registered user.' },
-    { id: '4.6.4', kind: 'F',  text: 'An administrator can change a user’s role.' },
-
-    { id: '5.1.1', kind: 'NF', text: 'Invalid or malformed input is rejected with a message naming the field and the expected format; the system stays available.' },
-    { id: '5.1.2', kind: 'NF', text: 'No input sequence may leave the system unresponsive or in an inconsistent state.' },
-    { id: '5.2.1', kind: 'NF', text: 'Concurrent sessions are supported; a seat can be booked by at most one passenger.' },
-    { id: '5.2.2', kind: 'NF', text: 'When a booking conflicts with a concurrent one, the losing user is told what changed and offered the next step.' },
-    { id: '5.3.1', kind: 'NF', text: 'Every screen is usable down to 400 px width.' },
-    { id: '5.3.2', kind: 'NF', text: 'All interactive elements are reachable by keyboard and carry a visible focus state.' }
-  ];
-
-  const reqIndex = {};
-  requirements.forEach(function (r) { reqIndex[r.id] = r; });
-
-  return {
-    corridors: corridors,
-    rides: rides,
-    bookings: bookings,
-    notifications: notifications,
-    users: users,
-    requirements: requirements,
-    reqIndex: reqIndex,
-    me: { name: 'Amelia Ek', initials: 'AE', email: 'amelia.ek@example.se', role: 'Passenger + driver' },
-    ride: function (id) { return rides.filter(function (r) { return r.id === id; })[0]; },
-    user: function (id) { return users.filter(function (u) { return u.id === id; })[0]; },
-    unread: function () { return notifications.filter(function (n) { return n.unread; }).length; }
   };
-})();
 
+  /* ---------- pieces ---------- */
 
-/* ===== js/components.js ===== */
-/* Shared rendering helpers. Every view builds its markup from these so the
-   repeated objects — ride cards, route diagrams, requirement panels — keep the
-   same edges, baselines and inner padding from screen to screen. */
-
-window.UI = (function () {
-
-  function esc(s) {
-    return String(s === undefined || s === null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  function head(title, sub, actions) {
+    return '<div class="head"><div class="head-row"><div class="head">' +
+      '<h1>' + title + '</h1>' + (sub ? '<p class="sub">' + sub + '</p>' : '') +
+      '</div>' + (actions ? '<div class="row">' + actions + '</div>' : '') + '</div></div>';
   }
 
-  function pageHead(title, lede, aside) {
-    return '' +
-      '<header class="page-head">' +
-        '<div class="page-head-row">' +
-          '<div class="stack-s">' +
-            '<h1>' + esc(title) + '</h1>' +
-            (lede ? '<p class="lede">' + lede + '</p>' : '') +
-          '</div>' +
-          (aside ? '<div class="row">' + aside + '</div>' : '') +
-        '</div>' +
-      '</header>';
-  }
-
-  /* The route corridor. `legFrom`/`legTo` highlight one passenger's segment,
-     which is the whole point of the drawing: it shows at a glance that a
-     passenger may ride only part of the driver's route. */
-  function corridor(stops, legFrom, legTo) {
-    var fromIdx = -1, toIdx = -1;
-    stops.forEach(function (s, i) {
-      if (s.name === legFrom) { fromIdx = i; }
-      if (s.name === legTo)   { toIdx = i; }
-    });
-
+  function route(stops, from, to) {
+    var a = -1, b = -1;
+    stops.forEach(function (s, i) { if (s.n === from) a = i; if (s.n === to) b = i; });
     var items = stops.map(function (s, i) {
-      var cls = ['stop'];
-      if (i === 0 || i === stops.length - 1) { cls.push('endpoint'); }
-      if (fromIdx > -1 && i >= fromIdx && i <= toIdx) { cls.push('on-leg'); }
-      if (fromIdx > -1 && i >= fromIdx && i < toIdx)  { cls.push('leg-line'); }
-      return '' +
-        '<li class="' + cls.join(' ') + '">' +
-          '<span class="stop-time">' + esc(s.time) + '</span>' +
-          '<span class="stop-dot" aria-hidden="true"></span>' +
-          '<span class="stop-name">' + esc(s.name) + '</span>' +
-        '</li>';
+      var c = 'stop';
+      if (a > -1 && i >= a && i <= b) c += ' on';
+      if (a > -1 && i >= a && i < b) c += ' link';
+      return '<li class="' + c + '"><span class="t">' + esc(s.t) + '</span>' +
+        '<span class="d"></span><span class="n">' + esc(s.n) + '</span></li>';
     }).join('');
-
-    var whole = fromIdx === 0 && toIdx === stops.length - 1;
-    var key = fromIdx > -1
-      ? '<div class="corridor-key">' +
-          '<span><i class="key-swatch leg"></i> Your leg: ' + esc(legFrom) + ' &rarr; ' + esc(legTo) + '</span>' +
-          (whole ? '' : '<span><i class="key-swatch"></i> Rest of the driver&rsquo;s route</span>') +
-        '</div>'
-      : '';
-
-    return '<div class="corridor-scroll"><ol class="corridor">' + items + '</ol></div>' + key;
+    var key = (a > -1 && !(a === 0 && b === stops.length - 1))
+      ? '<p class="route-key">Highlighted: your part of the trip, ' + esc(from) + ' to ' + esc(to) + '.</p>' : '';
+    return '<div class="route-wrap"><ol class="route">' + items + '</ol></div>' + key;
   }
 
-  function seatChip(free, total) {
-    var cls = free === 0 ? 'chip chip-crit' : (free === 1 ? 'chip chip-warn' : 'chip chip-ok');
-    return '<span class="' + cls + '">' + free + ' of ' + total + ' seats free</span>';
+  function seats(free, total) {
+    return '<span class="tag ' + (free ? 'ok' : '') + '">' + free + ' of ' + total + ' seats free</span>';
   }
 
-  function stateChip(state) {
-    var map = {
-      pending:   ['chip chip-warn', 'Awaiting driver'],
-      confirmed: ['chip chip-ok',   'Confirmed'],
-      completed: ['chip',           'Completed'],
-      cancelled: ['chip chip-crit', 'Cancelled'],
-      Active:    ['chip chip-ok',   'Active'],
-      Suspended: ['chip chip-crit', 'Suspended']
-    };
-    var m = map[state] || ['chip', state];
-    return '<span class="' + m[0] + '">' + esc(m[1]) + '</span>';
-  }
-
-  function rideCard(ride, legFrom, legTo, href) {
-    var last = ride.stops[ride.stops.length - 1];
-    var partial = legFrom && (legFrom !== ride.stops[0].name || legTo !== last.name);
-    return '' +
-      '<article class="ride">' +
-        '<div class="ride-top">' +
-          '<div class="ride-who">' +
-            '<span class="avatar" aria-hidden="true">' + esc(ride.driver.initials) + '</span>' +
-            '<div class="stack-s">' +
-              '<strong>' + esc(ride.driver.name) + '</strong>' +
-              '<span class="ride-meta">' + esc(ride.car) + ' &middot; ' +
-                '<span class="num">' + esc(ride.driver.rating) + '</span> &middot; ' +
-                '<span class="num">' + ride.driver.trips + '</span> trips</span>' +
-            '</div>' +
-          '</div>' +
-          '<div class="ride-when">' +
-            '<div class="t">' + esc(ride.stops[0].time) + '&ndash;' + esc(last.time) + '</div>' +
-            '<div class="d">' + esc(ride.date) + ' &middot; ' + esc(ride.id) + '</div>' +
-          '</div>' +
-        '</div>' +
-        corridor(ride.stops, legFrom, legTo) +
-        '<div class="ride-foot">' +
-          '<div class="row">' + seatChip(ride.seatsFree, ride.seatsTotal) +
-            (partial ? '<span class="chip chip-info">Covers part of your journey</span>' : '') +
-          '</div>' +
-          (href ? '<a class="btn btn-secondary btn-sm" href="' + href + '">View ride</a>' : '') +
-        '</div>' +
+  function rideCard(r, from, to, href) {
+    var last = r.stops[r.stops.length - 1];
+    return '<article class="ride">' +
+      '<div class="ride-top"><div class="driver"><span class="av">' + esc(r.initials) + '</span>' +
+      '<div><div class="title">' + esc(r.name) + '</div>' +
+      '<div class="meta">' + esc(r.car) + '</div></div></div>' +
+      '<div class="when"><div class="t">' + esc(r.stops[0].t) + '–' + esc(last.t) + '</div>' +
+      '<div class="d">' + esc(r.date) + '</div></div></div>' +
+      route(r.stops, from, to) +
+      '<div class="ride-foot">' + seats(r.seatsFree, r.seatsTotal) +
+      (href ? '<a class="btn plain sm" href="' + href + '">View ride</a>' : '') + '</div>' +
       '</article>';
-  }
-
-  /* The requirements overlay. Toggled from the top bar; hidden by default so a
-     walkthrough stays about the screens, and one click away when the discussion
-     turns to what the PRD has to say. */
-  function req(ids, workItems) {
-    var rows = ids.map(function (id) {
-      var r = window.DATA.reqIndex[id];
-      return '<li><span class="req-id">' + esc(id) + '</span><span>' +
-        (r ? esc(r.text) : 'Unknown requirement') + '</span></li>';
-    }).join('');
-
-    var wis = (workItems || []).map(function (n) {
-      return '<a class="wi" href="https://coursegit.cs.lth.se/etsn05-team-2/course-project/-/work_items/' +
-        n + '" target="_blank" rel="noopener">#' + n + '</a>';
-    }).join('');
-
-    return '' +
-      '<section class="reqpanel" aria-label="Requirements covered by this screen">' +
-        '<h3>Draft requirements on this screen</h3>' +
-        '<ul>' + rows + '</ul>' +
-        (wis ? '<div class="wi-list"><span class="req-id">CourseGit</span>' + wis + '</div>' : '') +
-      '</section>';
   }
 
   function page(parts) { return '<div class="page">' + parts.join('') + '</div>'; }
 
-  return {
-    esc: esc, page: page, pageHead: pageHead, corridor: corridor,
-    rideCard: rideCard, seatChip: seatChip, stateChip: stateChip, req: req
-  };
-})();
+  /* ---------- screens ---------- */
 
-
-/* ===== js/views-meta.js ===== */
-/* Prototype-level screens: the index used to walk the team through the flows,
-   and the full draft requirement list. */
-
-(function () {
-  var R = window.ROUTES = window.ROUTES || {};
-  var O = window.SCREEN_ORDER = window.SCREEN_ORDER || [];
-  function screen(s) { R[s.path] = s; O.push(s); }
-  var U = window.UI;
+  var SCREENS = [];
+  function screen(s) { SCREENS.push(s); }
 
   screen({
-    path: '#/', code: '00', group: 'Prototype', label: 'Screen index', actor: null,
-    render: function () {
-      var groups = {};
-      O.forEach(function (s) {
-        if (s.group === 'Prototype') { return; }
-        (groups[s.group] = groups[s.group] || []).push(s);
-      });
-
-      var sections = Object.keys(groups).map(function (g) {
-        var cards = groups[g].map(function (s) {
-          return '' +
-            '<a class="index-card" href="' + s.path + '">' +
-              '<span class="idx">' + U.esc(s.code) + '</span>' +
-              '<strong>' + U.esc(s.label) + '</strong>' +
-              '<span>' + U.esc(s.blurb || '') + '</span>' +
-            '</a>';
-        }).join('');
-        return '<section class="panel-flat stack"><h2>' + U.esc(g) + '</h2>' +
-               '<div class="index-grid">' + cards + '</div></section>';
+    path: '#/', group: 'Prototype', label: 'Start', render: function () {
+      var tiles = SCREENS.filter(function (s) { return s.path !== '#/'; }).map(function (s) {
+        return '<a class="tile" href="' + s.path + '"><strong>' + esc(s.label) + '</strong>' +
+          '<span>' + esc(s.blurb || '') + '</span></a>';
       }).join('');
-
-      return U.page([
-        U.pageHead(
-          'Carpooling — screen walkthrough',
-          'Every screen the customer’s assignment description asks for, plus the flows Team 2 has already opened work items for. ' +
-          'Nothing here talks to a backend: links navigate, forms do not submit, numbers are made up. ' +
-          'Use it to settle what each screen contains before the PRD goes to Review 1.',
-          '<a class="btn btn-primary" href="#/search">Start the passenger flow</a>' +
-          '<a class="btn btn-secondary" href="#/requirements">Draft requirements</a>'
-        ),
-        '<div class="callout callout-info">' +
-          '<strong>The open question this prototype takes a position on</strong>' +
-          '<p>The customer asks how to decide which locations lie between which. Here every location sits on an ordered ' +
-          '<em>corridor</em>, and a partial leg is any contiguous run of stops along one. That assumption drives the route ' +
-          'diagram on every ride screen — if the team rejects it, the search results and the driver manifest both change shape.</p>' +
-        '</div>',
-        sections,
-        U.req(['4.4.2'], [])
+      return page([
+        head('Carpooling prototype',
+          'Twelve screens covering the main passenger and driver flows. Links navigate; nothing else works.'),
+        '<div class="grid">' + tiles + '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/requirements', code: '0R', group: 'Prototype', label: 'Draft requirements', actor: null,
-    blurb: 'The numbered list the screens are traced against.',
+    path: '#/signin', group: 'Passenger', label: 'Sign in', blurb: 'One sign-in for both roles.',
     render: function () {
-      function rows(kind) {
-        return window.DATA.requirements.filter(function (r) { return r.kind === kind; })
-          .map(function (r) {
-            var on = O.filter(function (s) { return (s.reqs || []).indexOf(r.id) > -1; });
-            var links = on.map(function (s) {
-              return '<a href="' + s.path + '">' + U.esc(s.code) + '</a>';
-            }).join(', ') || '<span style="color:var(--ink-3)">not shown</span>';
-            return '<tr><td class="num">' + U.esc(r.id) + '</td><td>' + U.esc(r.text) + '</td><td>' + links + '</td></tr>';
-          }).join('');
-      }
-
-      function table(kind, caption) {
-        return '<section class="panel stack">' +
-          '<div class="panel-head"><h2>' + caption + '</h2></div>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th class="num">Req</th><th>Statement</th><th>Screens</th></tr></thead>' +
-            '<tbody>' + rows(kind) + '</tbody>' +
-          '</table></div>' +
-        '</section>';
-      }
-
-      return U.page([
-        U.pageHead(
-          'Draft requirements',
-          'Numbered the way the project guide requires: hierarchically, after the chapter the requirement sits in, ' +
-          'functional separated from non-functional, and never renumbered once the PRD is in baseline. ' +
-          'These are drafts written to give the prototype something to be traced against — they are not the PRD.',
-          '<span class="chip chip-warn">Draft · not reviewed</span>'
-        ),
-        table('F', 'Functional requirements'),
-        table('NF', 'Non-functional requirements'),
-        '<div class="callout callout-warn">' +
-          '<strong>Gaps the team still has to close</strong>' +
-          '<p>Nothing here covers how a time is specified (exact departure, or a window), how the set of selectable ' +
-          'locations is maintained, what a driver may see about a passenger before accepting, or what happens to a ' +
-          'booking when the driver changes the route after passengers have joined. Each is a requirement the customer ' +
-          'asked for a proposal on, and each is currently missing.</p>' +
+      return page([
+        head('Sign in'),
+        '<div class="card" style="max-width:420px">' +
+          '<div class="field"><label for="e">E-mail</label>' +
+          '<input class="input" id="e" type="email" value="amelia.ek@example.se"></div>' +
+          '<div class="field"><label for="p">Password</label>' +
+          '<input class="input" id="p" type="password" value="password"></div>' +
+          '<div class="row end"><a class="btn plain" href="#/signup">Create account</a>' +
+          '<a class="btn primary" href="#/search">Sign in</a></div>' +
         '</div>'
       ]);
     }
   });
-})();
-
-
-/* ===== js/views-public.js ===== */
-/* Screens available before sign-in. */
-
-(function () {
-  var R = window.ROUTES = window.ROUTES || {};
-  var O = window.SCREEN_ORDER = window.SCREEN_ORDER || [];
-  function screen(s) { R[s.path] = s; O.push(s); }
-  var U = window.UI;
 
   screen({
-    path: '#/signup', code: 'P1', group: 'Account', label: 'Create account', actor: null,
-    blurb: 'Registration, including the driver / passenger / both choice.',
-    reqs: ['4.1.1', '4.1.2', '5.1.1'],
+    path: '#/signup', group: 'Passenger', label: 'Create account', blurb: 'Name, e-mail and how you will use it.',
     render: function () {
-      return U.page([
-        U.pageHead('Create your account',
-          'The customer requires that people register and state whether they intend to drive, ride along, or both. ' +
-          'The role is a property of the account, not two separate accounts.'),
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<h2>Your details</h2>' +
-            '<div class="field"><label for="su-name">Full name</label>' +
-              '<input class="input" id="su-name" type="text" value="Amelia Ek"></div>' +
-            '<div class="field"><label for="su-mail">E-mail</label>' +
-              '<input class="input" id="su-mail" type="email" value="amelia.ek@example.se"></div>' +
-            '<div class="field"><label for="su-pass">Password</label>' +
-              '<input class="input" id="su-pass" type="password" value="aaaaaaaaaaaa">' +
-              '<span class="hint">At least 10 characters.</span></div>' +
-            '<div class="field"><label for="su-home">Home location</label>' +
-              '<select class="input" id="su-home">' +
-                '<option>Malmö C</option><option selected>Lund C</option><option>Landskrona</option>' +
-                '<option>Helsingborg</option><option>Ystad</option>' +
-              '</select>' +
-              '<span class="hint">Chosen from the maintained location list — free text would break matching.</span></div>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
+      return page([
+        head('Create account'),
+        '<div class="two">' +
+          '<div class="card">' +
+            '<div class="field"><label for="n">Full name</label>' +
+            '<input class="input" id="n" type="text" value="Amelia Ek"></div>' +
+            '<div class="field"><label for="m">E-mail</label>' +
+            '<input class="input" id="m" type="email" value="amelia.ek@example.se"></div>' +
+            '<div class="field"><label for="w">Password</label>' +
+            '<input class="input" id="w" type="password" value="password"></div>' +
+            '<div class="field"><label for="h">Home location</label>' +
+            '<select class="input" id="h"><option>Malmö C</option><option selected>Lund C</option>' +
+            '<option>Landskrona</option><option>Helsingborg</option></select>' +
+            '<span class="hint">Picked from a list, not typed.</span></div>' +
+          '</div>' +
+          '<div class="card">' +
             '<h2>How will you use it?</h2>' +
-            '<div class="choice-set">' +
-              '<button type="button" class="choice" aria-pressed="false">' +
-                '<strong>Passenger</strong><span>Search for rides and book a seat.</span></button>' +
-              '<button type="button" class="choice" aria-pressed="false">' +
-                '<strong>Driver</strong><span>Publish trips and take passengers along.</span></button>' +
-              '<button type="button" class="choice" aria-pressed="true">' +
-                '<strong>Both</strong><span>Switch between the two whenever you like.</span></button>' +
+            '<div class="pick">' +
+              '<button type="button" aria-pressed="false"><strong>Passenger</strong><span>Book seats.</span></button>' +
+              '<button type="button" aria-pressed="false"><strong>Driver</strong><span>Offer seats.</span></button>' +
+              '<button type="button" aria-pressed="true"><strong>Both</strong><span>Switch any time.</span></button>' +
             '</div>' +
-            '<div class="callout">' +
-              '<strong>Open decision</strong>' +
-              '<p>A driver needs vehicle details before publishing a trip. Asked here, or first time they publish? ' +
-              'The prototype asks later — registration stays short.</p>' +
-            '</div>' +
-            '<div class="row row-end">' +
-              '<a class="btn btn-quiet" href="#/login">I already have an account</a>' +
-              '<a class="btn btn-primary" href="#/search">Create account</a>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['4.1.1', '4.1.2', '5.1.1'], [])
+            '<div class="row end"><a class="btn primary" href="#/search">Create account</a></div>' +
+          '</div>' +
+        '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/login', code: 'P2', group: 'Account', label: 'Sign in', actor: null,
-    blurb: 'One sign-in for every role; landing page follows the role.',
-    reqs: ['4.1.3'],
+    path: '#/search', group: 'Passenger', label: 'Find a ride', blurb: 'From, to, date and seats.',
     render: function () {
-      return U.page([
-        U.pageHead('Sign in',
-          'Work item #43 asks for a driver sign-in. The prototype takes the position that there is one sign-in for ' +
-          'everybody and the role decides where you land — a person who is both would otherwise need two accounts.'),
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<div class="field"><label for="li-mail">E-mail</label>' +
-              '<input class="input" id="li-mail" type="email" value="amelia.ek@example.se"></div>' +
-            '<div class="field"><label for="li-pass">Password</label>' +
-              '<input class="input" id="li-pass" type="password" value="aaaaaaaaaaaa"></div>' +
-            '<div class="row row-end">' +
-              '<a class="btn btn-quiet" href="#/signup">Create account</a>' +
-              '<a class="btn btn-primary" href="#/search">Sign in</a>' +
-            '</div>' +
-            '<p class="hint" style="font-size:.8rem;color:var(--ink-3)">Rejected sign-in: ' +
-              '<a href="#/login-error">see the error state</a>.</p>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>Where each role lands</h2>' +
-            '<dl class="kv">' +
-              '<dt>Passenger</dt><dd>Find a ride</dd>' +
-              '<dt>Driver</dt><dd>Driver dashboard, today’s trips first</dd>' +
-              '<dt>Both</dt><dd>Find a ride, with the driver view one click away</dd>' +
-              '<dt>Administrator</dt><dd>User list</dd>' +
-            '</dl>' +
-            '<div class="callout callout-info">' +
-              '<strong>Why it matters for the PRD</strong>' +
-              '<p>If sign-in is per role, every screen needs a role check and #43 grows into four issues. ' +
-              'One account with a role attribute keeps it to one.</p>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['4.1.3', '4.1.2'], [43, 44])
+      return page([
+        head('Find a ride'),
+        '<div class="card">' +
+          '<div class="two">' +
+            '<div class="field"><label for="f">From</label><select class="input" id="f">' +
+            '<option selected>Malmö C</option><option>Lund C</option><option>Lomma</option></select></div>' +
+            '<div class="field"><label for="t">To</label><select class="input" id="t">' +
+            '<option selected>Helsingborg</option><option>Landskrona</option><option>Hässleholm</option></select></div>' +
+            '<div class="field"><label for="d">Date</label><input class="input" id="d" type="date" value="2026-09-13"></div>' +
+            '<div class="field"><label for="ti">Earliest departure</label><input class="input" id="ti" type="time" value="07:00"></div>' +
+            '<div class="field"><label for="s">Seats</label><select class="input" id="s">' +
+            '<option selected>1</option><option>2</option></select></div>' +
+            '<div class="field"><label for="pp">Partial trips</label><select class="input" id="pp">' +
+            '<option selected>Include rides going part of the way</option>' +
+            '<option>Only rides all the way</option></select></div>' +
+          '</div>' +
+          '<div class="row end"><a class="btn primary" href="#/results">Search</a></div>' +
+        '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/login-error', code: 'P3', group: 'Account', label: 'Sign in — rejected input', actor: null,
-    blurb: 'What the system does with bad input, which the customer requires.',
-    reqs: ['5.1.1', '5.1.2'],
+    path: '#/results', group: 'Passenger', label: 'Matching rides', blurb: 'Full and partial matches.',
     render: function () {
-      return U.page([
-        U.pageHead('Sign in',
-          'The customer requires that no sequence of input crashes or locks the system. That is a requirement about ' +
-          'what the user sees, so it needs a screen — otherwise it quietly becomes nobody’s job.'),
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<div class="callout callout-crit">' +
-              '<strong>We could not sign you in</strong>' +
-              '<p>The e-mail or password did not match an account. Check both and try again.</p>' +
-            '</div>' +
-            '<div class="field field-error">' +
-              '<label for="le-mail">E-mail</label>' +
-              '<input class="input" id="le-mail" type="text" value="amelia.ek@@example" aria-invalid="true" aria-describedby="le-mail-err">' +
-              '<span class="error-text" id="le-mail-err">Enter an address in the form name@example.se</span>' +
-            '</div>' +
-            '<div class="field field-error">' +
-              '<label for="le-pass">Password</label>' +
-              '<input class="input" id="le-pass" type="password" value="" aria-invalid="true" aria-describedby="le-pass-err">' +
-              '<span class="error-text" id="le-pass-err">Enter your password</span>' +
-            '</div>' +
-            '<div class="row row-end">' +
-              '<a class="btn btn-primary" href="#/search">Sign in</a>' +
-            '</div>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>The rule this screen sets</h2>' +
-            '<p>An error names the field and the expected format, and never blames the user or apologises. ' +
-            'The failed attempt keeps what was typed so nothing has to be re-entered.</p>' +
-            '<div class="callout callout-warn">' +
-              '<strong>Not decided yet</strong>' +
-              '<p>How many failed attempts before the account is locked, and for how long. ' +
-              'Until that is decided, #45 — &ldquo;make sure the field is appropriate to the standard&rdquo; — has no acceptance criterion to test against.</p>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['5.1.1', '5.1.2'], [45])
+      return page([
+        head('Malmö C to Helsingborg', 'Sat 13 Sep, from 07:00, 1 seat. Three rides match.',
+          '<a class="btn plain sm" href="#/search">Change search</a>'),
+        rideCard(RIDES['R-104'], 'Malmö C', 'Helsingborg', '#/ride'),
+        rideCard(RIDES['R-131'], 'Malmö C', 'Landskrona', '#/ride'),
+        rideCard(RIDES['R-118'], 'Malmö C', 'Lund C', '#/ride')
       ]);
     }
   });
-})();
-
-
-/* ===== js/views-passenger.js ===== */
-/* Passenger flow: search, results, ride detail, booking, history, notifications. */
-
-(function () {
-  var R = window.ROUTES = window.ROUTES || {};
-  var O = window.SCREEN_ORDER = window.SCREEN_ORDER || [];
-  function screen(s) { R[s.path] = s; if (!s.hidden) { O.push(s); } }
-  var U = window.UI, D = window.DATA;
 
   screen({
-    path: '#/search', code: 'T1', group: 'Passenger', label: 'Find a ride', actor: 'passenger',
-    blurb: 'Origin, destination, date, seats — all from the location list.',
-    reqs: ['4.3.1', '4.4.2'],
+    path: '#/ride', group: 'Passenger', label: 'Ride detail', blurb: 'Route, driver and the seat request.',
     render: function () {
-      var corridorRows = Object.keys(D.corridors).map(function (k) {
-        var c = D.corridors[k];
-        return '<tr><td>' + U.esc(c.name) + '</td><td>' +
-          c.stops.map(function (s, i) {
-            return (i ? '<span style="color:var(--ink-3)"> &rarr; </span>' : '') + U.esc(s);
-          }).join('') + '</td></tr>';
-      }).join('');
-
-      return U.page([
-        U.pageHead('Find a ride',
-          'Origin and destination are picked from the maintained location list, never typed freely — matching ' +
-          'depends on knowing where each location sits on its corridor.'),
-
-        '<section class="panel stack">' +
-          '<div class="grid-2">' +
-            '<div class="field"><label for="s-from">From</label>' +
-              '<select class="input" id="s-from"><option selected>Malmö C</option><option>Lund C</option>' +
-              '<option>Lomma</option><option>Landskrona</option><option>Helsingborg</option></select></div>' +
-            '<div class="field"><label for="s-to">To</label>' +
-              '<select class="input" id="s-to"><option>Lomma</option><option>Landskrona</option>' +
-              '<option selected>Helsingborg</option><option>Hässleholm</option><option>Ystad</option></select></div>' +
-            '<div class="field"><label for="s-date">Date</label>' +
-              '<input class="input" id="s-date" type="date" value="2026-09-13"></div>' +
-            '<div class="field"><label for="s-time">Earliest departure</label>' +
-              '<input class="input" id="s-time" type="time" value="07:00">' +
-              '<span class="hint">Open question: is this an exact time or the start of a window?</span></div>' +
-            '<div class="field"><label for="s-seats">Seats</label>' +
-              '<select class="input" id="s-seats"><option selected>1</option><option>2</option><option>3</option></select></div>' +
-            '<div class="field"><label for="s-partial">Partial legs</label>' +
-              '<select class="input" id="s-partial"><option selected>Include rides that cover part of my journey</option>' +
-              '<option>Only rides all the way through</option></select></div>' +
+      var r = RIDES['R-104'];
+      return page([
+        head('Malmö C to Helsingborg', 'Sat 13 Sep, departs 07:40.',
+          '<a class="btn plain sm" href="#/results">Back to results</a>'),
+        '<div class="card">' +
+          '<div class="ride-top"><div class="driver"><span class="av">EH</span>' +
+          '<div><div class="title">Erik Hovander</div><div class="meta">Volvo V60</div></div></div>' +
+          seats(r.seatsFree, r.seatsTotal) + '</div>' +
+          route(r.stops, 'Malmö C', 'Helsingborg') +
+        '</div>',
+        '<div class="two">' +
+          '<div class="card"><h2>Book a seat</h2>' +
+            '<div class="field"><label for="on">Get on at</label><select class="input" id="on">' +
+            r.stops.map(function (s, i) {
+              return '<option' + (i === 0 ? ' selected' : '') + '>' + esc(s.n) + '</option>';
+            }).join('') + '</select></div>' +
+            '<div class="field"><label for="off">Get off at</label><select class="input" id="off">' +
+            r.stops.map(function (s, i) {
+              return '<option' + (i === r.stops.length - 1 ? ' selected' : '') + '>' + esc(s.n) + '</option>';
+            }).join('') + '</select></div>' +
+            '<div class="row end"><a class="btn primary" href="#/bookings">Request seat</a></div>' +
+            '<p class="hint">The driver accepts or declines. You get a notification.</p>' +
           '</div>' +
-          '<div class="row row-end">' +
-            '<a class="btn btn-quiet" href="#/results-empty">See the no-results state</a>' +
-            '<a class="btn btn-primary" href="#/results">Search</a>' +
+          '<div class="card"><h2>Who else is coming</h2>' +
+            '<ul class="list"><li><span class="av">TÅ</span><div class="body">' +
+            '<span class="title">Tove Åkesson</span>' +
+            '<span class="sub">Malmö C to Landskrona</span></div>' +
+            '<span class="tag ok">Confirmed</span></li></ul>' +
           '</div>' +
-        '</section>',
-
-        '<section class="panel stack">' +
-          '<div class="panel-head"><h2>The location list</h2>' +
-            '<span class="chip">Prototype data</span></div>' +
-          '<p style="color:var(--ink-2);font-size:.92rem">Each corridor is an ordered sequence. A ride covers a ' +
-          'contiguous run of it, and a passenger’s leg is a contiguous run of the ride. That is the whole matching rule.</p>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th>Corridor</th><th>Stops in order</th></tr></thead>' +
-            '<tbody>' + corridorRows + '</tbody></table></div>' +
-          '<div class="callout callout-warn">' +
-            '<strong>Where this model breaks</strong>' +
-            '<p>A trip from Lomma to Ystad crosses two corridors and matches nothing. Either the model grows a ' +
-            'graph, or the PRD states that only single-corridor journeys are supported. Team decision, before Review 1.</p>' +
-          '</div>' +
-        '</section>',
-
-        U.req(['4.3.1', '4.4.1', '4.4.2'], [])
+        '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/results', code: 'T2', group: 'Passenger', label: 'Matching rides', actor: 'passenger',
-    blurb: 'Full-route and partial-leg matches in one list.',
-    reqs: ['4.3.2', '4.4.1', '4.4.2', '4.4.3'],
-    render: function () {
-      var r104 = D.ride('R-104');
-      var partial = {
-        id: 'R-131',
-        driver: { name: 'Sanna Tell', initials: 'ST', rating: '4.7', trips: 21 },
-        car: 'Kia Ceed · JPT 550',
-        date: 'Sat 13 Sep',
-        stops: [
-          { name: 'Malmö C',    time: '07:15' },
-          { name: 'Lomma',      time: '07:31' },
-          { name: 'Bjärred',    time: '07:39' },
-          { name: 'Landskrona', time: '07:58' }
-        ],
-        seatsTotal: 4, seatsFree: 1
-      };
-
-      return U.page([
-        U.pageHead('Malmö C → Helsingborg',
-          'Sat 13 Sep, from 07:00, 1 seat. <strong>3 rides</strong> match.',
-          '<a class="btn btn-secondary btn-sm" href="#/search">Change search</a>'),
-
-        '<div class="stack">' +
-          U.rideCard(r104, 'Malmö C', 'Helsingborg', '#/ride/R-104') +
-          U.rideCard(partial, 'Malmö C', 'Landskrona', '#/ride/R-104') +
-          U.rideCard(D.ride('R-118'), 'Malmö C', 'Lund C', '#/ride/R-118') +
-        '</div>',
-
-        '<div class="callout callout-info">' +
-          '<strong>Two of these do not go where you are going</strong>' +
-          '<p>The second reaches Landskrona and the third turns inland at Lund. They are shown because they cover ' +
-          'part of the journey. Whether that belongs in the same list, behind a heading, or behind the filter on the ' +
-          'search screen is a design decision the team has not made — and it changes what #37 has to return.</p>' +
-        '</div>',
-
-        U.req(['4.3.2', '4.4.1', '4.4.2', '4.4.3'], [37])
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/results-empty', code: 'T3', group: 'Passenger', label: 'No matching rides', actor: 'passenger',
-    blurb: 'Empty state with a route out of it.',
-    reqs: ['4.3.1'],
-    render: function () {
-      return U.page([
-        U.pageHead('Lomma → Ystad',
-          'Sat 13 Sep, from 07:00, 1 seat. <strong>No rides</strong> match.',
-          '<a class="btn btn-secondary btn-sm" href="#/search">Change search</a>'),
-
-        '<div class="empty">' +
-          '<h2>Nothing on this route yet</h2>' +
-          '<p style="color:var(--ink-2);max-width:58ch">Lomma is on the west coast corridor and Ystad is on the ' +
-          'south east one. No published ride covers both.</p>' +
-          '<div class="row">' +
-            '<a class="btn btn-primary" href="#/search">Try another date</a>' +
-            '<a class="btn btn-secondary" href="#/results">Search Lomma → Landskrona instead</a>' +
-          '</div>' +
-        '</div>',
-
-        '<div class="callout">' +
-          '<strong>An empty result is a product decision, not an error</strong>' +
-          '<p>Offering the nearest workable search keeps the person moving. Offering nothing sends them away. ' +
-          'Whatever is decided has to be a numbered requirement, or it will not survive implementation.</p>' +
-        '</div>',
-
-        U.req(['4.3.1', '4.4.2'], [])
-      ]);
-    }
-  });
-
-  function rideDetail(path) {
-    var id = path.split('/')[2];
-    var ride = D.ride(id) || D.ride('R-104');
-    var last = ride.stops[ride.stops.length - 1];
-
-    return U.page([
-      U.pageHead(ride.stops[0].name + ' → ' + last.name,
-        ride.date + ' &middot; departs <span class="num">' + ride.stops[0].time + '</span> &middot; ride ' + ride.id,
-        '<a class="btn btn-quiet btn-sm" href="#/results">Back to results</a>'),
-
-      '<section class="panel stack">' +
-        '<div class="ride-top">' +
-          '<div class="ride-who">' +
-            '<span class="avatar" aria-hidden="true">' + U.esc(ride.driver.initials) + '</span>' +
-            '<div class="stack-s"><strong>' + U.esc(ride.driver.name) + '</strong>' +
-            '<span class="ride-meta">' + U.esc(ride.car) + ' &middot; <span class="num">' +
-              U.esc(ride.driver.rating) + '</span> rating &middot; <span class="num">' +
-              ride.driver.trips + '</span> completed trips</span></div>' +
-          '</div>' +
-          '<div class="row">' + U.seatChip(ride.seatsFree, ride.seatsTotal) + '</div>' +
-        '</div>' +
-        U.corridor(ride.stops, ride.stops[0].name, last.name) +
-      '</section>',
-
-      '<div class="grid-2">' +
-        '<section class="panel stack">' +
-          '<h2>Book a seat</h2>' +
-          '<div class="field"><label for="b-from">Board at</label>' +
-            '<select class="input" id="b-from">' +
-              ride.stops.map(function (s, i) {
-                return '<option' + (i === 0 ? ' selected' : '') + '>' + U.esc(s.name) + ' · ' + U.esc(s.time) + '</option>';
-              }).join('') +
-            '</select></div>' +
-          '<div class="field"><label for="b-to">Get off at</label>' +
-            '<select class="input" id="b-to">' +
-              ride.stops.map(function (s, i) {
-                return '<option' + (i === ride.stops.length - 1 ? ' selected' : '') + '>' +
-                  U.esc(s.name) + ' · ' + U.esc(s.time) + '</option>';
-              }).join('') +
-            '</select></div>' +
-          '<div class="field"><label for="b-seats">Seats</label>' +
-            '<select class="input" id="b-seats"><option selected>1</option><option>2</option></select></div>' +
-          '<div class="row row-end">' +
-            '<a class="btn btn-quiet" href="#/ride/R-104/conflict">Simulate a booking conflict</a>' +
-            '<a class="btn btn-primary" href="#/bookings">Request seat</a>' +
-          '</div>' +
-          '<p class="hint" style="font-size:.8rem;color:var(--ink-3)">The driver decides. You are notified either way.</p>' +
-        '</section>' +
-
-        '<section class="panel stack">' +
-          '<h2>Who else is in the car</h2>' +
-          (ride.passengers.length
-            ? '<ul class="itemlist">' + ride.passengers.map(function (p) {
-                return '<li><span class="avatar" aria-hidden="true">' + U.esc(p.initials) + '</span>' +
-                  '<div class="item-body"><span class="item-title">' + U.esc(p.name) + '</span>' +
-                  '<span class="item-sub">' + U.esc(p.from) + ' → ' + U.esc(p.to) + '</span></div>' +
-                  U.stateChip(p.status) + '</li>';
-              }).join('') + '</ul>'
-            : '<p style="color:var(--ink-2)">Nobody has booked yet. You would be the first.</p>') +
-          (ride.note ? '<div class="callout"><strong>From the driver</strong><p>' + U.esc(ride.note) + '</p></div>' : '') +
-          '<div class="callout callout-warn">' +
-            '<strong>Privacy decision the PRD has to make</strong>' +
-            '<p>The customer requires that a person finds out who they are travelling with. Before booking, or only ' +
-            'after the driver accepts? Full names, or first name only? This screen shows the most generous version ' +
-            'so the team can argue it down.</p>' +
-          '</div>' +
-        '</section>' +
-      '</div>',
-
-      U.req(['4.3.3', '4.3.4', '4.2.5', '4.4.3'], [31, 35, 41])
-    ]);
-  }
-
-  screen({
-    path: '#/ride/R-104', code: 'T4', group: 'Passenger', label: 'Ride detail & booking', actor: 'passenger',
-    blurb: 'Route, driver, fellow passengers, and the seat request.',
-    reqs: ['4.3.3', '4.3.4', '4.2.5'],
-    render: rideDetail
-  });
-  screen({ path: '#/ride/R-118', hidden: true, render: rideDetail, actor: 'passenger' });
-  screen({ path: '#/ride/R-122', hidden: true, render: rideDetail, actor: 'passenger' });
-
-  screen({
-    path: '#/ride/R-104/conflict', code: 'T5', group: 'Passenger', label: 'Booking conflict', actor: 'passenger',
-    blurb: 'Two sessions, one seat — the customer requires this be handled.',
-    reqs: ['5.2.1', '5.2.2'],
-    render: function () {
-      var ride = D.ride('R-104');
-      return U.page([
-        U.pageHead('Malmö C → Helsingborg',
-          'Sat 13 Sep &middot; departs <span class="num">07:40</span> &middot; ride R-104'),
-
-        '<div class="callout callout-crit">' +
-          '<strong>That seat went to someone else</strong>' +
-          '<p>Oskar Lejon booked the last seat between Lomma and Landskrona while this page was open. ' +
-          'Your request was not sent and you have not been charged.</p>' +
-        '</div>',
-
-        '<section class="panel stack">' +
-          U.corridor(ride.stops, 'Lomma', 'Landskrona') +
-          '<div class="row">' + U.seatChip(0, 3) +
-            '<span class="chip chip-info">Seats free again from Landskrona</span></div>' +
-        '</section>',
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<h2>What you can do instead</h2>' +
-            '<ul class="itemlist">' +
-              '<li><div class="item-body"><span class="item-title">Board at Landskrona instead</span>' +
-                '<span class="item-sub">Departs 08:19, arrives Helsingborg 08:41. One seat free.</span></div>' +
-                '<a class="btn btn-secondary btn-sm" href="#/ride/R-104">Change leg</a></li>' +
-              '<li><div class="item-body"><span class="item-title">Take R-131 at 07:15</span>' +
-                '<span class="item-sub">Sanna Tell, Malmö C → Landskrona. One seat free.</span></div>' +
-                '<a class="btn btn-secondary btn-sm" href="#/results">See ride</a></li>' +
-            '</ul>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>Why this screen exists</h2>' +
-            '<p>&ldquo;Possible conflicts arising due to parallel user sessions must be managed by the system&rdquo; ' +
-            'is one of the few non-functional requirements the customer wrote down explicitly. A requirement with ' +
-            'no screen tends to become a backend ticket nobody can demonstrate at the final review.</p>' +
-            '<div class="callout callout-info">' +
-              '<strong>Acceptance criterion this suggests</strong>' +
-              '<p>Two sessions requesting the last seat on the same leg: one confirmed, one told exactly which leg ' +
-              'became unavailable and offered at least one alternative. Seat count never goes negative.</p>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['5.2.1', '5.2.2', '4.4.3'], [])
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/bookings', code: 'T6', group: 'Passenger', label: 'My bookings', actor: 'passenger',
-    blurb: 'Upcoming and past, with cancellation.',
-    reqs: ['4.3.5', '4.3.6'],
+    path: '#/bookings', group: 'Passenger', label: 'My bookings', blurb: 'Upcoming trips and history.',
     render: function () {
       function row(b) {
-        return '<tr>' +
-          '<td class="num">' + U.esc(b.id) + '</td>' +
-          '<td>' + U.esc(b.from) + ' &rarr; ' + U.esc(b.to) + '</td>' +
-          '<td class="num">' + U.esc(b.date) + ' ' + U.esc(b.depart) + '</td>' +
-          '<td>' + U.esc(b.driver) + '</td>' +
-          '<td class="num">' + b.seats + '</td>' +
-          '<td>' + U.stateChip(b.state) + '</td>' +
-          '<td>' + (b.state === 'pending' || b.state === 'confirmed'
-            ? '<a class="btn btn-secondary btn-sm" href="#/booking/' + b.id + '/cancel">Cancel</a>'
-            : '<span style="color:var(--ink-3)">—</span>') + '</td>' +
-        '</tr>';
+        return '<tr><td>' + esc(b[0]) + '</td><td class="num">' + esc(b[1]) + '</td><td>' + esc(b[2]) +
+          '</td><td>' + b[3] + '</td><td>' + (b[4] ? '<a class="btn plain sm" href="#/bookings">Cancel</a>' : '') + '</td></tr>';
       }
-
-      var upcoming = D.bookings.filter(function (b) { return b.state === 'pending' || b.state === 'confirmed'; });
-      var past = D.bookings.filter(function (b) { return b.state === 'completed' || b.state === 'cancelled'; });
-
-      return U.page([
-        U.pageHead('My bookings',
-          'Upcoming trips and the history the customer asked to keep. History is what makes the final report’s ' +
-          'usage figures possible, so it is not optional.',
-          '<a class="btn btn-primary btn-sm" href="#/search">Find a ride</a>'),
-
-        '<section class="panel stack">' +
-          '<div class="panel-head"><h2>Upcoming</h2><span class="chip">' + upcoming.length + '</span></div>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th class="num">Booking</th><th>Journey</th><th class="num">Departs</th>' +
-            '<th>Driver</th><th class="num">Seats</th><th>State</th><th></th></tr></thead>' +
-            '<tbody>' + upcoming.map(row).join('') + '</tbody>' +
-          '</table></div>' +
-        '</section>',
-
-        '<section class="panel stack">' +
-          '<div class="panel-head"><h2>History</h2><span class="chip">' + past.length + '</span></div>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th class="num">Booking</th><th>Journey</th><th class="num">Departed</th>' +
-            '<th>Driver</th><th class="num">Seats</th><th>State</th><th></th></tr></thead>' +
-            '<tbody>' + past.map(row).join('') + '</tbody>' +
-          '</table></div>' +
-          '<p class="hint" style="font-size:.82rem;color:var(--ink-3)">Undecided: how long history is kept, and whether ' +
-          'a cancelled booking stays visible to the driver.</p>' +
-        '</section>',
-
-        U.req(['4.3.6', '4.3.5'], [18, 27, 29, 20])
+      var up = [
+        ['Malmö C to Helsingborg', 'Sat 13 Sep 07:40', 'Erik Hovander', '<span class="tag">Awaiting driver</span>', 1],
+        ['Lund C to Höör', 'Sun 14 Sep 08:28', 'Nina Aronsson', '<span class="tag ok">Confirmed</span>', 1]
+      ];
+      var past = [
+        ['Malmö C to Lund C', 'Fri 5 Sep 17:05', 'Nina Aronsson', '<span class="tag">Completed</span>', 0],
+        ['Landskrona to Helsingborg', 'Tue 2 Sep 07:15', 'Erik Hovander', '<span class="tag">Cancelled</span>', 0]
+      ];
+      function table(rows) {
+        return '<div class="tbl-wrap"><table><thead><tr><th>Trip</th><th class="num">Departs</th>' +
+          '<th>Driver</th><th>State</th><th></th></tr></thead><tbody>' +
+          rows.map(row).join('') + '</tbody></table></div>';
+      }
+      return page([
+        head('My bookings', null, '<a class="btn primary sm" href="#/search">Find a ride</a>'),
+        '<div class="card"><h2>Upcoming</h2>' + table(up) + '</div>',
+        '<div class="card"><h2>Past</h2>' + table(past) + '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/booking/B-2291/cancel', code: 'T7', group: 'Passenger', label: 'Cancel a booking', actor: 'passenger',
-    blurb: 'Confirmation step, with the consequence stated.',
-    reqs: ['4.3.5'],
+    path: '#/notifications', group: 'Passenger', label: 'Notifications', blurb: 'Each one opens what it is about.',
     render: function () {
-      return U.page([
-        U.pageHead('Cancel booking B-2291',
-          'An irreversible action gets a confirmation that says what will happen, not just &ldquo;are you sure&rdquo;.'),
-
-        '<section class="panel stack" style="max-width:620px">' +
-          '<dl class="kv">' +
-            '<dt>Journey</dt><dd>Malmö C &rarr; Helsingborg</dd>' +
-            '<dt>Departs</dt><dd class="num">Sat 13 Sep 07:40</dd>' +
-            '<dt>Driver</dt><dd>Erik Hovander</dd>' +
-            '<dt>Seats</dt><dd class="num">1</dd>' +
-            '<dt>State</dt><dd>' + U.stateChip('pending') + '</dd>' +
-          '</dl>' +
-          '<div class="callout callout-warn">' +
-            '<strong>What happens when you cancel</strong>' +
-            '<p>The seat is released between Malmö C and Helsingborg and offered to other passengers. ' +
-            'Erik is notified. The booking stays in your history as cancelled.</p>' +
-          '</div>' +
-          '<div class="row row-end">' +
-            '<a class="btn btn-secondary" href="#/bookings">Keep the booking</a>' +
-            '<a class="btn btn-danger" href="#/bookings">Cancel booking</a>' +
-          '</div>' +
-        '</section>',
-
-        '<div class="callout">' +
-          '<strong>Missing requirement</strong>' +
-          '<p>Nothing states whether a passenger may cancel five minutes before departure, or whether late ' +
-          'cancellation is recorded against the account. Work item #20 cannot be closed until that is written down.</p>' +
-        '</div>',
-
-        U.req(['4.3.5'], [20, 26])
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/notifications', code: 'T8', group: 'Passenger', label: 'Notifications', actor: 'passenger',
-    blurb: 'One list for both roles; every entry navigates somewhere.',
-    reqs: ['4.5.1', '4.5.2', '4.5.3'],
-    render: function () {
-      var items = D.notifications.map(function (n) {
-        return '<li><a class="notif" href="' + n.href + '" style="display:flex;gap:12px;flex:1">' +
-          '<span class="notif-dot' + (n.unread ? '' : ' read') + '" aria-hidden="true"></span>' +
-          '<span class="item-body">' +
-            '<span class="item-title">' + U.esc(n.title) + '</span>' +
-            '<span class="item-sub">' + U.esc(n.body) + '</span>' +
-          '</span>' +
-          '<span class="ride-meta" style="white-space:nowrap">' + U.esc(n.time) + '</span>' +
-        '</a></li>';
+      var items = [
+        [1, 'Erik Hovander accepted your seat request', 'Malmö C to Helsingborg, Sat 13 Sep 07:40.', '12 min ago', '#/ride'],
+        [1, 'A passenger joined your trip', 'Oskar Lejon booked Lomma to Landskrona.', '40 min ago', '#/driver/trip'],
+        [1, 'Departure time changed', 'R-118 now leaves Malmö C at 08:10.', '3 h ago', '#/ride'],
+        [0, 'Trip completed', 'Rate your ride with Nina Aronsson.', 'Fri 5 Sep', '#/bookings'],
+        [0, 'Booking cancelled by driver', 'Landskrona to Helsingborg, Tue 2 Sep.', 'Mon 1 Sep', '#/bookings']
+      ].map(function (n) {
+        return '<li><a class="notif" href="' + n[4] + '">' +
+          '<span class="dot' + (n[0] ? '' : ' read') + '"></span>' +
+          '<span class="body"><span class="title">' + esc(n[1]) + '</span>' +
+          '<span class="sub">' + esc(n[2]) + '</span></span>' +
+          '<span class="meta">' + esc(n[3]) + '</span></a></li>';
       }).join('');
-
-      return U.page([
-        U.pageHead('Notifications',
-          'Work item #34 asks that a notification navigates to the relevant page. That only works if every ' +
-          'notification type has a destination — so the type list and the route list have to be written together.',
-          '<button type="button" class="btn btn-secondary btn-sm">Mark all as read</button>'),
-
-        '<section class="panel"><ul class="itemlist">' + items + '</ul></section>',
-
-        '<section class="panel stack">' +
-          '<h2>Notification types and where each one goes</h2>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th>Event</th><th>Who is told</th><th>Opens</th></tr></thead><tbody>' +
-              '<tr><td>Seat request received</td><td>Driver</td><td>Booking requests</td></tr>' +
-              '<tr><td>Request accepted or declined</td><td>Passenger</td><td>Ride detail</td></tr>' +
-              '<tr><td>Passenger cancelled</td><td>Driver</td><td>Trip detail</td></tr>' +
-              '<tr><td>Driver cancelled the ride</td><td>All passengers</td><td>My bookings</td></tr>' +
-              '<tr><td>Departure time changed</td><td>All passengers</td><td>Ride detail</td></tr>' +
-              '<tr><td>Trip completed</td><td>Both</td><td>My bookings</td></tr>' +
-            '</tbody></table></div>' +
-          '<p class="hint" style="font-size:.82rem;color:var(--ink-3)">Six types, six destinations. ' +
-          'Work item #28 calls for status flags — this table is the set they have to cover.</p>' +
-        '</section>',
-
-        U.req(['4.5.1', '4.5.2', '4.5.3'], [17, 19, 28, 33, 34, 36])
+      return page([
+        head('Notifications'),
+        '<div class="card"><ul class="list">' + items + '</ul></div>'
       ]);
     }
   });
 
   screen({
-    path: '#/profile', code: 'T9', group: 'Passenger', label: 'Profile & role', actor: 'passenger',
-    blurb: 'Where a passenger becomes a driver.',
-    reqs: ['4.1.4', '4.1.2'],
+    path: '#/driver', group: 'Driver', label: 'My trips', blurb: 'What a driver sees first.',
     render: function () {
-      return U.page([
-        U.pageHead('Profile',
-          'Changing your own role happens here. An administrator changing someone else’s role is a different ' +
-          'screen with a different requirement — keeping them apart keeps the permission rules honest.'),
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<h2>Account</h2>' +
-            '<div class="field"><label for="p-name">Full name</label>' +
-              '<input class="input" id="p-name" type="text" value="Amelia Ek"></div>' +
-            '<div class="field"><label for="p-mail">E-mail</label>' +
-              '<input class="input" id="p-mail" type="email" value="amelia.ek@example.se"></div>' +
-            '<div class="field"><label for="p-home">Home location</label>' +
-              '<select class="input" id="p-home"><option selected>Lund C</option><option>Malmö C</option></select></div>' +
-            '<div class="row row-end"><button type="button" class="btn btn-primary">Save changes</button></div>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>Role</h2>' +
-            '<div class="choice-set">' +
-              '<button type="button" class="choice" aria-pressed="false"><strong>Passenger</strong>' +
-                '<span>Book seats only.</span></button>' +
-              '<button type="button" class="choice" aria-pressed="false"><strong>Driver</strong>' +
-                '<span>Publish trips only.</span></button>' +
-              '<button type="button" class="choice" aria-pressed="true"><strong>Both</strong>' +
-                '<span>Currently active.</span></button>' +
-            '</div>' +
-            '<h3 style="margin-top:4px">Vehicle</h3>' +
-            '<dl class="kv">' +
-              '<dt>Car</dt><dd>Skoda Fabia</dd>' +
-              '<dt>Registration</dt><dd class="num">XLN 442</dd>' +
-              '<dt>Seats offered</dt><dd class="num">3</dd>' +
-            '</dl>' +
-            '<div class="callout callout-warn">' +
-              '<strong>Blocked decision</strong>' +
-              '<p>What happens to published trips if a driver switches to passenger-only? Cancel them, or refuse ' +
-              'the change while trips are open? Nothing in the backlog covers it.</p>' +
-            '</div>' +
-          '</section>' +
+      var r = RIDES['R-104'];
+      return page([
+        head('My trips', null, '<a class="btn primary sm" href="#/driver/publish">Publish a ride</a>'),
+        '<div class="card"><div class="ride-top"><h2>Saturday 13 September</h2>' +
+          '<span class="tag">2 requests waiting</span></div>' +
+          route(r.stops) +
+          '<div class="ride-foot">' + seats(r.seatsFree, r.seatsTotal) +
+          '<div class="row"><a class="btn plain sm" href="#/driver/trip">Trip detail</a>' +
+          '<a class="btn primary sm" href="#/driver/requests">Answer requests</a></div></div>' +
         '</div>',
-
-        U.req(['4.1.4', '4.1.2'], [])
+        '<div class="card"><h2>Later this week</h2><ul class="list">' +
+          '<li><div class="body"><span class="title">Lund C to Ystad</span>' +
+          '<span class="sub">Sun 14 Sep 16:20 · 3 seats free</span></div>' +
+          '<a class="btn plain sm" href="#/driver/trip">Open</a></li>' +
+          '<li><div class="body"><span class="title">Malmö C to Lund C</span>' +
+          '<span class="sub">Mon 15 Sep 07:50 · 2 seats free</span></div>' +
+          '<a class="btn plain sm" href="#/driver/trip">Open</a></li>' +
+        '</ul></div>'
       ]);
     }
   });
-})();
-
-
-/* ===== js/views-driver.js ===== */
-/* Driver flow: dashboard, publishing a ride, handling requests, the manifest. */
-
-(function () {
-  var R = window.ROUTES = window.ROUTES || {};
-  var O = window.SCREEN_ORDER = window.SCREEN_ORDER || [];
-  function screen(s) { R[s.path] = s; if (!s.hidden) { O.push(s); } }
-  var U = window.UI, D = window.DATA;
 
   screen({
-    path: '#/driver', code: 'D1', group: 'Driver', label: 'Driver dashboard', actor: 'driver',
-    blurb: 'Where a driver lands: today first, requests waiting.',
-    reqs: ['4.1.3', '4.2.3'],
+    path: '#/driver/publish', group: 'Driver', label: 'Publish a ride', blurb: 'Route, stops, time and seats.',
     render: function () {
-      var r104 = D.ride('R-104');
-      return U.page([
-        U.pageHead('Your trips',
-          'Signed in as <strong>Amelia Ek</strong>, driving today. Two seat requests are waiting for an answer.',
-          '<a class="btn btn-primary btn-sm" href="#/driver/offer">Publish a ride</a>'),
-
-        '<section class="panel stack">' +
-          '<div class="panel-head"><h2>Saturday 13 September</h2>' +
-            '<span class="chip chip-warn">2 requests waiting</span></div>' +
-          U.corridor(r104.stops, null, null) +
-          '<div class="ride-foot">' +
-            '<div class="row">' + U.seatChip(r104.seatsFree, r104.seatsTotal) +
-              '<span class="chip">' + r104.passengers.length + ' confirmed</span></div>' +
-            '<div class="row">' +
-              '<a class="btn btn-secondary btn-sm" href="#/driver/trip/R-104">Trip detail</a>' +
-              '<a class="btn btn-primary btn-sm" href="#/driver/requests">Answer requests</a>' +
+      return page([
+        head('Publish a ride'),
+        '<div class="two">' +
+          '<div class="card">' +
+            '<div class="field"><label for="pf">From</label><select class="input" id="pf">' +
+            '<option selected>Malmö C</option></select></div>' +
+            '<div class="field"><label for="pt">To</label><select class="input" id="pt">' +
+            '<option selected>Helsingborg</option></select></div>' +
+            '<div class="field"><label>Stops along the way</label><div class="pick">' +
+              '<button type="button" aria-pressed="true"><strong>Lomma</strong><span>+16 min</span></button>' +
+              '<button type="button" aria-pressed="true"><strong>Bjärred</strong><span>+8 min</span></button>' +
+              '<button type="button" aria-pressed="true"><strong>Landskrona</strong><span>+15 min</span></button>' +
+            '</div><span class="hint">Stops are what let people join partway.</span></div>' +
+            '<div class="two">' +
+              '<div class="field"><label for="pd">Date</label><input class="input" id="pd" type="date" value="2026-09-13"></div>' +
+              '<div class="field"><label for="pti">Departure</label><input class="input" id="pti" type="time" value="07:40"></div>' +
+              '<div class="field"><label for="ps">Free seats</label><select class="input" id="ps">' +
+              '<option>1</option><option>2</option><option selected>3</option></select></div>' +
             '</div>' +
+            '<div class="row end"><a class="btn primary" href="#/driver/trip">Publish</a></div>' +
           '</div>' +
-        '</section>',
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<h2>Later this week</h2>' +
-            '<ul class="itemlist">' +
-              '<li><div class="item-body"><span class="item-title">Lund C &rarr; Ystad</span>' +
-                '<span class="item-sub">Sun 14 Sep 16:20 &middot; 3 seats free &middot; no requests</span></div>' +
-                '<a class="btn btn-secondary btn-sm" href="#/driver/trip/R-104">Open</a></li>' +
-              '<li><div class="item-body"><span class="item-title">Malmö C &rarr; Lund C</span>' +
-                '<span class="item-sub">Mon 15 Sep 07:50 &middot; 2 seats free &middot; 1 confirmed</span></div>' +
-                '<a class="btn btn-secondary btn-sm" href="#/driver/trip/R-104">Open</a></li>' +
-            '</ul>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>Open question for the dashboard</h2>' +
-            '<p>Nothing in the backlog says how far ahead a driver may publish, or whether a recurring commute is ' +
-            'one ride repeated or many separate rides. The second answer fills this list with near-duplicates ' +
-            'within a week.</p>' +
-            '<div class="callout callout-info">' +
-              '<strong>Worth raising at the expert meeting</strong>' +
-              '<p>Recurrence is the single change most likely to reshape the data model after the PRD is baselined, ' +
-              'which makes it expensive later. Decide it now, even if the answer is &ldquo;not supported&rdquo;.</p>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['4.1.3', '4.2.3', '4.2.5'], [43])
+          '<div class="card"><h2>Preview</h2>' + route(RIDES['R-104'].stops) + '</div>' +
+        '</div>'
       ]);
     }
   });
 
   screen({
-    path: '#/driver/offer', code: 'D2', group: 'Driver', label: 'Publish a ride', actor: 'driver',
-    blurb: 'Route with intermediate stops, time, seats.',
-    reqs: ['4.2.1', '4.2.2'],
+    path: '#/driver/requests', group: 'Driver', label: 'Booking requests', blurb: 'Accept or decline a seat.',
     render: function () {
-      return U.page([
-        U.pageHead('Publish a ride',
-          'The stops between origin and destination are what make partial-leg booking possible. If the driver is ' +
-          'not asked for them, no passenger can ever join halfway.'),
-
-        '<div class="grid-2">' +
-          '<section class="panel stack">' +
-            '<h2>Route</h2>' +
-            '<div class="field"><label for="o-from">From</label>' +
-              '<select class="input" id="o-from"><option selected>Malmö C</option><option>Lund C</option></select></div>' +
-            '<div class="field"><label for="o-to">To</label>' +
-              '<select class="input" id="o-to"><option selected>Helsingborg</option><option>Landskrona</option></select></div>' +
-            '<div class="field"><label for="o-stops">Stops along the way</label>' +
-              '<div class="choice-set">' +
-                '<button type="button" class="choice" aria-pressed="true"><strong>Lomma</strong><span>+16 min</span></button>' +
-                '<button type="button" class="choice" aria-pressed="true"><strong>Bjärred</strong><span>+8 min</span></button>' +
-                '<button type="button" class="choice" aria-pressed="true"><strong>Landskrona</strong><span>+15 min</span></button>' +
-              '</div>' +
-              '<span class="hint">Offered from the west coast corridor, because origin and destination both sit on it.</span>' +
-            '</div>' +
-            '<div class="row">' +
-              '<div class="field" style="flex:1"><label for="o-date">Date</label>' +
-                '<input class="input" id="o-date" type="date" value="2026-09-13"></div>' +
-              '<div class="field" style="flex:1"><label for="o-time">Departure</label>' +
-                '<input class="input" id="o-time" type="time" value="07:40"></div>' +
-              '<div class="field" style="flex:1"><label for="o-seats">Free seats</label>' +
-                '<select class="input" id="o-seats"><option>1</option><option>2</option>' +
-                '<option selected>3</option><option>4</option></select></div>' +
-            '</div>' +
-            '<div class="field"><label for="o-note">Note for passengers</label>' +
-              '<textarea class="input" id="o-note" rows="2">Non-smoking. Small bags only — boot has a bike rack.</textarea></div>' +
-            '<div class="row row-end">' +
-              '<a class="btn btn-secondary" href="#/driver">Save as draft</a>' +
-              '<a class="btn btn-primary" href="#/driver/trip/R-104">Publish ride</a>' +
-            '</div>' +
-          '</section>' +
-
-          '<section class="panel stack">' +
-            '<h2>Preview</h2>' +
-            U.corridor([
-              { name: 'Malmö C',     time: '07:40' },
-              { name: 'Lomma',       time: '07:56' },
-              { name: 'Bjärred',     time: '08:04' },
-              { name: 'Landskrona',  time: '08:19' },
-              { name: 'Helsingborg', time: '08:41' }
-            ], null, null) +
-            '<p style="color:var(--ink-2);font-size:.92rem">Stop times are estimated from the corridor, not from a ' +
-            'map service. The customer explicitly does not require a map.</p>' +
-            '<div class="callout callout-warn">' +
-              '<strong>Two unresolved requirements</strong>' +
-              '<p>Can a driver override an estimated stop time by hand? And may the route be edited after ' +
-              'passengers have booked a leg that the edit removes? Neither has an issue in CourseGit.</p>' +
-            '</div>' +
-          '</section>' +
-        '</div>',
-
-        U.req(['4.2.1', '4.2.2', '4.4.2'], [])
-      ]);
-    }
-  });
-
-  screen({
-    path: '#/driver/requests', code: 'D3', group: 'Driver', label: 'Booking requests', actor: 'driver',
-    blurb: 'Accept or decline, with the seat effect shown.',
-    reqs: ['4.2.3', '4.2.4', '4.4.3'],
-    render: function () {
-      var ride = D.ride('R-104');
-      var cards = ride.requests.map(function (q) {
+      var r = RIDES['R-104'];
+      var reqs = [
+        { name: 'Amelia Ek', i: 'AE', from: 'Malmö C', to: 'Helsingborg', when: '2 h ago' },
+        { name: 'Oskar Lejon', i: 'OL', from: 'Lomma', to: 'Landskrona', when: '40 min ago' }
+      ].map(function (q) {
         return '<article class="ride">' +
-          '<div class="ride-top">' +
-            '<div class="ride-who">' +
-              '<span class="avatar" aria-hidden="true">' + U.esc(q.initials) + '</span>' +
-              '<div class="stack-s"><strong>' + U.esc(q.name) + '</strong>' +
-              '<span class="ride-meta">Requested ' + U.esc(q.asked) + ' &middot; ' + U.esc(q.id) + '</span></div>' +
-            '</div>' +
-            '<span class="chip chip-seat">' + q.seats + ' seat</span>' +
-          '</div>' +
-          U.corridor(ride.stops, q.from, q.to) +
-          '<div class="ride-foot">' +
-            '<span class="ride-meta">Occupies a seat only between ' + U.esc(q.from) + ' and ' + U.esc(q.to) + '.</span>' +
-            '<div class="row">' +
-              '<a class="btn btn-secondary btn-sm" href="#/driver/requests">Decline</a>' +
-              '<a class="btn btn-primary btn-sm" href="#/driver/trip/R-104">Accept</a>' +
-            '</div>' +
-          '</div>' +
-        '</article>';
+          '<div class="ride-top"><div class="driver"><span class="av">' + esc(q.i) + '</span>' +
+          '<div><div class="title">' + esc(q.name) + '</div>' +
+          '<div class="meta">Asked ' + esc(q.when) + '</div></div></div>' +
+          '<span class="tag seat">1 seat</span></div>' +
+          route(r.stops, q.from, q.to) +
+          '<div class="ride-foot"><span class="meta">Takes a seat only between ' + esc(q.from) +
+          ' and ' + esc(q.to) + '.</span>' +
+          '<div class="row"><a class="btn plain sm" href="#/driver/requests">Decline</a>' +
+          '<a class="btn primary sm" href="#/driver/trip">Accept</a></div></div>' +
+          '</article>';
       }).join('');
-
-      return U.page([
-        U.pageHead('Requests for R-104',
-          'Malmö C &rarr; Helsingborg, Sat 13 Sep 07:40. Two people want a seat, on different parts of the route.',
-          '<a class="btn btn-quiet btn-sm" href="#/driver">Back to trips</a>'),
-
-        '<div class="stack">' + cards + '</div>',
-
-        '<div class="callout callout-info">' +
-          '<strong>These two requests do not compete</strong>' +
-          '<p>Amelia rides the whole way, Oskar only Lomma&ndash;Landskrona. With three seats both fit. With one seat ' +
-          'they conflict on the middle section only. The seat count has to be evaluated per segment, which is the ' +
-          'hardest thing on this screen and the reason 4.4.3 exists.</p>' +
-        '</div>',
-
-        U.req(['4.2.3', '4.2.4', '4.4.3', '4.5.2'], [31, 37, 41, 35])
+      return page([
+        head('Requests for Saturday', 'Malmö C to Helsingborg, departs 07:40.',
+          '<a class="btn plain sm" href="#/driver">Back to trips</a>'),
+        reqs
       ]);
     }
   });
 
-  function tripDetail() {
-    var ride = D.ride('R-104');
-    var manifest = [
-      { stop: 'Malmö C',     time: '07:40', on: ['Amelia Ek'], off: [] },
-      { stop: 'Lomma',       time: '07:56', on: ['Oskar Lejon'], off: [] },
-      { stop: 'Bjärred',     time: '08:04', on: [], off: [] },
-      { stop: 'Landskrona',  time: '08:19', on: [], off: ['Tove Åkesson', 'Oskar Lejon'] },
-      { stop: 'Helsingborg', time: '08:41', on: [], off: ['Amelia Ek'] }
-    ];
-
-    var rows = manifest.map(function (m) {
-      function names(list, kind) {
-        if (!list.length) { return '<span style="color:var(--ink-3)">—</span>'; }
-        return list.map(function (n) {
-          return '<span class="chip ' + (kind === 'on' ? 'chip-ok' : '') + '">' + U.esc(n) + '</span>';
-        }).join(' ');
-      }
-      return '<tr><td class="num">' + U.esc(m.time) + '</td><td>' + U.esc(m.stop) + '</td>' +
-        '<td>' + names(m.on, 'on') + '</td><td>' + names(m.off, 'off') + '</td></tr>';
-    }).join('');
-
-    return U.page([
-      U.pageHead('Trip R-104',
-        'Malmö C &rarr; Helsingborg, Sat 13 Sep. Three passengers, none of them travelling the same leg.',
-        '<a class="btn btn-secondary btn-sm" href="#/driver/trip/R-104/cancel">Cancel ride</a>'),
-
-      '<section class="panel stack">' +
-        U.corridor(ride.stops, null, null) +
-        '<div class="row">' + U.seatChip(1, 3) +
-          '<span class="chip chip-info">Full between Lomma and Landskrona</span></div>' +
-      '</section>',
-
-      '<section class="panel stack">' +
-        '<div class="panel-head"><h2>Pickup order</h2>' +
-          '<span class="chip">What the driver actually needs while driving</span></div>' +
-        '<div class="table-scroll"><table class="data">' +
-          '<thead><tr><th class="num">Time</th><th>Stop</th><th>Picks up</th><th>Drops off</th></tr></thead>' +
-          '<tbody>' + rows + '</tbody></table></div>' +
-        '<p class="hint" style="font-size:.82rem;color:var(--ink-3)">The customer requires that a person finds out who ' +
-        'they are travelling with. For the driver that means this list, in stop order — not an alphabetical list of names.</p>' +
-      '</section>',
-
-      '<div class="grid-2">' +
-        '<section class="panel stack">' +
-          '<h2>Passengers</h2>' +
-          '<ul class="itemlist">' +
-            '<li><span class="avatar" aria-hidden="true">AE</span><div class="item-body">' +
-              '<span class="item-title">Amelia Ek</span><span class="item-sub">Malmö C &rarr; Helsingborg &middot; 1 seat</span>' +
-              '</div>' + U.stateChip('confirmed') + '</li>' +
-            '<li><span class="avatar" aria-hidden="true">TÅ</span><div class="item-body">' +
-              '<span class="item-title">Tove Åkesson</span><span class="item-sub">Malmö C &rarr; Landskrona &middot; 1 seat</span>' +
-              '</div>' + U.stateChip('confirmed') + '</li>' +
-            '<li><span class="avatar" aria-hidden="true">OL</span><div class="item-body">' +
-              '<span class="item-title">Oskar Lejon</span><span class="item-sub">Lomma &rarr; Landskrona &middot; 1 seat</span>' +
-              '</div>' + U.stateChip('pending') + '</li>' +
-          '</ul>' +
-        '</section>' +
-
-        '<section class="panel stack">' +
-          '<h2>What the driver can change</h2>' +
-          '<ul class="itemlist">' +
-            '<li><div class="item-body"><span class="item-title">Departure time</span>' +
-              '<span class="item-sub">All passengers are notified.</span></div>' +
-              '<button type="button" class="btn btn-secondary btn-sm">Edit</button></li>' +
-            '<li><div class="item-body"><span class="item-title">Free seats</span>' +
-              '<span class="item-sub">Cannot go below what is already booked on any segment.</span></div>' +
-              '<button type="button" class="btn btn-secondary btn-sm">Edit</button></li>' +
-            '<li><div class="item-body"><span class="item-title">Note to passengers</span>' +
-              '<span class="item-sub">No notification sent.</span></div>' +
-              '<button type="button" class="btn btn-secondary btn-sm">Edit</button></li>' +
-          '</ul>' +
-          '<div class="callout"><strong>Rule worth numbering</strong>' +
-            '<p>&ldquo;Seats cannot be reduced below the booked count on any segment&rdquo; is testable and cheap to ' +
-            'state now. Discovered during integration it is a redesign.</p></div>' +
-        '</section>' +
-      '</div>',
-
-      U.req(['4.2.5', '4.2.4', '4.4.3'], [31, 41])
-    ]);
-  }
-
   screen({
-    path: '#/driver/trip/R-104', code: 'D4', group: 'Driver', label: 'Trip detail & manifest', actor: 'driver',
-    blurb: 'Who boards where — the driver-side answer to "who am I travelling with".',
-    reqs: ['4.2.5', '4.4.3'],
-    render: tripDetail
-  });
-
-  screen({
-    path: '#/driver/trip/R-104/cancel', code: 'D5', group: 'Driver', label: 'Cancel a ride', actor: 'driver',
-    blurb: 'The destructive action, with everyone it affects named.',
-    reqs: ['4.2.6', '4.5.2'],
+    path: '#/driver/trip', group: 'Driver', label: 'Trip & passengers', blurb: 'Who gets on where.',
     render: function () {
-      return U.page([
-        U.pageHead('Cancel trip R-104',
-          'Cancelling a published ride strands people who have planned around it, so the screen names them.'),
-
-        '<section class="panel stack" style="max-width:640px">' +
-          '<dl class="kv">' +
-            '<dt>Journey</dt><dd>Malmö C &rarr; Helsingborg</dd>' +
-            '<dt>Departs</dt><dd class="num">Sat 13 Sep 07:40</dd>' +
-            '<dt>Affected</dt><dd>3 passengers</dd>' +
-          '</dl>' +
-          '<div class="callout callout-crit">' +
-            '<strong>These three people will be notified</strong>' +
-            '<p>Amelia Ek (Malmö C &rarr; Helsingborg), Tove Åkesson (Malmö C &rarr; Landskrona) and Oskar Lejon ' +
-            '(Lomma &rarr; Landskrona, request still pending). Their bookings move to cancelled and the seats disappear.</p>' +
-          '</div>' +
-          '<div class="field"><label for="c-reason">Reason (sent to passengers)</label>' +
-            '<select class="input" id="c-reason">' +
-              '<option selected>Car unavailable</option><option>Plans changed</option>' +
-              '<option>Illness</option><option>Other</option></select></div>' +
-          '<div class="row row-end">' +
-            '<a class="btn btn-secondary" href="#/driver/trip/R-104">Keep the ride</a>' +
-            '<a class="btn btn-danger" href="#/driver">Cancel ride and notify</a>' +
-          '</div>' +
-        '</section>',
-
-        U.req(['4.2.6', '4.5.1', '4.5.2'], [17, 19, 28])
-      ]);
-    }
-  });
-})();
-
-
-/* ===== js/views-admin.js ===== */
-/* Administrator flow. The customer requires an administrator role that can,
-   for example, remove registered people. */
-
-(function () {
-  var R = window.ROUTES = window.ROUTES || {};
-  var O = window.SCREEN_ORDER = window.SCREEN_ORDER || [];
-  function screen(s) { R[s.path] = s; if (!s.hidden) { O.push(s); } }
-  var U = window.UI, D = window.DATA;
-
-  screen({
-    path: '#/admin/users', code: 'A1', group: 'Administrator', label: 'Users', actor: 'admin',
-    blurb: 'The list, with role and account state.',
-    reqs: ['4.6.1'],
-    render: function () {
-      var rows = D.users.map(function (u) {
-        return '<tr>' +
-          '<td class="num">' + U.esc(u.id) + '</td>' +
-          '<td><a href="#/admin/user/' + U.esc(u.id) + '">' + U.esc(u.name) + '</a></td>' +
-          '<td>' + U.esc(u.email) + '</td>' +
-          '<td>' + U.esc(u.role) + '</td>' +
-          '<td>' + U.stateChip(u.state) + '</td>' +
-          '<td class="num">' + U.esc(u.joined) + '</td>' +
-          '<td class="num">' + u.trips + '</td>' +
-          '<td><a class="btn btn-secondary btn-sm" href="#/admin/user/' + U.esc(u.id) + '">Manage</a></td>' +
-        '</tr>';
+      var r = RIDES['R-104'];
+      var rows = [
+        ['07:40', 'Malmö C', 'Amelia Ek', ''],
+        ['07:56', 'Lomma', 'Oskar Lejon', ''],
+        ['08:04', 'Bjärred', '', ''],
+        ['08:19', 'Landskrona', '', 'Tove Åkesson, Oskar Lejon'],
+        ['08:41', 'Helsingborg', '', 'Amelia Ek']
+      ].map(function (m) {
+        return '<tr><td class="num">' + esc(m[0]) + '</td><td>' + esc(m[1]) + '</td>' +
+          '<td>' + (m[2] ? esc(m[2]) : '—') + '</td><td>' + (m[3] ? esc(m[3]) : '—') + '</td></tr>';
       }).join('');
-
-      return U.page([
-        U.pageHead('Users',
-          'Work items #21, #38, #39 and #42 all live on this screen and the one behind it. ' +
-          'Splitting them differently would mean four screens where one does the job.',
-          '<a class="btn btn-primary btn-sm" href="#/admin/users/new">Add user</a>'),
-
-        '<section class="panel stack">' +
-          '<div class="panel-head">' +
-            '<div class="row">' +
-              '<input class="input" id="a-search" type="search" placeholder="Search name or e-mail" style="width:240px">' +
-              '<select class="input" id="a-role" style="width:auto"><option>All roles</option><option>Passenger</option>' +
-                '<option>Driver</option><option>Passenger + driver</option><option>Administrator</option></select>' +
-              '<select class="input" id="a-state" style="width:auto"><option>All states</option>' +
-                '<option>Active</option><option>Suspended</option></select>' +
-            '</div>' +
-            '<span class="chip">' + D.users.length + ' users</span>' +
-          '</div>' +
-          '<div class="table-scroll"><table class="data">' +
-            '<thead><tr><th class="num">ID</th><th>Name</th><th>E-mail</th><th>Role</th>' +
-            '<th>State</th><th class="num">Joined</th><th class="num">Trips</th><th></th></tr></thead>' +
-            '<tbody>' + rows + '</tbody>' +
-          '</table></div>' +
-        '</section>',
-
-        '<div class="callout callout-warn">' +
-          '<strong>Suspended is not in the requirements</strong>' +
-          '<p>The customer asks for an administrator who can remove people. This prototype also shows a suspended ' +
-          'state, because removing someone who has upcoming bookings destroys another person’s trip. ' +
-          'Either suspension becomes a requirement, or removal needs a rule for what happens to their bookings.</p>' +
-        '</div>',
-
-        U.req(['4.6.1', '4.6.3'], [16, 21, 32, 42])
+      return page([
+        head('Saturday 13 September', 'Malmö C to Helsingborg. Three passengers.',
+          '<a class="btn plain sm" href="#/driver">Back to trips</a>'),
+        '<div class="card">' + route(r.stops) + '<div class="row">' + seats(1, 3) + '</div></div>',
+        '<div class="card"><h2>Pickup order</h2>' +
+          '<div class="tbl-wrap"><table><thead><tr><th class="num">Time</th><th>Stop</th>' +
+          '<th>Picks up</th><th>Drops off</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '</div>'
       ]);
     }
   });
 
-  screen({
-    path: '#/admin/users/new', code: 'A2', group: 'Administrator', label: 'Add user', actor: 'admin',
-    blurb: 'Creating an account on someone’s behalf.',
-    reqs: ['4.6.2', '5.1.1'],
-    render: function () {
-      return U.page([
-        U.pageHead('Add user',
-          'Work item #30. The same fields as self-registration, plus the two things only an administrator sets: ' +
-          'the role and whether the account can sign in immediately.'),
+  /* ---------- shell ---------- */
 
-        '<section class="panel stack" style="max-width:640px">' +
-          '<div class="field"><label for="n-name">Full name</label>' +
-            '<input class="input" id="n-name" type="text" placeholder="Jonas Wide"></div>' +
-          '<div class="field"><label for="n-mail">E-mail</label>' +
-            '<input class="input" id="n-mail" type="email" placeholder="jonas.wide@example.se">' +
-            '<span class="hint">Must be unique. An address already in use is rejected with that reason.</span></div>' +
-          '<div class="field"><label for="n-role">Role</label>' +
-            '<select class="input" id="n-role"><option selected>Passenger</option><option>Driver</option>' +
-              '<option>Passenger + driver</option><option>Administrator</option></select></div>' +
-          '<div class="field"><label for="n-state">Initial state</label>' +
-            '<select class="input" id="n-state"><option selected>Active</option>' +
-              '<option>Invited — must set a password first</option></select></div>' +
-          '<div class="row row-end">' +
-            '<a class="btn btn-secondary" href="#/admin/users">Cancel</a>' +
-            '<a class="btn btn-primary" href="#/admin/users">Create user</a>' +
-          '</div>' +
-        '</section>',
+  var ROUTES = {};
+  SCREENS.forEach(function (s) { ROUTES[s.path] = s; });
 
-        '<div class="callout callout-info">' +
-          '<strong>Who sets the password?</strong>' +
-          '<p>If the administrator does, they know it. If the system invites the person instead, the prototype needs ' +
-          'an invitation flow nobody has an issue for. The second is the safer requirement and the more work.</p>' +
-        '</div>',
-
-        U.req(['4.6.2', '5.1.1'], [30])
-      ]);
-    }
-  });
-
-  function userDetail(path) {
-    var id = path.split('/')[3];
-    var u = D.user(id) || D.users[0];
-
-    return U.page([
-      U.pageHead(u.name,
-        U.esc(u.id) + ' &middot; joined <span class="num">' + U.esc(u.joined) + '</span> &middot; ' +
-        '<span class="num">' + u.trips + '</span> completed trips',
-        '<a class="btn btn-quiet btn-sm" href="#/admin/users">Back to users</a>'),
-
-      '<div class="grid-2">' +
-        '<section class="panel stack">' +
-          '<h2>Account</h2>' +
-          '<dl class="kv">' +
-            '<dt>E-mail</dt><dd>' + U.esc(u.email) + '</dd>' +
-            '<dt>State</dt><dd>' + U.stateChip(u.state) + '</dd>' +
-            '<dt>Home</dt><dd>Lund C</dd>' +
-          '</dl>' +
-          '<h3>Role</h3>' +
-          '<div class="choice-set">' +
-            '<button type="button" class="choice" aria-pressed="' + (u.role === 'Passenger') + '">' +
-              '<strong>Passenger</strong><span>Book seats only.</span></button>' +
-            '<button type="button" class="choice" aria-pressed="' + (u.role === 'Driver') + '">' +
-              '<strong>Driver</strong><span>Publish trips only.</span></button>' +
-            '<button type="button" class="choice" aria-pressed="' + (u.role === 'Passenger + driver') + '">' +
-              '<strong>Both</strong><span>Publish and book.</span></button>' +
-            '<button type="button" class="choice" aria-pressed="false">' +
-              '<strong>Administrator</strong><span>Manage every account.</span></button>' +
-          '</div>' +
-          '<div class="row row-end"><button type="button" class="btn btn-primary">Save role</button></div>' +
-        '</section>' +
-
-        '<section class="panel stack">' +
-          '<h2>Activity</h2>' +
-          '<ul class="itemlist">' +
-            '<li><div class="item-body"><span class="item-title">2 upcoming bookings</span>' +
-              '<span class="item-sub">Sat 13 Sep and Sun 14 Sep</span></div>' +
-              '<a class="btn btn-secondary btn-sm" href="#/bookings">View</a></li>' +
-            '<li><div class="item-body"><span class="item-title">1 published ride</span>' +
-              '<span class="item-sub">Malmö C → Helsingborg, 3 passengers</span></div>' +
-              '<a class="btn btn-secondary btn-sm" href="#/driver/trip/R-104">View</a></li>' +
-            '<li><div class="item-body"><span class="item-title">No reports filed</span>' +
-              '<span class="item-sub">Last sign-in 11 Sep 08:12</span></div></li>' +
-          '</ul>' +
-
-          '<h3 style="margin-top:4px">Remove this account</h3>' +
-          '<div class="callout callout-crit">' +
-            '<strong>This account has upcoming trips</strong>' +
-            '<p>Removing it now cancels 2 bookings and 1 published ride, and notifies 3 other people. ' +
-            'Suspending instead blocks sign-in and leaves the trips intact.</p>' +
-          '</div>' +
-          '<div class="row row-end">' +
-            '<button type="button" class="btn btn-secondary">Suspend account</button>' +
-            '<a class="btn btn-danger" href="#/admin/users">Remove permanently</a>' +
-          '</div>' +
-        '</section>' +
-      '</div>',
-
-      U.req(['4.6.3', '4.6.4', '4.2.6', '4.3.5'], [38, 39, 32])
-    ]);
-  }
-
-  screen({
-    path: '#/admin/user/U-1002', code: 'A3', group: 'Administrator', label: 'User detail', actor: 'admin',
-    blurb: 'Change role, suspend, remove — with the consequences shown.',
-    reqs: ['4.6.3', '4.6.4'],
-    render: userDetail
-  });
-
-  D.users.forEach(function (u) {
-    if (u.id === 'U-1002') { return; }
-    screen({ path: '#/admin/user/' + u.id, hidden: true, actor: 'admin', render: userDetail });
-  });
-})();
-
-
-/* ===== js/app.js ===== */
-/* Hash router + shell wiring. Small on purpose: the prototype exists to show
-   screens and the paths between them, not to be an application. */
-
-(function () {
-  var ROUTES = window.ROUTES;
-  var ORDER = window.SCREEN_ORDER;
-  var U = window.UI;
-
+  var rail = document.getElementById('rail');
   var main = document.getElementById('main');
-  var rail = document.getElementById('railnav');
+  var path = '#/';
 
-  /* ---- preferences (best effort; storage can be unavailable) ---- */
-
-  function readPref(key) {
-    try { return window.localStorage.getItem(key); } catch (e) { return null; }
-  }
-  function writePref(key, value) {
-    try { window.localStorage.setItem(key, value); } catch (e) { /* ignore */ }
-  }
-
-  /* Only ever set the attribute, never clear it: when this page is embedded
-     somewhere that stamps the viewer's own theme on the root element, clearing
-     it would override their choice. With nothing stored we inherit
-     prefers-color-scheme, which is the right default in both places. */
-  var storedTheme = readPref('proto-theme');
-  if (storedTheme === 'dark' || storedTheme === 'light') {
-    document.documentElement.setAttribute('data-theme', storedTheme);
-  }
-
-  if (readPref('proto-req') === '1') {
-    document.body.classList.add('show-req');
-    document.getElementById('req-toggle').setAttribute('aria-pressed', 'true');
-  }
-
-  /* ---- rail navigation ---- */
-
-  function buildRail() {
-    var groups = [];
-    var byName = {};
-    ORDER.forEach(function (s) {
+  (function buildRail() {
+    var groups = [], byName = {};
+    SCREENS.forEach(function (s) {
       if (!byName[s.group]) { byName[s.group] = []; groups.push(s.group); }
       byName[s.group].push(s);
     });
-
     rail.innerHTML = groups.map(function (g) {
-      var links = byName[g].map(function (s) {
-        return '<a class="rail-link" href="' + s.path + '" data-path="' + s.path + '">' +
-          '<span class="rail-id">' + U.esc(s.code) + '</span>' +
-          '<span>' + U.esc(s.label) + '</span></a>';
-      }).join('');
-      return '<div class="rail-group"><span class="eyebrow">' + U.esc(g) + '</span>' + links + '</div>';
+      return '<div class="rail-group"><span class="rail-label">' + esc(g) + '</span>' +
+        byName[g].map(function (s) {
+          return '<a href="' + s.path + '" data-path="' + s.path + '">' + esc(s.label) + '</a>';
+        }).join('') + '</div>';
     }).join('');
-  }
-
-  /* ---- routing ---- */
-
-  /* Navigation is driven by an internal variable, not by location.hash.
-     Embedded in a sandboxed frame the hash is not always writable, and a router
-     that depends on it silently stops navigating. The hash is still kept in
-     sync when the host allows it, so deep links and the back button work where
-     they can. */
-  var path = '#/';
-
-  function readHash() {
-    try {
-      var h = window.location.hash;
-      return (!h || h === '#') ? null : h;
-    } catch (e) { return null; }
-  }
-
-  function writeHash(next) {
-    try {
-      if (window.location.hash !== next) { window.location.hash = next; }
-    } catch (e) { /* frame will not take it; the internal path still moved */ }
-  }
-
-  function go(next) {
-    if (!next || next === path) { return; }
-    path = next;
-    render();
-    writeHash(next);
-  }
+  })();
 
   function render() {
-    var spec = ROUTES[path];
-
-    if (!spec) {
-      main.innerHTML = U.page([
-        U.pageHead('Screen not drawn yet',
-          'Nothing in this prototype answers to <code class="mono">' + U.esc(path) + '</code>. ' +
-          'That is either a link typed by hand, or a flow the team has not designed — worth knowing which.'),
-        '<div class="empty"><h2>Where to go instead</h2>' +
-          '<a class="btn btn-primary" href="#/">Back to the screen index</a></div>'
-      ]);
-    } else {
-      main.innerHTML = spec.render(path);
-    }
-
-    document.title = (spec && spec.label ? spec.label + ' — ' : '') + 'Samåk Route Prototype';
-
-    Array.prototype.forEach.call(rail.querySelectorAll('.rail-link'), function (a) {
-      if (a.getAttribute('data-path') === path) {
-        a.setAttribute('aria-current', 'page');
-      } else {
-        a.removeAttribute('aria-current');
-      }
+    var s = ROUTES[path];
+    main.innerHTML = s ? s.render() : page([head('Not part of this prototype',
+      'Nothing here answers to that link. <a href="#/">Back to the start</a>.')]);
+    Array.prototype.forEach.call(rail.querySelectorAll('a'), function (a) {
+      if (a.getAttribute('data-path') === path) { a.setAttribute('aria-current', 'page'); }
+      else { a.removeAttribute('aria-current'); }
     });
-
-    var actor = spec && spec.actor;
-    ['passenger', 'driver', 'admin'].forEach(function (name) {
-      document.getElementById('actor-' + name)
-        .setAttribute('aria-pressed', actor === name ? 'true' : 'false');
-    });
-
+    document.title = (s && s.path !== '#/' ? s.label + ' — ' : '') + 'Samåk Prototype';
     main.focus();
     window.scrollTo(0, 0);
   }
 
-  /* ---- toggles ---- */
-
-  var actorHome = {
-    passenger: '#/search',
-    driver: '#/driver',
-    admin: '#/admin/users'
-  };
-
-  Object.keys(actorHome).forEach(function (name) {
-    document.getElementById('actor-' + name).addEventListener('click', function () {
-      go(actorHome[name]);
-    });
-  });
-
-  /* Every in-page link is handled here rather than by the browser, for the
-     same reason the router does not read the hash. Registered in the capture
-     phase: an embedding page may have its own click handler that treats an
-     anchor as an outbound link and stops the event before it reaches us. */
+  /* Capture phase, and the path is held here rather than read from location.hash:
+     embedded in a sandboxed frame neither the hash nor bubbled clicks are reliable. */
   document.addEventListener('click', function (e) {
-    var t = e.target;
-    var a = t && t.closest ? t.closest('a[href^="#/"]') : null;
+    var a = e.target.closest ? e.target.closest('a[href^="#/"]') : null;
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) { return; }
     e.preventDefault();
     e.stopPropagation();
-    go(a.getAttribute('href'));
+    var next = a.getAttribute('href');
+    if (next === path) { return; }
+    path = next;
+    render();
+    try { if (location.hash !== next) { location.hash = next; } } catch (err) {}
   }, true);
 
-  document.getElementById('req-toggle').addEventListener('click', function () {
-    var on = document.body.classList.toggle('show-req');
-    this.setAttribute('aria-pressed', on ? 'true' : 'false');
-    writePref('proto-req', on ? '1' : '0');
-  });
-
-  document.getElementById('theme-toggle').addEventListener('click', function () {
-    var root = document.documentElement;
-    var dark = root.getAttribute('data-theme') === 'dark' ||
-      (!root.getAttribute('data-theme') &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches);
-    var next = dark ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    writePref('proto-theme', next);
-  });
-
-  /* Choice groups behave like radio buttons so a walkthrough can point at a
-     selection without anything being saved. */
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest ? e.target.closest('.choice') : null;
-    if (!btn) { return; }
-    var set = btn.parentNode;
-    Array.prototype.forEach.call(set.querySelectorAll('.choice'), function (c) {
-      c.setAttribute('aria-pressed', c === btn ? 'true' : 'false');
+    var b = e.target.closest ? e.target.closest('.pick button') : null;
+    if (!b) { return; }
+    Array.prototype.forEach.call(b.parentNode.querySelectorAll('button'), function (x) {
+      x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
     });
   });
 
-  document.getElementById('bell-count').textContent = window.DATA.unread();
-
   window.addEventListener('hashchange', function () {
-    var h = readHash();
-    if (h && h !== path) { path = h; render(); }
+    var h = location.hash;
+    if (h && h !== path && ROUTES[h]) { path = h; render(); }
   });
 
-  buildRail();
-  path = readHash() || '#/';
+  try { if (location.hash && ROUTES[location.hash]) { path = location.hash; } } catch (e) {}
   render();
 })();
-
 </script>
 </body>
 </html>
