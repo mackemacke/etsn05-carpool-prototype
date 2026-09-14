@@ -23,44 +23,70 @@
   --ok-soft:#E5F0EA;
   --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+
+  /* The scaffolding has its own dark set. Everything above belongs to the
+     product and must never be used outside the frame, or the two stop being
+     told apart. */
+  --ui-bg:#141D21;
+  --ui-panel:#1B272C;
+  --ui-line:#2B3B42;
+  --ui-ink:#E7EFF1;
+  --ui-muted:#93A8AF;
+  --ui-faint:#6D838B;
+  --ui-accent:#63B8CB;
+  --ui-accent-soft:#17333B;
+  --ui-note-bg:#2A2214;
+  --ui-note-ink:#DDB264;
   color-scheme:light;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--ui-bg);color:var(--ui-ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
 h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
-a{color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;padding:10px 16px}
+a{color:var(--ui-accent)}
+:focus-visible{outline:2px solid var(--ui-accent);outline-offset:2px;border-radius:3px}
+.screen :focus-visible{outline-color:var(--accent)}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ui-accent);color:#0B1417;padding:10px 16px}
 .skip:focus{left:0;z-index:60}
 
 /* ============ prototype chrome (outside the frames) ============ */
 
-.note{background:var(--route-soft);border-bottom:1px solid var(--line);padding:8px 24px;font-size:.84rem;color:var(--muted)}
+.note{background:var(--ui-note-bg);border-bottom:1px solid var(--ui-line);padding:9px 24px;
+  font-size:.84rem;color:var(--ui-note-ink)}
+.note b{font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.72rem;margin-right:8px}
 .shell{display:grid;grid-template-columns:178px minmax(0,1fr)}
 .top{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line)}
-.brand{font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--ink)}
-.brand span{color:var(--faint);font-weight:400}
-.top .meta{font-size:.86rem;color:var(--muted)}
+  padding:14px 24px;background:var(--ui-panel);border-bottom:1px solid var(--ui-line)}
+.brand{font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--ui-ink)}
+.brand span{color:var(--ui-faint);font-weight:400}
+.top .meta{font-size:.86rem;color:var(--ui-muted)}
 
-nav.rail{background:var(--card);border-right:1px solid var(--line);padding:16px 10px 40px}
+nav.rail{background:var(--ui-panel);border-right:1px solid var(--ui-line);padding:16px 10px 40px}
 .rail-group+.rail-group{margin-top:22px}
-.rail-label{display:block;padding:0 10px 8px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
-.rail a{display:block;padding:7px 10px;border-radius:5px;color:var(--muted);text-decoration:none;font-size:.9rem}
-.rail a:hover{background:var(--ground);color:var(--ink)}
-.rail a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.rail-label{display:block;padding:0 10px 8px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ui-faint);font-weight:600}
+.rail a{display:block;padding:7px 10px;border-radius:5px;color:var(--ui-muted);text-decoration:none;font-size:.9rem}
+.rail a:hover{background:var(--ui-bg);color:var(--ui-ink)}
+.rail a[aria-current="page"]{background:var(--ui-accent-soft);color:var(--ui-accent);font-weight:600}
 
 main{padding:16px 20px 34px;min-width:0}
 .wrap{max-width:1280px;display:flex;flex-direction:column;gap:11px}
 .caption{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.caption h1{font-size:1rem}
-.caption p{color:var(--muted);font-size:.85rem;max-width:90ch}
+.caption h1{font-size:1rem;color:var(--ui-ink)}
+.caption p{color:var(--ui-muted);font-size:.85rem;max-width:90ch}
+.caption .tag{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ui-accent);background:var(--ui-accent-soft);border-radius:3px;padding:3px 7px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+a.tile{display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ui-ink);
+  border:1px solid var(--ui-line);border-radius:8px;background:var(--ui-panel);padding:14px 16px}
+a.tile:hover{border-color:var(--ui-accent)}
+a.tile strong{font-size:.95rem}
+a.tile span{font-size:.82rem;color:var(--ui-muted);font-family:var(--mono)}
 
 /* ============ the browser frame ============ */
 
-.frame{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card);
-  box-shadow:0 1px 2px rgba(30,43,48,.05),0 14px 32px -22px rgba(30,43,48,.5)}
+.frame{border:1px solid var(--ui-line);border-radius:10px;overflow:hidden;background:var(--card);
+  box-shadow:0 18px 40px -20px rgba(0,0,0,.6)}
 .stage{position:relative;overflow:hidden;background:var(--ground)}
 .screen{width:1280px;height:820px;transform-origin:top left;overflow:hidden;background:#F6F8F8;
   font-size:16px;color:var(--ink);display:flex;flex-direction:column}
@@ -103,7 +129,7 @@ main{padding:16px 20px 34px;min-width:0}
 .screen .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .screen .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-.screen a{text-decoration:none}
+.screen a{text-decoration:none;color:inherit}
 .screen .b{display:inline-flex;cursor:pointer;align-items:center;border-radius:6px;padding:11px 18px;font-size:15px;font-weight:600}
 .screen .b.pri{background:var(--accent);color:#fff}
 .screen .b.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
@@ -154,7 +180,7 @@ main{padding:16px 20px 34px;min-width:0}
 
 @media (max-width:820px){
   .shell{grid-template-columns:minmax(0,1fr)}
-  nav.rail{border-right:0;border-bottom:1px solid var(--line);display:flex;gap:16px;overflow-x:auto;padding:10px 16px}
+  nav.rail{border-right:0;border-bottom:1px solid var(--ui-line);display:flex;gap:16px;overflow-x:auto;padding:10px 16px}
   .rail-group+.rail-group{margin-top:0}
   .rail-group{display:flex;align-items:center;gap:6px}
   .rail-label{padding:0 4px 0 0;white-space:nowrap}
@@ -167,11 +193,11 @@ main{padding:16px 20px 34px;min-width:0}
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
-<div class="note">Prototype — each tab shows one screen as it would look full size. Nothing is saved and no data is real.</div>
+<div class="note"><b>Prototype</b>Everything dark is scaffolding for the walkthrough. The light screen below is the product design, shown at full size. Nothing is saved and no data is real.</div>
 
 <div class="shell">
   <header class="top">
-    <a class="brand" href="#/">Samåk <span>screens</span></a>
+    <a class="brand" href="#/">Samåk <span>screen walkthrough</span></a>
     <span class="meta">ETSN05 Team 2 · phase 1</span>
   </header>
   <nav class="rail" id="rail" aria-label="Screens"></nav>
@@ -608,21 +634,19 @@ main{padding:16px 20px 34px;min-width:0}
 
   function indexView() {
     var tiles = SCREENS.filter(function (s) { return !s.index; }).map(function (s) {
-      return '<a class="tile" href="' + s.path + '" style="display:flex;flex-direction:column;gap:3px;' +
-        'text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:8px;' +
-        'background:var(--card);padding:14px 16px">' +
-        '<strong style="font-size:.95rem">' + esc(s.label) + '</strong>' +
-        '<span style="font-size:.82rem;color:var(--muted)">' + esc(s.url || '') + '</span></a>';
+      return '<a class="tile" href="' + s.path + '">' +
+        '<strong>' + esc(s.label) + '</strong>' +
+        '<span>' + esc(s.url || '') + '</span></a>';
     }).join('');
     return '<div class="wrap"><div class="caption"><h1>Screen designs</h1>' +
       '<p>Eleven screens, each drawn as it would look on a full display. Pick one from the list.</p></div>' +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px">' +
-      tiles + '</div></div>';
+      '<div class="grid">' + tiles + '</div></div>';
   }
 
   function frameView(s) {
     return '<div class="wrap">' +
-      '<div class="caption"><h1>' + esc(s.title) + '</h1><p>' + esc(s.lede) + '</p></div>' +
+      '<div class="caption"><span class="tag">Product design</span>' +
+      '<h1>' + esc(s.title) + '</h1><p>' + esc(s.lede) + '</p></div>' +
       '<div class="frame">' +
         '<div class="stage" id="stage">' +
           '<div class="screen' + (s.auth ? ' auth' : '') + '" id="screen">' + s.render() + '</div>' +
